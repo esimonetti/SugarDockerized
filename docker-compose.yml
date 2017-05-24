@@ -14,7 +14,7 @@ services:
             - web2
     web1:
         container_name: "sugar78-web1"
-        build: ./images/php56
+        build: ./images/php7
         volumes:
             - ./data/app:/var/www/html
         depends_on:
@@ -28,7 +28,7 @@ services:
             - redis
     web2:
         container_name: "sugar78-web2"
-        build: ./images/php56
+        build: ./images/php7
         volumes:
             - ./data/app:/var/www/html
         depends_on:
