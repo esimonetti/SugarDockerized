@@ -1,0 +1,8 @@
+#!/bin/bash
+cd /var/www/html
+chown -R 1000:1000 .
+cd sugar
+find . -type d -exec chmod 775 {} \;
+find . -type f -exec chmod 664 {} \;
+cd bin
+find . -name sugarcrm -exec chmod 500 {} \;
