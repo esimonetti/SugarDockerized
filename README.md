@@ -1,5 +1,5 @@
 # Sugar 7.9 Dockerized
-This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/
+This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/ with the exception of PHP. PHP version is 7.0 and not officially supported
 
 ## Running the stack
 * Run the stack with `docker-compose up -d`
@@ -38,7 +38,7 @@ This repository will help you deploy a Docker based development full stack for S
 
 # Disable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
-* Edit the two config files on `./images/php65/config/php5/mods-available/opcache.ini` and on `./images/cron/config/php5/mods-available/opcache.ini`
+* Edit the two config files on `./images/php7/config/php7/mods-available/opcache.ini` and on `./images/cron/config/php7/mods-available/opcache.ini`
 * Set `opcache.enable=0` and `opcache.enable_cli=0`
 * `docker-compose down`
 * `docker-compose up -d --build`
