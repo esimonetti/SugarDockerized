@@ -36,7 +36,7 @@ This repository will help you deploy a Docker based development full stack for S
 * Elasticsearch files are located in ./data/elasticsearch
 * Redis files are located in ./data/redis
 
-# Disable Zend Opcache
+## Disable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
 * Edit the two config files on `./images/php65/config/php5/mods-available/opcache.ini` and on `./images/cron/config/php5/mods-available/opcache.ini`
 * Set `opcache.enable=0` and `opcache.enable_cli=0`
