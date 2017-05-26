@@ -37,7 +37,7 @@ RUN sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php5/a
 RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php5/apache2/php.ini
 
 RUN sed -i "s#session.save_handler = .*#session.save_handler = redis#" /etc/php5/apache2/php.ini
-RUN sed -i 's#;session.save_path = .*#session.save_path = "tcp://sugar78-redis:6379"#' /etc/php5/apache2/php.ini
+RUN sed -i 's#;session.save_path = .*#session.save_path = "tcp://sugar79-redis:6379"#' /etc/php5/apache2/php.ini
 
 
 RUN sed -i "s#.*date.timezone =.*#date.timezone = Australia/Sydney#" /etc/php5/cli/php.ini
