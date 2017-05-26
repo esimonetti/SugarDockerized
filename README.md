@@ -7,12 +7,12 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## System's details
 * Browser url: http://localhost/sugar/
-* MySQL hostname: sugar78-mysql
+* MySQL hostname: sugar79-mysql
 * MySQL user: root
 * MySQL password: root
 * MySQL is accessible from the host on port 3306 using ip 127.0.0.1 (not localhost)
-* Elasticsearch hostname: sugar78-elasticsearch
-* Redis hostname: sugar78-redis
+* Elasticsearch hostname: sugar79-elasticsearch
+* Redis hostname: sugar79-redis
 
 ## Core stack components
 * Linux
