@@ -7,12 +7,12 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## System's details
 * Browser url: http://localhost/sugar/
-* MySQL hostname: sugar78-mysql
+* MySQL hostname: sugar79-mysql
 * MySQL user: root
 * MySQL password: root
 * MySQL is accessible from the host on port 3306 using ip 127.0.0.1 (not localhost)
-* Elasticsearch hostname: sugar78-elasticsearch
-* Redis hostname: sugar78-redis
+* Elasticsearch hostname: sugar79-elasticsearch
+* Redis hostname: sugar79-redis
 
 ## Core stack components
 * Linux
@@ -38,7 +38,7 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## Disable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
-* Edit the two config files on `./images/php7/config/php7/mods-available/opcache.ini` and on `./images/cron/config/php7/mods-available/opcache.ini`
+* Edit the two config files on `./images/php/config/php/mods-available/opcache.ini` and on `./images/cron/config/php/mods-available/opcache.ini`
 * Set `opcache.enable=0` and `opcache.enable_cli=0`
 * `docker-compose down`
 * `docker-compose up -d --build`
