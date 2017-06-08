@@ -1,11 +1,34 @@
 version: '2'
 
 services:
+    lb:
+        container_name: "sugar79-lb"
+        build: ./images/loadbalancer
+        ports:
+            - "80:80"
+        depends_on:
+            - web1
+            - web2
+        links:
+            - web1
+            - web2
     web1:
         container_name: "sugar79-web1"
         build: ./images/php
-        ports:
-            - "80:80"
+        volumes:
+            - ./data/app:/var/www/html
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+    web2:
+        container_name: "sugar79-web2"
+        build: ./images/php
         volumes:
             - ./data/app:/var/www/html
         depends_on:

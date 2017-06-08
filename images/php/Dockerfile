@@ -9,7 +9,7 @@ RUN echo "deb https://packages.sury.org/php/ jessie main" > /etc/apt/sources.lis
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y unzip vim build-essential apache2 php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql
+RUN apt-get install -y unzip vim build-essential apache2 php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
@@ -49,6 +49,8 @@ RUN sed -i "s#error_reporting = .*#error_reporting = E_ALL \& ~E_NOTICE \& ~E_ST
 RUN sed -i "s#;error_log = syslog#error_log = /var/log/syslog#" /etc/php/7.1/apache2/php.ini
 RUN sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php/7.1/cli/php.ini
 RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php/7.1/cli/php.ini
+
+COPY config/php/mods-available/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
 
 COPY config/php/mods-available/opcache.ini /etc/php/7.1/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php/7.1/opcache-blacklist
