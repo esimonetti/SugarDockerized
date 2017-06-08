@@ -4,7 +4,7 @@ MAINTAINER enrico.simonetti@gmail.com
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y unzip vim curl php5-curl php5-gd php5-imap libphp-pclzip php5-ldap php5 php5-dev apache2 php5-mcrypt build-essential php5-redis php5-mysql
+RUN apt-get install -y unzip vim curl php5-curl php5-gd php5-imap libphp-pclzip php5-ldap php5 php5-dev apache2 php5-mcrypt build-essential php5-redis php5-mysql php5-xdebug
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
@@ -45,6 +45,8 @@ RUN sed -i "s#error_reporting = .*#error_reporting = E_ALL \& ~E_NOTICE \& ~E_ST
 RUN sed -i "s#;error_log = syslog#error_log = /var/log/syslog#" /etc/php5/apache2/php.ini
 RUN sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php5/cli/php.ini
 RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php5/cli/php.ini
+
+COPY config/php5/mods-available/xdebug.ini /etc/php5/mods-available/xdebug.ini
 
 COPY config/php5/mods-available/opcache.ini /etc/php5/mods-available/opcache.ini
 COPY config/php5/opcache-blacklist /etc/php5/opcache-blacklist
