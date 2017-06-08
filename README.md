@@ -1,9 +1,17 @@
 # Sugar 7.9 Dockerized
 This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/
 
-## Running the stack
+## Running the minimal stack
 * Run the stack with `docker-compose up -d`
 * Stop the stack with `docker-compose down`
+
+This stack will run only one web server, for initial development
+
+## Running the stack with load balancer
+* Run the stack with `docker-compose -f lb.yml up -d`
+* Stop the stack with `docker-compose -f lb.yml down`
+
+This stack is identical to the previous. The only difference is load balancer in front of the web servers and 2 web servers, for more complete real-life testing
 
 ## System's details
 * Browser url: http://localhost/sugar/
@@ -23,8 +31,8 @@ This repository will help you deploy a Docker based development full stack for S
 * Elasticsearch
 
 ## Docker containers
-* Apache load balancer
-* Two Apache web servers behind the load balancer
+* Apache load balancer (only on lb.yml)
+* Two Apache web servers behind the load balancer (only on lb.yml, otherwise single Apache web server)
 * Cronjob server
 * MySQL database
 * Elasticsearch
