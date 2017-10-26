@@ -15,12 +15,12 @@ This stack is identical to the previous. The only difference is load balancer in
 
 ## System's details
 * Browser url: http://localhost/sugar/
-* MySQL hostname: sugar79-mysql
+* MySQL hostname: sugar-mysql
 * MySQL user: root
 * MySQL password: root
 * MySQL is accessible from the host on port 3306 using ip 127.0.0.1 (not localhost)
-* Elasticsearch hostname: sugar79-elasticsearch
-* Redis hostname: sugar79-redis
+* Elasticsearch hostname: sugar-elasticsearch
+* Redis hostname: sugar-redis
 
 ## Core stack components
 * Linux
