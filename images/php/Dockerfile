@@ -9,7 +9,7 @@ RUN echo "deb https://packages.sury.org/php/ jessie main" > /etc/apt/sources.lis
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y unzip vim build-essential apache2 php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug
+RUN apt-get install -y unzip vim build-essential apache2 php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug php-tideways
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
