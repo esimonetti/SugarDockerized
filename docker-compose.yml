@@ -6,6 +6,8 @@ services:
         build: ./images/php
         ports:
             - "80:80"
+        extra_hosts:
+            - "docker.local:127.0.0.1"
         volumes:
             - ./data/app:/var/www/html
         depends_on:

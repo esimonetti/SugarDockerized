@@ -26,6 +26,8 @@ services:
             - mysql
             - elasticsearch
             - redis
+        extra_hosts:
+            - "docker.local:127.0.0.1"
     web2:
         container_name: "sugar-web2"
         build: ./images/php
@@ -40,6 +42,8 @@ services:
             - mysql
             - elasticsearch
             - redis
+        extra_hosts:
+            - "docker.local:127.0.0.1"
     cron:
         container_name: "sugar-cron"
         build: ./images/cron
