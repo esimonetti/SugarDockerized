@@ -1,5 +1,5 @@
 # Sugar 7.9 Dockerized
-This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/
+This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/ with the exception of PHP. PHP version is 7.1 and not yet officially supported
 
 ## Running the minimal stack
 * Run the stack with `docker-compose up -d`
@@ -15,12 +15,12 @@ This stack is identical to the previous. The only difference is load balancer in
 
 ## System's details
 * Browser url: http://localhost/sugar/
-* MySQL hostname: sugar79-mysql
+* MySQL hostname: sugar-mysql
 * MySQL user: root
 * MySQL password: root
 * MySQL is accessible from the host on port 3306 using ip 127.0.0.1 (not localhost)
-* Elasticsearch hostname: sugar79-elasticsearch
-* Redis hostname: sugar79-redis
+* Elasticsearch hostname: sugar-elasticsearch
+* Redis hostname: sugar-redis
 
 ## Core stack components
 * Linux
@@ -46,7 +46,7 @@ This stack is identical to the previous. The only difference is load balancer in
 
 ## Disable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
-* Edit the two config files on `./images/php65/config/php5/mods-available/opcache.ini` and on `./images/cron/config/php5/mods-available/opcache.ini`
+* Edit the two config files on `./images/php/config/php/mods-available/opcache.ini` and on `./images/cron/config/php/mods-available/opcache.ini`
 * Set `opcache.enable=0` and `opcache.enable_cli=0`
 * `docker-compose down`
 * `docker-compose up -d --build`
