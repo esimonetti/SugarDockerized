@@ -1,5 +1,8 @@
-# Sugar 7.9 Dockerized
-This repository will help you deploy a Docker based development full stack for Sugar 7.9 meeting all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/ leveraging PHP version 7.1.
+# Sugar Dockerized
+This repository will help you deploy a Docker based development full stack for the latest Sugar version, meeting all the platform requirements.
+
+## Current version support
+The currently supported version is 7.9 with all the platform requirements listed here: http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/ leveraging PHP version 7.1.
 
 ## Running the minimal stack
 * Run the stack with `docker-compose up -d`
