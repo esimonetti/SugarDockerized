@@ -2,10 +2,12 @@ version: '2'
 
 services:
     web1:
-        container_name: "sugar79-web1"
-        build: ./images/php56
+        container_name: "sugar-web1"
+        build: ./images/php
         ports:
             - "80:80"
+        extra_hosts:
+            - "docker.local:127.0.0.1"
         volumes:
             - ./data/app:/var/www/html
         depends_on:
@@ -18,7 +20,7 @@ services:
             - elasticsearch
             - redis
     cron:
-        container_name: "sugar79-cron"
+        container_name: "sugar-cron"
         build: ./images/cron
         volumes:
             - ./data/app:/var/www/html
@@ -32,7 +34,7 @@ services:
             - elasticsearch
             - redis
     mysql:
-        container_name: "sugar79-mysql"
+        container_name: "sugar-mysql"
         build: ./images/mysql
         ports:
             - "3306:3306"
@@ -43,17 +45,17 @@ services:
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
-        container_name: "sugar79-elasticsearch"
+        container_name: "sugar-elasticsearch"
         build: ./images/elasticsearch
         volumes:
             - ./data/elasticsearch:/usr/share/elasticsearch/data
     redis:
-        container_name: "sugar79-redis"
+        container_name: "sugar-redis"
         image: redis:latest
         volumes:
             - ./data/redis:/data
     permissions:
-        container_name: "sugar79-permissions"
+        container_name: "sugar-permissions"
         build: ./images/permissions
         volumes:
             - ./data/app:/var/www/html
