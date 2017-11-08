@@ -11,10 +11,12 @@ RUN apt-get -y dist-upgrade
 
 RUN apt-get install -y unzip vim build-essential php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql
 
+RUN apt-get install -y sudo
+RUN adduser sugar --disabled-password --disabled-login --gecos ""
+RUN echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar
+
 RUN apt-get clean
 RUN apt-get -y autoremove
-
-RUN adduser sugar --disabled-password --disabled-login --gecos ""
 
 RUN sed -i "s#.*date.timezone =.*#date.timezone = Australia/Sydney#" /etc/php/7.1/cli/php.ini
 RUN sed -i "s#error_reporting = .*#error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED#" /etc/php/7.1/cli/php.ini
@@ -29,6 +31,7 @@ RUN phpenmod opcache
 COPY apps/sugarcron /usr/local/bin/sugarcron
 RUN chmod +x /usr/local/bin/sugarcron
 
+WORKDIR "/var/www/html/sugar"
 USER sugar
 
 CMD ["/usr/local/bin/sugarcron"]
