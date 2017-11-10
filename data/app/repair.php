@@ -33,6 +33,18 @@ if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
     usage('The provided folder is not a Sugar system');
 }
 
+// temporarily stop xdebug, xhprof and tideways if enabled
+if(function_exists('xdebug_disable')) {
+    xdebug_disable();
+}
+if(function_exists('xhprof_disable')) {
+    xhprof_disable();
+    xhprof_sample_disable();
+}
+if(function_exists('tideways_disable')) {
+    tideways_disable();
+}
+
 // sugar basic setup
 define('sugarEntry', true);
 require_once('include/entryPoint.php');

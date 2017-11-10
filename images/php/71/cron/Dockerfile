@@ -25,6 +25,8 @@ RUN sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php/7.
 RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php/7.1/cli/php.ini
 
 COPY config/php/mods-available/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
+# to comment out if xdebug should be enabled - huge performance reduction especially during repair
+RUN php5dismod xdebug
 
 COPY config/php/mods-available/opcache.ini /etc/php/7.1/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php/7.1/opcache-blacklist

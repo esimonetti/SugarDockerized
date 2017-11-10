@@ -20,6 +20,9 @@ RUN sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php5/c
 RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php5/cli/php.ini
 
 COPY config/php/mods-available/xdebug.ini /etc/php5/mods-available/xdebug.ini
+# to comment out if xdebug should be enabled - huge performance reduction especially during repair
+RUN php5dismod xdebug
+
 COPY config/php/mods-available/xhprof.ini /etc/php5/mods-available/xhprof.ini
 RUN php5enmod xhprof
 
