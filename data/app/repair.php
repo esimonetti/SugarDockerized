@@ -33,6 +33,10 @@ if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
     usage('The provided folder is not a Sugar system');
 }
 
+if(extension_loaded('xdebug')) {
+    echo 'Xdebug is enabled on this system. It is highly recommended to disable Xdebug on PHP CLI before running this script. Xdebug will cause unwanted slowness.'.PHP_EOL;
+}
+
 // temporarily stop xdebug, xhprof and tideways if enabled
 if(function_exists('xdebug_disable')) {
     xdebug_disable();
