@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?php
+
+while(true) { 
+    $folder = '/var/www/html/sugar';
+
+    if(is_dir($folder) && file_exists($folder . '/cron.php') && is_readable($folder . '/cron.php'))
+    {
+        echo '['.date('Y-m-d H:i:s').'] sugar cron start'.PHP_EOL;
+        exec('cd '.$folder.' && php -f cron.php');
+        echo '['.date('Y-m-d H:i:s').'] sugar cron end'.PHP_EOL;
+    }
+    // snooze a minute
+    sleep(60);
+}

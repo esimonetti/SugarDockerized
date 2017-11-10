@@ -3,27 +3,29 @@ version: '2'
 services:
     web1:
         container_name: "sugar-web1"
-        build: ./images/php
+        build: ../../images/php/71/apache
         ports:
             - "80:80"
         extra_hosts:
             - "docker.local:127.0.0.1"
         volumes:
-            - ./data/app:/var/www/html
+            - ../../data/app:/var/www/html
         depends_on:
             - mysql
             - elasticsearch
+            - elasticsearch54
             - redis
             - permissions
         links:
             - mysql
             - elasticsearch
+            - elasticsearch54
             - redis
     cron:
         container_name: "sugar-cron"
-        build: ./images/cron
+        build: ../../images/php/71/cron
         volumes:
-            - ./data/app:/var/www/html
+            - ../../data/app:/var/www/html
         depends_on:
             - mysql
             - elasticsearch
@@ -35,27 +37,36 @@ services:
             - redis
     mysql:
         container_name: "sugar-mysql"
-        build: ./images/mysql
+        build: ../../images/mysql/57
         ports:
             - "3306:3306"
         volumes:
-            - ./data/mysql:/var/lib/mysql
+            - ../../data/mysql/57:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
-        build: ./images/elasticsearch
+        build: ../../images/elasticsearch/175
         volumes:
-            - ./data/elasticsearch:/usr/share/elasticsearch/data
+            - ../../data/elasticsearch/175:/usr/share/elasticsearch/data
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    elasticsearch54:
+        container_name: "sugar-elasticsearch54"
+        build: ../../images/elasticsearch/54
+        volumes:
+            - ../../data/elasticsearch/54:/usr/share/elasticsearch/data
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     redis:
         container_name: "sugar-redis"
         image: redis:latest
         volumes:
-            - ./data/redis:/data
+            - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        build: ./images/permissions
+        build: ../../images/permissions
         volumes:
-            - ./data/app:/var/www/html
+            - ../../data/app:/var/www/html

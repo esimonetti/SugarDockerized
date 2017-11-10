@@ -1,0 +1,113 @@
+<?php
+
+// Enrico Simonetti
+// enricosimonetti.com
+//
+// 2017-11-01 on Sugar 7.9.2.0
+
+function usage($error = '') {
+    if(!empty($error)) print(PHP_EOL . 'Error: ' . $error . PHP_EOL);
+    print('  php ' . __FILE__ . ' --instance /full/path' . PHP_EOL);
+    exit(1);
+}
+
+// only allow CLI
+$sapi_type = php_sapi_name();
+if (substr($sapi_type, 0, 3) != 'cli') {
+    die(__FILE__ . ' is CLI only.');
+}
+
+// get command line params
+$o = getopt('', array('instance:'));
+if (!$o) usage();
+
+// find folder
+if(!empty($o['instance']) && is_dir($o['instance'])) {
+    print('Debug: Entering folder ' . $o['instance'] . PHP_EOL);
+    chdir($o['instance']);
+} else {
+    chdir(dirname(__FILE__));
+}
+
+if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
+    usage('The provided folder is not a Sugar system');
+}
+
+// sugar basic setup
+define('sugarEntry', true);
+require_once('include/entryPoint.php');
+
+if(empty($current_language)) {
+    $current_language = $sugar_config['default_language'];
+}
+
+$app_list_strings = return_app_list_strings_language($current_language);
+$app_strings = return_application_language($current_language);
+$mod_strings = return_module_language($current_language, 'Administration');
+
+global $current_user;
+$current_user = BeanFactory::getBean('Users');
+$current_user->getSystemUser();
+
+$start_time = microtime(true);
+
+echo 'Repairing...' . PHP_EOL;
+
+// clear cache
+SugarCache::instance()->reset();
+SugarCache::instance()->resetFull();
+SugarCache::cleanOpcodes();
+// clear opcache before #79804
+if(function_exists('opcache_reset')) {
+    opcache_reset();
+}
+
+require_once('modules/Administration/QuickRepairAndRebuild.php');
+
+// remove team cache files
+$files_to_remove = array(
+    'cache/modules/Teams/TeamSetMD5Cache.php',
+    'cache/modules/Teams/TeamSetCache.php'
+);
+
+foreach($files_to_remove as $file) {
+    $file = SugarAutoloader::normalizeFilePath($file);
+    if(SugarAutoloader::fileExists($file)) {
+        SugarAutoloader::unlink($file);
+    }
+}
+
+// repair
+$repair = new RepairAndClear();
+$repair->repairAndClearAll(array('clearAll'), array($mod_strings['LBL_ALL_MODULES']), true, false, '');
+
+// remove some stuff
+LanguageManager::removeJSLanguageFiles();
+LanguageManager::clearLanguageCache();
+$cache = new MetaDataCache(DBManagerFactory::getInstance());
+$cache->reset();
+
+// rebuild some stuff
+SugarAutoLoader::buildCache();
+MetaDataManager::setupMetadata(array('base'), array($current_language));
+
+// quick load of all beans
+global $beanList;
+$full_module_list = array_merge($beanList, $app_list_strings['moduleList']);
+
+foreach($full_module_list as $module => $label) {
+    $bean = BeanFactory::newBean($module);
+    // load language too
+    LanguageManager::createLanguageFile($module, array('default'), true);
+    $mod_strings = return_module_language($current_language, $module);
+}
+
+// load app strings
+$app_list_strings = return_app_list_strings_language($current_language);
+$app_strings = return_application_language($current_language);
+
+// load api
+$sd = new ServiceDictionary();
+$sd->buildAllDictionaries();
+
+print('Completed in ' . (int)(microtime(true) - $start_time) . PHP_EOL);
