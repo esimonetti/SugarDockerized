@@ -4,7 +4,7 @@ MAINTAINER enrico.simonetti@gmail.com
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y unzip vim curl php5-curl php5-gd php5-imap libphp-pclzip php5-ldap php5 php5-dev php5-mcrypt build-essential php5-redis php5-mysql php5-xdebug php5-xhprof
+RUN apt-get install -y git unzip vim curl php5-curl php5-gd php5-imap libphp-pclzip php5-ldap php5 php5-dev php5-mcrypt build-essential php5-redis php5-mysql php5-xdebug php5-xhprof
 
 RUN apt-get install -y sudo
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
@@ -29,6 +29,9 @@ RUN php5enmod xhprof
 COPY config/php/mods-available/opcache.ini /etc/php5/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php5/opcache-blacklist
 RUN php5enmod opcache
+
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
 
 COPY apps/sugarcron /usr/local/bin/sugarcron
 RUN chmod +x /usr/local/bin/sugarcron

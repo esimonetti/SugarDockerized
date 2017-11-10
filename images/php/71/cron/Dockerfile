@@ -9,7 +9,7 @@ RUN echo "deb https://packages.sury.org/php/ jessie main" > /etc/apt/sources.lis
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y unzip vim build-essential php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug php-tideways
+RUN apt-get install -y git unzip vim build-essential php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug php-tideways
 
 RUN apt-get install -y sudo
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
@@ -31,6 +31,9 @@ RUN php5dismod xdebug
 COPY config/php/mods-available/opcache.ini /etc/php/7.1/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php/7.1/opcache-blacklist
 RUN phpenmod opcache
+
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
 
 COPY apps/sugarcron /usr/local/bin/sugarcron
 RUN chmod +x /usr/local/bin/sugarcron
