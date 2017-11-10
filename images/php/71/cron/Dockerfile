@@ -1,15 +1,15 @@
-FROM debian:8.8
+FROM debian:9.2
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update
 RUN apt-get install -y curl apt-transport-https
 RUN curl -sS https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php.gpg
-RUN echo "deb https://packages.sury.org/php/ jessie main" > /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php/ stretch main" > /etc/apt/sources.list.d/php.list
 
 RUN apt-get update
 RUN apt-get -y dist-upgrade
 
-RUN apt-get install -y git unzip vim build-essential php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php7.1-redis php7.1-mysql php-xdebug php-tideways
+RUN apt-get install -y unzip vim build-essential apache2 php7.1-curl php7.1-gd php7.1-bcmath php7.1-mbstring php7.1-imap php7.1-zip php7.1-ldap php7.1 php7.1-dev php7.1-mcrypt php-redis php7.1-mysql php-xdebug php-tideways
 
 RUN apt-get install -y sudo
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
@@ -27,6 +27,11 @@ RUN sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php/7.1/c
 COPY config/php/mods-available/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
 # to comment out if xdebug should be enabled - huge performance reduction especially during repair
 RUN phpdismod xdebug
+
+COPY config/php/mods-available/tideways.ini /etc/php/7.1/mods-available/tideways.ini
+RUN phpenmod tideways
+COPY config/php/mods-available/redis.ini /etc/php/7.1/mods-available/redis.ini
+RUN phpenmod redis
 
 COPY config/php/mods-available/opcache.ini /etc/php/7.1/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php/7.1/opcache-blacklist
