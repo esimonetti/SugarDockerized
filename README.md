@@ -133,8 +133,26 @@ $sugar_config['external_cache']['redis']['host'] = 'sugar-redis';
 ```
 Make sure there are no other caching mechanism enabled on your config/config_override.php combination, otherwise set them as disabled = true.
 
-### Run a command line php script respecting permissions
-If needed, it is possible to leverage sudo as well, without the need of entering a password. Just make sure the permissions and ownership is respected
+### Run command line command or script
+To run a PHP script execute something like the following sample commands:
+```
+docker@docker:~/sugardocker$ docker exec -it sugar-cron bash -c "cd .. && php repair.php --instance sugar"
+Debug: Entering folder sugar
+Repairing...
+Completed in 6
+```
+
+```
+docker@docker:~/sugardocker$ docker exec sugar-cron bash -c "whoami"
+sugar
+```
+
+```
+docker@docker:~/sugardocker$ docker exec sugar-cron bash -c "pwd"
+/var/www/html/sugar
+```
+
+If needed, sudo is available as well without the need of entering a password. Just make sure the permissions and ownership (user `sugar`) is respected.
 
 ### Disable and re-enable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
