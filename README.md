@@ -115,6 +115,15 @@ By running the command `docker logs -f sugar-web1` it is then possible to tail t
 ### Fix Sugar permissions
 You would just need to run again the permissions docker container with `docker start sugar-permissions`. The container will fix the permissions and ownership of files for you and then terminate its execution.
 
+### Run the included command line Repair
+The application contains few scripts built to facilitate the system's repair from command line. The scripts will wipe the various caches (including Opcache and Redis if used). It will also warm-up as much as possible the application, to improve the browser experience on first load. The cron container from which the repair runs, has also been optimised to speed up the repairing processing.
+To run the repair from the docker host, assuming that the repository has been checked out on sugardocker execute:
+
+```
+cd sugardocker
+./repair
+```
+
 ### Setup Sugar instance to leverage Redis object caching
 Add on `config_override.php` the following options:
 ```
