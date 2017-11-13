@@ -7,5 +7,4 @@ script.stored: false
 script.file: false 
 script.update: false
 bootstrap.memory_lock: true
-#network.host: sugar-elasticsearch54
 network.host: _site_
