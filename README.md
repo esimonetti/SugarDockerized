@@ -124,6 +124,25 @@ cd sugardocker
 ./repair
 ```
 
+### Simplify stack startup and shutdown
+Once you choose the most commonly used stack for the job, you could simply create two bash scripts to start/stop your cluster. Examples of how those could look like are below:
+
+Start (eg: ~/79up):
+```
+#!/bin/bash
+cd ~/sugardocker
+docker-compose -f stacks/sugar79/php71.yml up -d
+```
+
+Stop (eg: ~/79down):
+```
+#!/bin/bash
+cd ~/sugardocker
+docker-compose -f stacks/sugar79/php71.yml down
+```
+
+Making sure that the bash script is executable with `chmod +x <script>`.
+
 ### Setup Sugar instance to leverage Redis object caching
 Add on `config_override.php` the following options:
 ```
