@@ -5,6 +5,7 @@ This repository will help you deploy a Docker based development full stack for S
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
 * [Sugar 79](stacks/sugar79/README.md)
 * [Sugar 79 upgraded to a future version](stacks/sugar79upgrade/README.md)
+* [Sugar 710](stacks/sugar710/README.md) - For local development to apply to On-demand only
 
 ### Types of stacks
 There are mainly two types of stack:
