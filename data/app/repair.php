@@ -96,6 +96,9 @@ foreach($files_to_remove as $file) {
     }
 }
 
+// rebuild the autoloader once first, to be aware of new files
+SugarAutoLoader::buildCache();
+
 // repair
 $repair = new RepairAndClear();
 $repair->repairAndClearAll(array('clearAll'), array($mod_strings['LBL_ALL_MODULES']), true, false, '');
