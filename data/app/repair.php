@@ -69,9 +69,12 @@ $start_time = microtime(true);
 
 echo 'Repairing...' . PHP_EOL;
 
-// clear cache
-SugarCache::instance()->reset();
-SugarCache::instance()->resetFull();
+if(SugarCache::instance()->useBackend()) {
+    // clear cache
+    SugarCache::instance()->reset();
+    SugarCache::instance()->resetFull();
+}
+
 SugarCache::cleanOpcodes();
 // clear opcache before #79804
 if(function_exists('opcache_reset')) {
@@ -126,4 +129,4 @@ $app_strings = return_application_language($current_language);
 $sd = new ServiceDictionary();
 $sd->buildAllDictionaries();
 
-print('Completed in ' . (int)(microtime(true) - $start_time) . PHP_EOL);
+print('Completed in ' . (int)(microtime(true) - $start_time) . ' seconds.' . PHP_EOL);
