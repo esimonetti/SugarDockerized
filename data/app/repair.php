@@ -101,7 +101,7 @@ SugarAutoLoader::buildCache();
 
 // repair
 $repair = new RepairAndClear();
-$repair->repairAndClearAll(array('clearAll'), array($mod_strings['LBL_ALL_MODULES']), true, false);
+$repair->repairAndClearAll(array('clearAll'), array($mod_strings['LBL_ALL_MODULES']), true, false, '');
 
 // remove some stuff
 LanguageManager::removeJSLanguageFiles();
