@@ -213,7 +213,7 @@ Please note that profiling degrades user performance, as the system is constantl
 
 * Download [XHProf viewer](https://github.com/sugarcrm/xhprof-viewer/releases/latest) zip file
 * Unzip its files content within `./data/app/performance/`
-* Make sure the `config_override.php` settongs available on `./data/app/performance/` are kept as is (`<?php
+* Make sure the `config_override.php` settings available on `./data/app/performance/` are kept as is (`<?php
 $config['profile_files_dir'] = '../profiling';`)
 * Access the viewer on http://docker.local/performance/ and verify that the collected data is viewable
 
