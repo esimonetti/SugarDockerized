@@ -180,6 +180,42 @@ docker@docker:~/sugardocker$ docker exec sugar-cron bash -c "pwd"
 
 If needed, sudo is available as well without the need of entering a password. Just make sure the permissions and ownership (user `sugar`) is respected.
 
+### XHProf / Tideways profiling data collection
+
+XHProf extension is configured on PHP 5.6 stacks, while Tideways extension is configured on PHP 7.1 stacks.
+
+To enable profiling:
+* Add [this custom code](https://gist.github.com/esimonetti/4c84541d49ee0828b31de91d30bcedb0) into your Sugar installation and repair the system (only if leveraging Tideways)
+* Configure `config_override.php` specific settings (see below based on the stack extension) 
+
+XHProf Sugar `config_override.php` configuration:
+```
+$sugar_config['xhprof_config']['enable'] = true;
+$sugar_config['xhprof_config']['log_to'] = '../profiling';
+$sugar_config['xhprof_config']['sample_rate'] = 1;
+$sugar_config['xhprof_config']['flags'] = 0;
+```
+
+Tideways Sugar `config_override.php` configuration:
+```
+$sugar_config['xhprof_config']['enable'] = true;
+$sugar_config['xhprof_config']['manager'] = 'TidewaysProf';
+$sugar_config['xhprof_config']['log_to'] = '../profiling';
+$sugar_config['xhprof_config']['sample_rate'] = 1;
+$sugar_config['xhprof_config']['flags'] = 0;
+```
+
+Make sure new files are created on `data/app/profiling/` when navigating Sugar. If not, ensure that the folder permissions are set correctly so that the `sugar` user can write on the folder.
+Please note that profiling degrades user performance, as the system is constantly writing to disk profiling information and tracking application stats. Use profiling only on replica of the production environment.
+
+### XHProf / Tideways profiling data analysis
+
+* Download [XHProf viewer](https://github.com/sugarcrm/xhprof-viewer/releases/latest) zip file
+* Unzip its files content within `data/app/performance/`
+* Make sure the `config_override.php` settongs available on `data/app/performance/` are kept as is (`<?php
+$config['profile_files_dir'] = '../profiling';`)
+* Access the viewer on http://docker.local/performance/ and verify that the collected data is viewable
+
 ### Disable and re-enable Zend Opcache
 If you do need to disable/enable Zend Opcache to customise the system without opcache enabled, you can:
 * Edit the two config files on `./images/php/<version>/(apache|cron)/config/php/mods-available/opcache.ini`
@@ -208,7 +244,6 @@ $sugar_config['perfProfile']['TeamSecurity']['default']['teamset_prefetch_max'] 
 $sugar_config['perfProfile']['TeamSecurity']['default']['where_condition'] = true;
 $sugar_config['import_max_records_total_limit'] = '2000';
 $sugar_config['verify_client_ip'] = false;
-$sugar_config['search_engine']['force_async_index'] = true;
 ```
 Tweak the above settings based on your specific needs.
 
