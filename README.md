@@ -229,6 +229,13 @@ To re-enable, repeat by setting `opcache.enable=1` and `opcache.enable_cli=1`
 ### Typical Sugar config_override.php options for real-life development
 ```
 $sugar_config['cache_expire_timeout'] = 600; // default: 5 minutes, increased to 10 minutes
+$sugar_config['external_cache_disabled_wincache'] = true;
+$sugar_config['external_cache_disabled_db'] = true;
+$sugar_config['external_cache_disabled_smash'] = true;
+$sugar_config['external_cache_disabled_apc'] = true;
+$sugar_config['external_cache_disabled_zend'] = true;
+$sugar_config['external_cache_disabled_memcache'] = true;
+$sugar_config['external_cache_disabled_memcached'] = true;
 $sugar_config['disable_vcr'] = true; // bwc module only
 $sugar_config['disable_count_query'] = true; // bwc module only
 $sugar_config['save_query'] = 'populate_only'; // bwc module only
