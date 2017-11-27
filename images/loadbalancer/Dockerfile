@@ -1,12 +1,11 @@
 FROM debian:8.8
 MAINTAINER enrico.simonetti@gmail.com
 
-RUN apt-get update
-RUN apt-get -y dist-upgrade
-
-RUN apt-get install -y unzip vim apache2
-RUN apt-get clean
-RUN apt-get -y autoremove
+RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+    unzip \
+    vim \
+    apache2
+RUN apt-get clean && apt-get -y autoremove
 
 RUN set -ex \
     && . "/etc/apache2/envvars" \
