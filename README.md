@@ -14,19 +14,19 @@ There are mainly two types of stack:
 
 ### All stack components
 There are multiple stack components as docker containers, that perform different duties. Not all the stack components might be used on a specific stack setup.
-* Apache load balancer - Load balance requests between the cluster round robin
-* Apache PHP web server - Web server
+* Apache load balancer - Load balances requests between the cluster of Apache PHP web servers, round robin
+* Apache PHP web server - Web server(s)
 * MySQL database - Database
 * Elasticsearch - Sugar search engine
 * Redis - Two purposes: Sugar object caching service and PHP Session storage/sharing service
 * Cron - Sugar background scheduler processing. Note that this is enabled immediately and it will run `cron.php` as soon as the file is available, and it will attempt to do so every 60 seconds since its last run.
-* Permission - Make sure the Sugar instance permissions are set correctly and will then shut down automatically
+* Permission - Sets Sugar instance permissions correctly and then terminates
 * LDAP - LDAP testing server if needed with authentication
 
 ## Get the system up and running
-* The first step for everything to work smoothly, is to add on your host file the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running it locally or the ip of the VM running Docker)
+* The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
-* Choose the stack combination to run by choosing the correct yml file within the subfolders inside [stacks](stacks/)
+* Select the stack combination to run by choosing the correct yml file within the subfolders inside [stacks](stacks/). See next step for more details and an example.
 * Run docker-compose -f <stack yml filename> up -d for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose -f stacks/sugar79/php71.yml up -d`
 
 ## Current version support
