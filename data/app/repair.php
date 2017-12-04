@@ -21,16 +21,16 @@ if (substr($sapi_type, 0, 3) != 'cli') {
 $o = getopt('', array('instance:'));
 if (!$o) usage();
 
-// find folder
+// find directory
 if(!empty($o['instance']) && is_dir($o['instance'])) {
-    print('Debug: Entering folder ' . $o['instance'] . PHP_EOL);
+    print('Debug: Entering directory ' . $o['instance'] . PHP_EOL);
     chdir($o['instance']);
 } else {
     chdir(dirname(__FILE__));
 }
 
 if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
-    usage('The provided folder is not a Sugar system');
+    usage('The provided directory is not a Sugar system');
 }
 
 if(extension_loaded('xdebug')) {

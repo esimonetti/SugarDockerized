@@ -26,7 +26,7 @@ There are multiple stack components as docker containers, that perform different
 ## Get the system up and running
 * The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
-* Select the stack combination to run by choosing the correct yml file within the subfolders inside [stacks](stacks/). See next step for more details and an example.
+* Select the stack combination to run by choosing the correct yml file within the subdirectories inside [stacks](stacks/). See next step for more details and an example.
 * Run docker-compose -f <stack yml filename> up -d for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose -f stacks/sugar79/php71.yml up -d`
 
 ## Current version support
@@ -100,13 +100,14 @@ Session storage is completed leveraging the Redis container.
 All images are currently leveraging Debian linux.
 
 ### Persistent storage locations
+All persistent storage is located within the `./data` directory tree within your local checkout of this git repository.
 * The Sugar application files served from the web servers and leveraged by the cronjob server have to be located in `./data/app/sugar/`. Within the web servers and the cronjob server the location is `/var/www/html/sugar/`. Everything within `./data/app/` can be accessed through the browser, but the Sugar instance files have to be within `./data/app/sugar/`
 * MySQL files are located in `./data/mysql/57/`
 * Elasticsearch files are normally located in `./data/elasticsearch/175/`. For Elasticsearch 5.4 files are located in `./data/elasticsearch/54/`
 * Redis files are located in `./data/redis/`
 * LDAP files are located in `./data/ldap/`
 
-Do not change the permissions of the various data subfolders, as it might cause the system to not work correctly.
+Do not change the permissions of the various data subdirectories, as it might cause the system to not work correctly.
 
 ## Tips
 ### Detect web server PHP error logs
@@ -163,9 +164,9 @@ Make sure there are no other caching mechanism enabled on your config/config_ove
 To run a PHP script execute something like the following sample commands:
 ```
 docker@docker:~/sugardocker$ docker exec -it sugar-cron bash -c "cd .. && php repair.php --instance sugar"
-Debug: Entering folder sugar
+Debug: Entering directory sugar
 Repairing...
-Completed in 6
+Completed in 6 seconds
 ```
 
 ```
@@ -205,7 +206,7 @@ $sugar_config['xhprof_config']['sample_rate'] = 1;
 $sugar_config['xhprof_config']['flags'] = 0;
 ```
 
-Make sure new files are created on `./data/app/profiling/` when navigating Sugar. If not, ensure that the folder permissions are set correctly so that the `sugar` user can write on the folder.
+Make sure new files are created on `./data/app/profiling/` when navigating Sugar. If not, ensure that the directory permissions are set correctly so that the `sugar` user can write on the directory.
 
 Please note that profiling degrades user performance, as the system is constantly writing to disk profiling information and tracking application stats. Use profiling only on replica of the production environment.
 
