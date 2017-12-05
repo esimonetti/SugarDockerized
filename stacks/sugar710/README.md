@@ -14,5 +14,5 @@ Alternatively the limit can be increased runtime with:
 * php71.yml - Main reference stack - Single web server
     * PHP - 7.1
     * MySQL - 5.7
-    * Elasticsearch - 5.4 (note that the hostname is elasticsearch now)
+    * Elasticsearch - 5.4 (note that the hostname is sugar-elasticsearch now)
     * Redis - latest
