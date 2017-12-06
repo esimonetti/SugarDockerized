@@ -109,14 +109,14 @@ All persistent storage is located within the `./data` directory tree within your
 
 Do not change the permissions of the various data subdirectories, as it might cause the system to not work correctly.
 
-**Sugar single instance application files - important notes**
-This setup is designed to have only one Sugar instance running at the time. It also requires the application files to be exactly on the right place for the following three reasons:
+#### Sugar single instance application files - important notes
+This setup is designed to run only a single Sugar instance. It also requires the application files to be exactly on the right place for the following three reasons:
 1. File system permissions settings
 2. PHP OPcache settings (eg: blacklisting of files that should not be cached)
 3. Cronjob background process running
 
-For the above reasons the single instance Sugar's files have to be located inside `./data/app/sugar/` without further subdirectories, for everything to be working as expected.
-If you do need multiple instances (eg: a version 7.9 and a version 7.10), as long as they are running one at the time, you could have a git clone for each setup and start/stop the relevant stack as needed.
+For the above reasons the single instance Sugar's files have to be located inside `./data/app/sugar/` (without subdirectories), for the stack setup to be working as expected.
+If you do need multiple instances (eg: a Sugar version 7.9 and a version 7.10), as long as they are not running at the same time, you could have a git clone for each setup and start/stop the relevant stack as needed.
 
 ## Tips
 ### Detect web server PHP error logs
