@@ -33,6 +33,10 @@ if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
     usage('The provided directory is not a Sugar system');
 }
 
+// sugar basic setup
+define('sugarEntry', true);
+require_once('include/entryPoint.php');
+
 if(extension_loaded('xdebug')) {
     echo 'Xdebug is enabled on this system. It is highly recommended to disable Xdebug on PHP CLI before running this script. Xdebug will cause unwanted slowness.'.PHP_EOL;
 }
@@ -41,17 +45,15 @@ if(extension_loaded('xdebug')) {
 if(function_exists('xdebug_disable')) {
     xdebug_disable();
 }
+
 if(function_exists('xhprof_disable')) {
     xhprof_disable();
     xhprof_sample_disable();
 }
+
 if(function_exists('tideways_disable')) {
     tideways_disable();
 }
-
-// sugar basic setup
-define('sugarEntry', true);
-require_once('include/entryPoint.php');
 
 if(empty($current_language)) {
     $current_language = $sugar_config['default_language'];
