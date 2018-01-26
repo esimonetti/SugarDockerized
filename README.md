@@ -185,7 +185,7 @@ If needed, sudo is available as well without the need of entering a password. Ju
 XHProf extension is configured on PHP 5.6 stacks, while Tideways extension is configured on PHP 7.1 stacks.
 
 To enable profiling:
-* Add [this custom code](https://gist.github.com/esimonetti/4c84541d49ee0828b31de91d30bcedb0) into your Sugar installation and repair the system (only if leveraging Tideways)
+* Add [this custom code](https://gist.github.com/esimonetti/4c84541d49ee0828b31de91d30bcedb0) into your Sugar installation and repair the system (only if leveraging Tideways). Please note that the custom code does not have a namespace which is **intentional**. Adding a namespace will cause the profiling implementation to not find the TidewaysProf class.
 * Configure `config_override.php` specific settings (see below based on the stack extension) 
 
 XHProf Sugar `config_override.php` configuration:
