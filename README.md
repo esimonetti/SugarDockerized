@@ -5,7 +5,7 @@ This repository will help you deploy a Docker based development full stack for S
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
 * [Sugar 79](stacks/sugar79/README.md)
 * [Sugar 79 upgraded to a future version](stacks/sugar79upgrade/README.md)
-* [Sugar 710](stacks/sugar710/README.md) - For local development to apply to On-demand only
+* [Sugar 710 or Sugar 711](stacks/sugar710/README.md) - For local development to apply to On-demand only
 
 ### Types of stacks
 There are mainly two types of stack:
@@ -30,7 +30,7 @@ There are multiple stack components as docker containers, that perform different
 * Run docker-compose -f <stack yml filename> up -d for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose -f stacks/sugar79/php71.yml up -d`
 
 ## Current version support
-The main stacks work with [Sugar version 7.9 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/). Additional stacks are aligned with the pltform requirements of version 7.10.
+The main stacks work with [Sugar version 7.9 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/). Additional stacks are aligned with the pltform requirements of version 7.10 or 7.11.
 
 ## Starting and stopping the desired stack
 * Run the stack with `docker-compose -f <stack yml filename> up -d`
@@ -116,7 +116,7 @@ This setup is designed to run only a single Sugar instance. It also requires the
 3. Cronjob background process running
 
 For the above reasons the single instance Sugar's files have to be located inside `./data/app/sugar/` (without subdirectories), for the stack setup to be working as expected.
-If you do need multiple instances (eg: a Sugar version 7.9 and a version 7.10), as long as they are not running at the same time, you could have a git clone for each setup and start/stop the relevant stack as needed.
+If you do need multiple instances (eg: a Sugar version 7.9 and a version 7.11), as long as they are not running at the same time, you could have a git clone for each setup and start/stop the relevant stack as needed.
 
 ## Tips
 ### Detect web server PHP error logs
