@@ -238,7 +238,10 @@ To re-enable, repeat by setting `opcache.enable=1` and `opcache.enable_cli=1`
 
 ### Typical Sugar config_override.php options for real-life development
 ```
-$sugar_config['cache_expire_timeout'] = 600; // default: 5 minutes, increased to 10 minutes
+$sugar_config['external_cache_disabled'] = false;
+$sugar_config['external_cache_disabled_redis'] = false;
+$sugar_config['external_cache_force_backend'] = 'redis';
+$sugar_config['external_cache']['redis']['host'] = 'sugar-redis';
 $sugar_config['external_cache_disabled_wincache'] = true;
 $sugar_config['external_cache_disabled_db'] = true;
 $sugar_config['external_cache_disabled_smash'] = true;
@@ -246,6 +249,7 @@ $sugar_config['external_cache_disabled_apc'] = true;
 $sugar_config['external_cache_disabled_zend'] = true;
 $sugar_config['external_cache_disabled_memcache'] = true;
 $sugar_config['external_cache_disabled_memcached'] = true;
+$sugar_config['cache_expire_timeout'] = 600; // default: 5 minutes, increased to 10 minutes
 $sugar_config['disable_vcr'] = true; // bwc module only
 $sugar_config['disable_count_query'] = true; // bwc module only
 $sugar_config['save_query'] = 'populate_only'; // bwc module only
@@ -255,7 +259,7 @@ $sugar_config['hide_subpanels_on_login'] = true; // bwc module only
 $sugar_config['logger']['level'] = 'fatal';
 $sugar_config['logger']['file']['maxSize'] = '10MB';
 $sugar_config['developerMode'] = false;
-$sugar_config['dump_slow_queries'] = true;
+$sugar_config['dump_slow_queries'] = false;
 $sugar_config['slow_query_time_msec'] = '1000';
 $sugar_config['perfProfile']['TeamSecurity']['default']['teamset_prefetch'] = true;
 $sugar_config['perfProfile']['TeamSecurity']['default']['teamset_prefetch_max'] = 500;

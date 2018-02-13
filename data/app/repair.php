@@ -6,7 +6,7 @@
 // 2017-11-01 on Sugar 7.9.2.0
 
 function usage($error = '') {
-    if(!empty($error)) print(PHP_EOL . 'Error: ' . $error . PHP_EOL);
+    if (!empty($error)) print(PHP_EOL . 'Error: ' . $error . PHP_EOL);
     print('  php ' . __FILE__ . ' --instance /full/path' . PHP_EOL);
     exit(1);
 }
@@ -22,14 +22,14 @@ $o = getopt('', array('instance:'));
 if (!$o) usage();
 
 // find directory
-if(!empty($o['instance']) && is_dir($o['instance'])) {
+if (!empty($o['instance']) && is_dir($o['instance'])) {
     print('Debug: Entering directory ' . $o['instance'] . PHP_EOL);
     chdir($o['instance']);
 } else {
     chdir(dirname(__FILE__));
 }
 
-if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
+if (!file_exists('config.php') || !file_exists('sugar_version.php')) {
     usage('The provided directory is not a Sugar system');
 }
 
@@ -37,25 +37,25 @@ if(!file_exists('config.php') || !file_exists('sugar_version.php')) {
 define('sugarEntry', true);
 require_once('include/entryPoint.php');
 
-if(extension_loaded('xdebug')) {
+if (extension_loaded('xdebug')) {
     echo 'Xdebug is enabled on this system. It is highly recommended to disable Xdebug on PHP CLI before running this script. Xdebug will cause unwanted slowness.'.PHP_EOL;
 }
 
 // temporarily stop xdebug, xhprof and tideways if enabled
-if(function_exists('xdebug_disable')) {
+if (function_exists('xdebug_disable')) {
     xdebug_disable();
 }
 
-if(function_exists('xhprof_disable')) {
+if (function_exists('xhprof_disable')) {
     xhprof_disable();
     xhprof_sample_disable();
 }
 
-if(function_exists('tideways_disable')) {
+if (function_exists('tideways_disable')) {
     tideways_disable();
 }
 
-if(empty($current_language)) {
+if (empty($current_language)) {
     $current_language = $sugar_config['default_language'];
 }
 
@@ -79,7 +79,7 @@ if(SugarCache::instance()->useBackend()) {
 
 SugarCache::cleanOpcodes();
 // clear opcache before #79804
-if(function_exists('opcache_reset')) {
+if (function_exists('opcache_reset')) {
     opcache_reset();
 }
 
@@ -91,9 +91,9 @@ $files_to_remove = array(
     'cache/modules/Teams/TeamSetCache.php'
 );
 
-foreach($files_to_remove as $file) {
+foreach ($files_to_remove as $file) {
     $file = SugarAutoloader::normalizeFilePath($file);
-    if(SugarAutoloader::fileExists($file)) {
+    if (SugarAutoloader::fileExists($file)) {
         SugarAutoloader::unlink($file);
     }
 }
@@ -119,7 +119,7 @@ MetaDataManager::setupMetadata(array('base'), array($current_language));
 global $beanList;
 $full_module_list = array_merge($beanList, $app_list_strings['moduleList']);
 
-foreach($full_module_list as $module => $label) {
+foreach ($full_module_list as $module => $label) {
     $bean = BeanFactory::newBean($module);
     // load language too
     LanguageManager::createLanguageFile($module, array('default'), true);
