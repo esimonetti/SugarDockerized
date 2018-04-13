@@ -1,7 +1,7 @@
 FROM debian:8.7
 MAINTAINER enrico.simonetti@gmail.com
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
     vim \
@@ -19,7 +19,8 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
     php5-mysql \
     php5-xdebug \
     php5-xhprof \
-    sudo
+    sudo \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/* 
 
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
 RUN echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar

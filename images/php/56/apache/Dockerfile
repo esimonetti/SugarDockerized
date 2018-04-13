@@ -1,7 +1,7 @@
 FROM debian:8.7
 MAINTAINER enrico.simonetti@gmail.com
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     unzip \
     vim \
     curl \
@@ -19,7 +19,8 @@ RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y \
     php5-mysql \
     php5-xdebug \
     php5-xhprof \
-    graphviz
+    graphviz \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
