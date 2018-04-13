@@ -228,15 +228,6 @@ Please note that profiling degrades user performance, as the system is constantl
 $config['profile_files_dir'] = '../profiling';`)
 * Access the viewer on http://docker.local/performance/ and verify that the collected data is viewable
 
-### Disable and re-enable Zend OPcache
-If you do need to disable/enable Zend OPcache to customise the system without OPcache enabled, you can:
-* Edit the two config files on `./images/php/<version>/(apache|cron)/config/php/mods-available/opcache.ini`
-* Set `opcache.enable=0` and `opcache.enable_cli=0`
-* `docker-compose -f <stack yml filename> down`
-* `docker-compose -f <stack yml filename> up -d --build`
-
-To re-enable, repeat by setting `opcache.enable=1` and `opcache.enable_cli=1`
-
 ### Typical Sugar config_override.php options for real-life development
 ```
 $sugar_config['external_cache_disabled'] = false;
