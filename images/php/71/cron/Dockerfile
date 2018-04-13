@@ -1,7 +1,7 @@
 FROM esimonetti/sugarphp71image:latest
 MAINTAINER enrico.simonetti@gmail.com
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y sudo
+RUN apt-get update && apt-get install -y sudo --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
 RUN echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar

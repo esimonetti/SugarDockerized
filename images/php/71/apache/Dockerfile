@@ -1,7 +1,7 @@
 FROM esimonetti/sugarphp71image:latest
 MAINTAINER enrico.simonetti@gmail.com
 
-RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y graphviz
+RUN apt-get update && apt-get install -y graphviz --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
