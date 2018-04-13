@@ -50,7 +50,7 @@ COPY config/php/mods-available/opcache.ini /etc/php/7.1/mods-available/opcache.i
 COPY config/php/opcache-blacklist /etc/php/7.1/opcache-blacklist
 RUN phpenmod opcache
 
-RUN curl -sS https://getcomposer.org/installer | php
+RUN curl -sS http://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 RUN apt-get clean && apt-get -y autoremove

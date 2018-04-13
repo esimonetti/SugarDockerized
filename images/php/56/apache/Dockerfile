@@ -66,7 +66,7 @@ COPY config/php/mods-available/opcache.ini /etc/php5/mods-available/opcache.ini
 COPY config/php/opcache-blacklist /etc/php5/opcache-blacklist
 RUN php5enmod opcache
 
-RUN curl -sS https://getcomposer.org/installer | php
+RUN curl -sS http://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
 RUN apt-get clean && apt-get -y autoremove
