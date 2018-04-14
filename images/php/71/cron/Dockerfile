@@ -1,4 +1,4 @@
-FROM esimonetti/sugarphp71image:1.1
+FROM esimonetti/sugarphp71image:1.2
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update && apt-get install -y sudo --no-install-recommends && rm -rf /var/lib/apt/lists/*
