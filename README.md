@@ -45,7 +45,7 @@ When starting/stopping and swapping between different stacks, add the option `--
 * Apache load balancer: sugar-lb
 * Apache PHP web server: On single stack: sugar-web1 On cluster stack: sugar-web1 and sugar-web2
 * MySQL database: sugar-mysql
-* Elasticsearch: sugar-elasticsearch (on stack with both elasticsearches sugar-elasticsearch for version 1.7.5 and sugar-elasticsearch54 for version 5.4)
+* Elasticsearch: sugar-elasticsearch (on stack with both elasticsearches sugar-elasticsearch for version 1.7.5 and sugar-elasticsearch56 for version 5.6)
 * Redis - sugar-redis
 * Cron - sugar-cron
 * Permission - sugar-permissions
@@ -89,6 +89,7 @@ Session storage is completed leveraging the Redis container.
 ### Docker images
 * `images/elasticsearch/175/` - Elasticsearch 1.7.5
 * `images/elasticsearch/54/` - Elasticsearch 5.4
+* `images/elasticsearch/56/` - Elasticsearch 5.6
 * `images/ldap/` - OpenLDAP
 * `images/loadbalancer/` - Apache load balancer
 * `images/mysql/57/` - MySQL 5.7
@@ -104,7 +105,7 @@ All images are currently leveraging Debian linux.
 All persistent storage is located within the `./data` directory tree within your local checkout of this git repository.
 * The Sugar application files served from the web servers and leveraged by the cronjob server have to be located in `./data/app/sugar/`. Within the web servers and the cronjob server the location is `/var/www/html/sugar/`. Everything within `./data/app/` can be accessed through the browser, but the Sugar instance files have to be within `./data/app/sugar/`
 * MySQL files are located in `./data/mysql/57/`
-* Elasticsearch files are normally located in `./data/elasticsearch/175/`. For Elasticsearch 5.4 files are located in `./data/elasticsearch/54/`
+* For Elasticsearch 1.7.5 files are located in `./data/elasticsearch/175/`. For Elasticsearch 5.6 files are located in `./data/elasticsearch/56/`. For Elasticsearch 5.4 files are located in `./data/elasticsearch/54/`
 * Redis files are located in `./data/redis/`
 * LDAP files are located in `./data/ldap/`
 

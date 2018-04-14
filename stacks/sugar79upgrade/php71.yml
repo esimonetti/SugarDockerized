@@ -13,13 +13,13 @@ services:
         depends_on:
             - mysql
             - elasticsearch
-            - elasticsearch54
+            - elasticsearch56
             - redis
             - permissions
         links:
             - mysql
             - elasticsearch
-            - elasticsearch54
+            - elasticsearch56
             - redis
     cron:
         container_name: "sugar-cron"
@@ -53,11 +53,11 @@ services:
             - ../../data/elasticsearch/175:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    elasticsearch54:
-        container_name: "sugar-elasticsearch54"
-        image: esimonetti/sugardockerized:elasticsearch5.4
+    elasticsearch56:
+        container_name: "sugar-elasticsearch56"
+        image: esimonetti/sugardockerized:elasticsearch5.6
         volumes:
-            - ../../data/elasticsearch/54:/usr/share/elasticsearch/data
+            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:

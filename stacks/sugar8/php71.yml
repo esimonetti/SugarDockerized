@@ -46,9 +46,9 @@ services:
             - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
-        image: esimonetti/sugardockerized:elasticsearch5.4
+        image: esimonetti/sugardockerized:elasticsearch5.6
         volumes:
-            - ../../data/elasticsearch/54:/usr/share/elasticsearch/data
+            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
