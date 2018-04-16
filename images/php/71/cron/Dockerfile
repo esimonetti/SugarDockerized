@@ -1,4 +1,4 @@
-FROM esimonetti/sugarphp71image:latest
+FROM esimonetti/sugarphp71image:old
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update && apt-get -y dist-upgrade && apt-get install -y sudo
