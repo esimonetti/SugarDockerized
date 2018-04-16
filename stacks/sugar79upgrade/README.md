@@ -15,5 +15,5 @@ Alternatively the limit can be increased runtime with:
     * PHP - 7.1
     * MySQL - 5.7
     * Elasticsearch - 1.7.5 (note that the hostname is kept as sugar-elasticsearch)
-    * Elasticsearch - 5.6 (note that the hostname is sugar-elasticsearch-56)
+    * Elasticsearch - 5.6 (note that the hostname is sugar-elasticsearch56)
     * Redis - latest
