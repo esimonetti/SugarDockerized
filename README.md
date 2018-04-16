@@ -28,13 +28,13 @@ There are multiple stack components as docker containers, that perform different
 * The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
 * Select the stack combination to run by choosing the correct yml file within the subdirectories inside [stacks](stacks/). See next step for more details and an example.
-* Run docker-compose -f <stack yml filename> up -d for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose -f stacks/sugar79/php71.yml up -d`
+* Run `docker-compose --build -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose --build -f stacks/sugar79/php71.yml up -d`
 
 ## Current version support
 The main stacks work with [Sugar version 7.9 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version 7.10, 7.11 and 8.
 
 ## Starting and stopping the desired stack
-* Run the stack with `docker-compose -f <stack yml filename> up -d`
+* Run the stack with `docker-compose --build -f <stack yml filename> up -d`
 * Stop the stack with `docker-compose -f <stack yml filename> down`
 
 When starting/stopping and swapping between different stacks, add the option `--build` so that the stack is rebuilt with the correct software versions.
@@ -150,7 +150,7 @@ Start (eg: ~/79up):
 ```
 #!/bin/bash
 cd ~/sugardocker
-docker-compose -f stacks/sugar79/php71.yml up -d
+docker-compose --build -f stacks/sugar79/php71.yml up -d
 ```
 
 Stop (eg: ~/79down):
