@@ -1,4 +1,4 @@
-FROM esimonetti/sugarphp71image:1.2
+FROM esimonetti/sugarphp71image:1.3
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update && apt-get install -y graphviz --no-install-recommends && rm -rf /var/lib/apt/lists/*
