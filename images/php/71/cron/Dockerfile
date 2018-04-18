@@ -8,6 +8,8 @@ RUN echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar
 
 RUN apt-get clean && apt-get -y autoremove
 
+RUN ln -sfT /dev/stderr "/var/log/apache2/error.log"
+
 RUN sed -i "s#.*date.timezone =.*#date.timezone = Australia/Sydney#" /etc/php/7.1/cli/php.ini \
     && sed -i "s#error_reporting = .*#error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED#" /etc/php/7.1/cli/php.ini \
     && sed -i "s#;error_log = syslog#error_log = /var/log/apache2/error.log#" /etc/php/7.1/cli/php.ini \

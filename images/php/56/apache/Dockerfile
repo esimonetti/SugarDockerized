@@ -54,7 +54,7 @@ RUN sed -i "s#Timeout .*#Timeout 600#" /etc/apache2/apache2.conf \
     && sed -i 's#;session.save_path = .*#session.save_path = "tcp://sugar-redis:6379"#' /etc/php5/apache2/php.ini \
     && sed -i "s#.*date.timezone =.*#date.timezone = Australia/Sydney#" /etc/php5/cli/php.ini \
     && sed -i "s#error_reporting = .*#error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED#" /etc/php5/cli/php.ini \
-    && sed -i "s#;error_log = syslog#error_log = /var/log/syslog#" /etc/php5/apache2/php.ini \
+    && sed -i "s#;error_log = syslog#error_log = /var/log/apache2/error.log#" /etc/php5/cli/php.ini \
     && sed -i "s#;realpath_cache_size = .*#realpath_cache_size = 512k#" /etc/php5/cli/php.ini \
     && sed -i "s#;realpath_cache_ttl = .*#realpath_cache_ttl = 600#" /etc/php5/cli/php.ini
 
