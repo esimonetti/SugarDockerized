@@ -4,15 +4,18 @@
 while (true) {
 
     $folder = '/var/www/html/sugar';
-    $cron_pause = '/cron_pause';
-    $cron = '/cron.php';
+    $cron_pause = 'cron_pause';
+    $cron = 'cron.php';
 
-    if (is_dir($folder) && !file_exists($folder . $cron_pause) && file_exists($folder . $cron) && is_readable($folder . $cron)) {
-
+    if (is_dir($folder) && !file_exists($folder . '/' . $cron_pause) && file_exists($folder . '/' . $cron) && is_readable($folder . '/' . $cron)) {
         echo '[' . date('Y-m-d H:i:s') . '] sugar cron start' . PHP_EOL;
-        exec('cd ' . $folder . ' && php -f ' . $cron);
+        $output = array();
+        exec('cd ' . $folder . ' && php -f ' . $cron . ' && cd /', $output);
+        if (!empty($output)) {
+            echo implode($output, PHP_EOL).PHP_EOL;
+        }
         echo '[' . date('Y-m-d H:i:s') . '] sugar cron end' . PHP_EOL;
-        if (file_exists($folder . $cron_pause)) {
+        if (file_exists($folder . '/' . $cron_pause)) {
             echo 'Pausing cron now. To unpause, remove ' . $folder . $cron_pause . PHP_EOL;
         }
     }
