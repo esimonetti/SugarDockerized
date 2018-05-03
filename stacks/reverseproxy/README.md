@@ -12,5 +12,5 @@ This container will help you do just that, when deployed within your OSX environ
 It would then be possible for your local network to access your Sugar environment by navigating on the browser to the url: `http://<local ip address>/sugar/`
 
 ## Stacks available
-* docker-compose.yml - Main reference stack - Single web server
+* docker-compose.yml - Sugar reverse proxy for local network
     * Traefik 1.5.4
