@@ -1,0 +1,21 @@
+logLevel = "DEBUG"
+
+defaultEntryPoints = ["http"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+[file]
+
+[backends]
+  [backends.sugar]
+    [backends.sugar.servers.sugar-web1]
+       url = "http://docker.local/"
+
+[frontends]
+  [frontends.traefik]
+      backend = "sugar"
+      [frontends.traefik.routes.sugar]
+          rule = "PathPrefix:/sugar"
+
+[api]
