@@ -86,7 +86,7 @@ Session storage is completed leveraging the Redis container.
 
 ## Elasticsearch additional information
 If you notice that your Elasticsearch container is not running (check with `docker ps`), it might be required to tweak your Linux host settings.
-To be able to run Elasticsearch version 5 and above, it is needed an [increase of the maximum mapped memory a process can have](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/vm-max-map-count.html) with. To complete this change permanently run:
+To be able to run Elasticsearch version 5 and above, it is needed an [increase of the maximum mapped memory a process can have](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/vm-max-map-count.html). To complete this change permanently run:
 
 `echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf`
 
