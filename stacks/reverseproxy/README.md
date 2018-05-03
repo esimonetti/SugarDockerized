@@ -4,6 +4,7 @@ If you are running the Linux VM within your OSX environment, you might want to e
 This container will help you do just that, when deployed within your OSX environment. It is useful for devices within your network to be able to access your system. A practical example is the possibility of testing Sugar Mobile against your customisations.
 
 ## Instructions
+* Make sure no web server is running locally on your OSX environment, and port 80 and 8080 are not in use
 * Clone the git repository into your OSX environment
 * While leveraging this functionality, temporarily disable your OSX firewall by navigating to: System Preferences, Security & Privacy, Firewall, Turn Off Firewall
 * Start the container with: `docker-compose -f stacks/reverseproxy/docker-compose.yml up -d`
