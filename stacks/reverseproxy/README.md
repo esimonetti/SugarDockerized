@@ -6,7 +6,7 @@ This container will help you do just that, when deployed within your OSX environ
 ## Instructions
 * Clone the git repository into your OSX environment
 * When leveraging this functionality, disable your OSX firewall by navigating to: System Preferences, Security & Privacy, Firewall, Turn Off Firewall
-* Start the container with: `docker-compose -f stacks//docker-compose.yml up -d`
+* Start the container with: `docker-compose -f stacks/reverseproxy/docker-compose.yml up -d`
 * Find out your local ip address by navigating to: System Preferences, Network and choosing the active network available in your specific scenario
 
 It would then be possible for your local network to access your Sugar environment by navigating on the browser to the url: `http://<local ip address>/sugar/`
