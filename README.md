@@ -3,10 +3,10 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
+* [Sugar 8](stacks/sugar8/README.md)
 * [Sugar 79](stacks/sugar79/README.md)
 * [Sugar 79 upgraded to a future version](stacks/sugar79upgrade/README.md)
-* [Sugar 710 or Sugar 711](stacks/sugar710/README.md) - For local development to apply to On-demand only
-* [Sugar 8](stacks/sugar8/README.md)
+* [Sugar 710 or Sugar 711](stacks/sugar710/README.md) - For local development to apply to Sugar cloud only versions
 
 ### Types of stacks
 There are mainly two types of stack:
@@ -28,16 +28,14 @@ There are multiple stack components as docker containers, that perform different
 * The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
 * Select the stack combination to run by choosing the correct yml file within the subdirectories inside [stacks](stacks/). See next step for more details and an example.
-* Run `docker-compose -f <stack yml filename> up -d --build` for the selected <stack yml filename>. As an example if we selected `stacks/sugar79/php71.yml`, you would run `docker-compose -f stacks/sugar79/php71.yml up -d --build`
+* Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`
 
 ## Current version support
-The main stacks work with [Sugar version 7.9 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version 7.10, 7.11 and 8.
+The main stacks work with [Sugar version 8.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/), 7.10/7.11 Sugar cloud only version.
 
 ## Starting and stopping the desired stack
-* Run the stack with `docker-compose -f <stack yml filename> up -d --build`
+* Run the stack with `docker-compose -f <stack yml filename> up -d`
 * Stop the stack with `docker-compose -f <stack yml filename> down`
-
-When starting/stopping and swapping between different stacks, add the option `--build` so that the stack is rebuilt with the correct software versions.
 
 ## System's details
 
@@ -86,6 +84,16 @@ Apache web servers have PHP with enabled:
 
 Session storage is completed leveraging the Redis container.
 
+## Elasticsearch additional information
+If you notice that your Elasticsearch container is not running (check with `docker ps`), it might be required to tweak your Linux host settings.
+To be able to run Elasticsearch version 5 and above, it is needed an [increase of the maximum mapped memory a process can have](https://www.elastic.co/guide/en/elasticsearch/reference/5.6/vm-max-map-count.html) with. To complete this change permanently run:
+
+`echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf`
+
+Alternatively the limit can be increased runtime with:
+
+`sudo sysctl -w vm.max_map_count=262144`
+
 ### Docker images
 * `images/elasticsearch/175/` - Elasticsearch 1.7.5
 * `images/elasticsearch/54/` - Elasticsearch 5.4
@@ -105,7 +113,7 @@ All images are currently leveraging Debian linux.
 All persistent storage is located within the `./data` directory tree within your local checkout of this git repository.
 * The Sugar application files served from the web servers and leveraged by the cronjob server have to be located in `./data/app/sugar/`. Within the web servers and the cronjob server the location is `/var/www/html/sugar/`. Everything within `./data/app/` can be accessed through the browser, but the Sugar instance files have to be within `./data/app/sugar/`
 * MySQL files are located in `./data/mysql/57/`
-* For Elasticsearch 1.7.5 files are located in `./data/elasticsearch/175/`. For Elasticsearch 5.6 files are located in `./data/elasticsearch/56/`. For Elasticsearch 5.4 files are located in `./data/elasticsearch/54/`
+* For Elasticsearch 5.6 files are located in `./data/elasticsearch/56/`. For Elasticsearch 5.4 files are located in `./data/elasticsearch/54/`. For Elasticsearch 1.7.5 files are located in `./data/elasticsearch/175/`.
 * Redis files are located in `./data/redis/`
 * LDAP files are located in `./data/ldap/`
 
@@ -118,7 +126,7 @@ This setup is designed to run only a single Sugar instance. It also requires the
 3. Cronjob background process running
 
 For the above reasons the single instance Sugar's files have to be located inside `./data/app/sugar/` (without subdirectories), for the stack setup to be working as expected.
-If you do need multiple instances (eg: a Sugar version 7.9 and a version 7.11), as long as they are not running at the same time, you could have a git clone for each setup and start/stop the relevant stack as needed.
+If you do need multiple instances (eg: a Sugar version 8 and a version 7.9), as long as they are not running at the same time, you could have a git clone for each setup and start/stop the relevant stack as needed. Alternatively it might be possible to have different data directory trees that are moved between stack stop/restarts.
 
 ## Tips
 ### Detect web server PHP error logs
@@ -146,18 +154,18 @@ cd sugardocker
 ### Simplify stack startup and shutdown
 Once you choose the most commonly used stack for the job, you could simply create two bash scripts to start/stop your cluster. Examples of how those could look like are below:
 
-Start (eg: ~/79up):
+Start (eg: ~/8up):
 ```
 #!/bin/bash
 cd ~/sugardocker
-docker-compose -f stacks/sugar79/php71.yml up -d --build
+docker-compose -f stacks/sugar8/php71.yml up -d
 ```
 
-Stop (eg: ~/79down):
+Stop (eg: ~/8down):
 ```
 #!/bin/bash
 cd ~/sugardocker
-docker-compose -f stacks/sugar79/php71.yml down
+docker-compose -f stacks/sugar8/php71.yml down
 ```
 
 Making sure that the bash script is executable with `chmod +x <script>`.
@@ -253,10 +261,6 @@ $sugar_config['logger']['level'] = 'fatal';
 $sugar_config['logger']['file']['maxSize'] = '10MB';
 $sugar_config['developerMode'] = false;
 $sugar_config['dump_slow_queries'] = false;
-$sugar_config['slow_query_time_msec'] = '1000';
-$sugar_config['perfProfile']['TeamSecurity']['default']['teamset_prefetch'] = true;
-$sugar_config['perfProfile']['TeamSecurity']['default']['teamset_prefetch_max'] = 500;
-$sugar_config['perfProfile']['TeamSecurity']['default']['where_condition'] = true;
 $sugar_config['import_max_records_total_limit'] = '2000';
 $sugar_config['verify_client_ip'] = false;
 ```
@@ -264,4 +268,4 @@ Tweak the above settings based on your specific needs.
 
 ## Mac users notes
 These stacks have been built on a Mac platform, that is known to not perform well with [Docker mounted volumes](https://github.com/docker/for-mac/issues/77).
-Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, running a NFS server. I either mount NFS on my Mac when needed or SSH directly into the VM. [The Debian Docker VirtualBox VM for Mac is available here](https://github.com/esimonetti/DebianDockerMac).
+Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, running a NFS server. I either mount NFS on my Mac when needed or SSH directly into the VM. [The Debian Docker VirtualBox VM for Mac is available here](https://github.com/esimonetti/DebianDockerMac) with its [latest downloadable version here](https://github.com/esimonetti/DebianDockerMac/releases/latest).
