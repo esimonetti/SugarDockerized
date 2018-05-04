@@ -10,7 +10,7 @@ This container will help you do just that, when deployed within your OSX environ
 * Start the container with: `docker-compose -f stacks/reverseproxy/docker-compose.yml up -d`
 * Find out your local ip address by navigating to: System Preferences, Network and choosing the active network available in your specific scenario
 
-It would then be possible for your local network to access your Sugar environment by navigating to the url: `http://<local ip address>/sugar/`
+It would then be possible for your local network to access your Sugar environment by navigating to the url: `http://<local ip address>/sugar/` (make sure to add the `/` at the end of the url)
 
 ## Stacks available
 * docker-compose.yml - Sugar reverse proxy for local network
