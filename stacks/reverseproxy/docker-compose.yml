@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+    sugar-proxy:
+        container_name: "sugar-proxy"
+        image: sugar-proxy
+        build: ../../images/traefik
+        ports:
+            - "80:80"
+            - "8080:8080"
