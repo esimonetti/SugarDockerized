@@ -1,0 +1,7 @@
+cluster.name: sugarcrm
+node.name: sugar1
+action.disable_close_all_indices: true
+action.disable_delete_all_indices: true
+action.disable_shutdown: true
+script.disable_dynamic: true
+bootstrap.mlockall: true
