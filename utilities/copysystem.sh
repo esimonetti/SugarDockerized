@@ -12,6 +12,10 @@ else
         # running
         echo The stack is running, please stop the stack first
     else
+        # enter the repo's root directory
+        REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+        cd $REPO
+
         # not running
         echo Copying \"$1\" to \"$2\"
 
