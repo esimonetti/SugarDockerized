@@ -16,6 +16,10 @@ else
         # not running
         echo Moving \"data\" to \"$1\" and \"$2\" to \"data\"
 
+        # enter the repo's root directory
+        REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+        cd $REPO
+
         # exit utilities directory if in there
         #current_dir=`pwd`
         #if [ ${current_dir: -10} == '/utilities' ]

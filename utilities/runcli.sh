@@ -9,6 +9,9 @@ else
 
     if [ $running -gt 0 ]
     then
+        # enter the repo's root directory
+        REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+        cd $REPO
         # running
         # if it is our repo
         if [ -f '.gitignore' ] && [ -d 'data' ]
