@@ -143,10 +143,12 @@ Copy completed, you can now swap or start the system
 It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it)
 #### swapsystems.sh
 ```./utilities/copysystem.sh backup_2018_06_28 data_80_clean```
-```Moving "data" to "backup_2018_06_28" and "data_80_clean" to "data"
+```
+Moving "data" to "backup_2018_06_28" and "data_80_clean" to "data"
 Moving data to backup_2018_06_28
 Moving data_80_clean to data
-You can now start the system with the content of data_80_clean```
+You can now start the system with the content of data_80_clean
+```
 It helps to move the current `data` directory to `backup_2018_06_28` and then `data_80_clean` to `data`, effectively swapping the current data in use. It requires the stack to be off (and it will check for it)
 #### runcli.sh
 ```./utilities/runcli.sh php ./bin/sugarcrm password:weak```
