@@ -2,9 +2,7 @@ cluster.name: sugarcrm62
 node.name: sugar1
 action.destructive_requires_name: true
 cluster.indices.close.enable: false
-script.inline: false  
-script.stored: false  
-script.file: false 
-script.update: false
+script.allowed_types: none
+script.allowed_contexts: search
 bootstrap.memory_lock: true
 network.host: _site_
