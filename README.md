@@ -81,6 +81,7 @@ Apache web servers have enabled:
 Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
 * xdebug
+    * If you use IDE such as PHPStorm, you can setup DBGp Proxy in Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Here is an example setting: <img width="1026" alt="screen shot 2018-04-18 at 10 17 53 pm" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
 * XHProf or Tideways profilers depending on the version
 
 Session storage is completed leveraging the Redis container.
@@ -231,7 +232,7 @@ XHProf extension is configured on PHP 5.6 stacks, while Tideways extension is co
 
 To enable profiling:
 * Add [this custom code](https://gist.github.com/esimonetti/4c84541d49ee0828b31de91d30bcedb0) into your Sugar installation and repair the system (only if leveraging Tideways). Please note that the custom code does not have a namespace which is **intentional**. Adding a namespace will cause the profiling implementation to not find the TidewaysProf class.
-* Configure `config_override.php` specific settings (see below based on the stack extension) 
+* Configure `config_override.php` specific settings (see below based on the stack extension)
 
 XHProf Sugar `config_override.php` configuration:
 ```
