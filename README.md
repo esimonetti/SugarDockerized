@@ -3,9 +3,9 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
-* [Sugar 81](stacks/sugar81/README.md) - For local development to apply to Sugar cloud only versions
+* [Sugar 81](stacks/sugar81/README.md) - For local development to apply to Sugar Cloud only versions
 * [Sugar 8](stacks/sugar8/README.md)
-* [Sugar 710 or Sugar 711](stacks/sugar710/README.md) - For local development to apply to Sugar cloud only versions
+* [Sugar 710 or Sugar 711](stacks/sugar710/README.md) - For local development to apply to Sugar Cloud only versions
 * [Sugar 79](stacks/sugar79/README.md)
 * [Sugar 79 upgraded to a future version](stacks/sugar79upgrade/README.md)
 
@@ -32,7 +32,7 @@ There are multiple stack components as docker containers, that perform different
 * Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`
 
 ## Current version support
-The main stacks work with [Sugar version 8.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/), 7.10/7.11 Sugar cloud only version.
+The main stacks work with [Sugar version 8.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and the Sugar Cloud only versions: 7.10/7.11 and 8.1.
 
 ## Starting and stopping the desired stack
 * Run the stack with `docker-compose -f <stack yml filename> up -d`
@@ -142,7 +142,7 @@ Copy completed, you can now swap or start the system
 ```
 It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it)
 #### swapsystems.sh
-```./utilities/copysystem.sh backup_2018_06_28 data_80_clean```
+```./utilities/swapsystems.sh backup_2018_06_28 data_80_clean```
 ```
 Moving "data" to "backup_2018_06_28" and "data_80_clean" to "data"
 Moving data to backup_2018_06_28
