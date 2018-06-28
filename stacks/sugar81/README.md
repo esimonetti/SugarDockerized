@@ -5,5 +5,5 @@ This repository will help you deploy a Docker based development full stack for S
 * php71.yml - Main reference stack - Single web server
     * PHP - 7.1
     * MySQL - 5.7
-    * Elasticsearch - 6.2 (note that the hostname is sugar-elasticsearch now)
+    * Elasticsearch - 6.2
     * Redis - latest
