@@ -138,7 +138,7 @@ To help with development, there are a set of tools within the `utilities` direct
 ```./utilities/copysystem.sh data_80_clean data_80_clean_copy```
 ```
 Copying "data_80_clean" to "data_80_clean_copy"
-Copying data to data_80_clean_copy
+Copying data_80_clean to data_80_clean_copy
 Copy completed, you can now swap or start the system
 ```
 It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it)

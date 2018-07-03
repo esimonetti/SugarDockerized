@@ -22,7 +22,7 @@ else
         # if it is our repo, and the source exists, and the destination does not
         if [ -f '.gitignore' ] && [ -d 'data' ] && [ $2 != 'data' ] && [ ! -d $2 ]  && [ -d $1 ]
         then
-            echo Copying data to $2
+            echo Copying $1 to $2
             sudo rsync -a $1/* $2
             echo Copy completed, you can now swap or start the system
         else
