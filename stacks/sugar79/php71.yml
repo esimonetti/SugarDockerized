@@ -35,7 +35,7 @@ services:
             - redis
     mysql:
         container_name: "sugar-mysql"
-        image: esimonetti/sugardockerized:mysql5.7
+        image: esimonetti/sugardockerized:mysql5.7-1.06
         ports:
             - "3306:3306"
         volumes:
