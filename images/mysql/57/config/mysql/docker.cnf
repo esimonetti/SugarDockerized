@@ -1,12 +1,13 @@
 [mysqld]
 skip-host-cache
 skip-name-resolve
-default-storage-engine = InnoDB
+default-storage-engine=InnoDB
 innodb_file_per_table
-innodb_buffer_pool_size = 256M
-character-set-server = utf8mb4
-collation-server = utf8mb4_general_ci
+innodb_buffer_pool_size=256M
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
 optimizer-switch=block_nested_loop=off
+sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
 
 [mysqldump]
-max-allowed-packet = 128M
+max-allowed-packet=128M
