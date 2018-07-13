@@ -1,0 +1,12 @@
+dist: trusty
+sudo: required
+
+stages:
+- name: Install Sugar
+  if: branch = travis
+jobs:
+  include:
+  - stage: Install Sugar
+    before_script:
+    script:
+      - ./tests/setup.sh
