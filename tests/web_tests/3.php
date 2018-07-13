@@ -1,11 +1,10 @@
 <?php
-session_start();
 $ok = 'ok';
 
 $redis = new Redis();
 $redis->connect('sugar-redis', 6379);
-$keys = $redis->keys('*');
+$redis->set($ok, $ok);
 
-if (!empty($keys[$ok]) && $redis->get($ok) == $ok) {
+if ($redis->get($ok) == $ok) {
     echo $ok;
 }
