@@ -3,6 +3,7 @@ sudo: required
 
 stages:
 - name: start
+- name: web_tests
 - name: stop
 jobs:
   include:
@@ -12,6 +13,11 @@ jobs:
       - sudo service elasticsearch stop
     script:
       - ./tests/start.sh
+  - stage: web_tests
+    before_install:
+      - cp -r tests/web_tests/* ./data/app/sugar/
+    script:
+      - ./tests/web_tests.sh
   - stage: stop
     script:
-      - ./test/stop.sh
+      - ./tests/stop.sh
