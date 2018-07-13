@@ -2,11 +2,11 @@ dist: trusty
 sudo: required
 
 stages:
-- name: Install Sugar
+- name: install
   if: branch = travis
 jobs:
   include:
-  - stage: Install Sugar
-    before_script:
+  - stage: install
     script:
       - ./tests/setup.sh
+      - ./tests/stop.sh
