@@ -4,7 +4,7 @@ $ok = 'ok';
 $conn = new mysqli('sugar-mysql', 'root', 'root');
 if ($conn->connect_error) {
     die('Connection failed: ' . $conn->connect_error);
-} 
+}
 
 $sql = 'CREATE DATABASE dockertest';
 if ($conn->query($sql) === TRUE) {
@@ -13,6 +13,8 @@ if ($conn->query($sql) === TRUE) {
     if ($conn->query($sql) === TRUE) {
         echo $ok;
     }
+    $sql = 'DROP DATABASE dockertest';
+    $conn->query($sql);
 }
 
 $conn->close();
