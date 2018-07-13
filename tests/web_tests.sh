@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sleep 10
 echo Executing web tests
 for i in {1..4}
 do
