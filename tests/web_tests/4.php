@@ -8,7 +8,7 @@ if ($conn->connect_error) {
 
 $sql = 'CREATE DATABASE dockertest';
 if ($conn->query($sql) === TRUE) {
-    mysqli_select_db($conn, 'dockertest');
+    $conn->select_db('dockertest');
     $sql = 'CREATE TABLE test ( id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL )';
     if ($conn->query($sql) === TRUE) {
         echo $ok;
