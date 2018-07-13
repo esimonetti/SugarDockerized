@@ -2,11 +2,17 @@ dist: trusty
 sudo: required
 
 stages:
-- name: Install Sugar
-  if: branch = travis
+- name: web_tests
+
 jobs:
   include:
-  - stage: Install Sugar
-    before_script:
+  - stage: web_tests
+    before_install:
+      - sudo service mysql stop
+      - sudo service elasticsearch stop
+      - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
+      - cp -r ./tests/web_tests/* ./data/app/sugar/
     script:
-      - ./tests/setup.sh
+      - ./tests/start.sh
+      - ./tests/web_tests.sh
+      - ./tests/stop.sh
