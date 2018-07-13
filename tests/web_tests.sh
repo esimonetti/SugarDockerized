@@ -1,7 +1,5 @@
 #!/bin/bash
 
-./tests/start.sh
-
 echo Executing web tests
 for i in {1..4}
 do
@@ -14,5 +12,3 @@ do
         echo Script $i.php executed successfully
     fi
 done
-
-./tests/stop.sh
