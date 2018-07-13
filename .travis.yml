@@ -8,7 +8,7 @@ jobs:
   include:
   - stage: start
     before_install:
-      - sudo service mysqld stop
+      - sudo service mysql stop
       - sudo service elasticsearch stop
     script:
       - ./tests/start.sh
