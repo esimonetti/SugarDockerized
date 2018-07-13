@@ -10,5 +10,6 @@ jobs:
       - sudo service mysql stop
       - sudo service elasticsearch stop
       - cp -r tests/web_tests/* ./data/app/sugar/
+      - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
     script:
       - ./tests/web_tests.sh
