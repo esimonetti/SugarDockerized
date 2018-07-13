@@ -2,14 +2,16 @@ dist: trusty
 sudo: required
 
 stages:
-- name: install
-  if: branch = travis
+- name: start
+- name: stop
 jobs:
   include:
   - stage: install
     before_install:
-      - sudo service mysql stop
+      - sudo service mysqld stop
       - sudo service elasticsearch stop
     script:
-      - ./tests/setup.sh
-      - ./tests/stop.sh
+      - ./tests/start.sh
+  - stage: stop
+    script:
+      - ./test/stop.sh
