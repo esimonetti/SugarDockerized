@@ -1,5 +1,9 @@
 #!/bin/bash
 
+docker ps
+curl -s http://docker.local/sugar/1.php
+curl -s http://localhost/sugar/1.php
+
 echo Executing web tests
 for i in {1..4}
 do
