@@ -6,7 +6,7 @@ stages:
 - name: stop
 jobs:
   include:
-  - stage: install
+  - stage: start
     before_install:
       - sudo service mysqld stop
       - sudo service elasticsearch stop
