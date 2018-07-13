@@ -1,6 +1,8 @@
 # Sugar Dockerized
 This repository will help you deploy a Docker based development full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
+[![Build Status](https://travis-ci.org/esimonetti/SugarDockerized.svg?branch=master)](https://travis-ci.org/esimonetti/SugarDockerized)
+
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
 * [Sugar 81](stacks/sugar81/README.md) - For local development to apply to Sugar Cloud only versions
