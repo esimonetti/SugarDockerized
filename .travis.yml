@@ -7,6 +7,9 @@ stages:
 jobs:
   include:
   - stage: install
+    before_install:
+      - sudo service mysql stop
+      - sudo service elasticsearch stop
     script:
       - ./tests/setup.sh
       - ./tests/stop.sh
