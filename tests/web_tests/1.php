@@ -1,2 +1,2 @@
 <?php
-echo 'good';
+echo 'ok';
