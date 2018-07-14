@@ -1,7 +1,12 @@
 #!/bin/bash
-sleep 1
 echo Executing web tests
-for i in {1..3}
+
+while ! mysqladmin ping -h 127.0.0.1 --silent; do
+    echo MySQL is not ready... sleeping...
+    sleep 2
+done
+
+for i in {1..4}
 do
     OUTPUT=`curl -s http://docker.local/sugar/$i.php | grep ok | wc -l`
     if [ $OUTPUT != '1' ]
