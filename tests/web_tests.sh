@@ -1,7 +1,7 @@
 #!/bin/bash
 sleep 1
 echo Executing web tests
-for i in {1..3}
+for i in {1..4}
 do
     OUTPUT=`curl -s http://docker.local/sugar/$i.php | grep ok | wc -l`
     if [ $OUTPUT != '1' ]

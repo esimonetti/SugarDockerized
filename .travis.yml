@@ -1,6 +1,9 @@
 dist: trusty
 sudo: required
 
+services:
+  - docker
+
 stages:
 - name: web_tests
 
@@ -10,9 +13,10 @@ jobs:
     before_install:
       - sudo service mysql stop
       - sudo service elasticsearch stop
+    install:
       - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
       - cp -r ./tests/web_tests/* ./data/app/sugar/
-    script:
       - ./tests/start.sh
+    script:
       - ./tests/web_tests.sh
       - ./tests/stop.sh
