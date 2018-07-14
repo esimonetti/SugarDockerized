@@ -1,10 +1,9 @@
 #!/bin/bash
-sleep 1
 echo Executing web tests
 
 while ! mysqladmin ping -h 127.0.0.1 --silent; do
     echo MySQL is not ready... sleeping...
-    sleep 1
+    sleep 2
 done
 
 for i in {1..4}

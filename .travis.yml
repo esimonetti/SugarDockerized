@@ -16,7 +16,7 @@ jobs:
     install:
       - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
       - cp -r ./tests/web_tests/* ./data/app/sugar/
-      - ./tests/start.sh
     script:
+      - ./tests/start.sh
       - ./tests/web_tests.sh
       - ./tests/stop.sh
