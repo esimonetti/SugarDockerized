@@ -1,8 +1,9 @@
 #!/bin/bash
-if [ -z $1 ]
+if [ -z ${STACK} ]
 then
     echo The script needs the stack as a parameter
+    exit 1
 else
-    echo Starting environment $1
-    docker-compose -f $1 up -d --build
+    echo Starting environment ${STACK}
+    docker-compose -f ${STACK} up -d --build
 fi
