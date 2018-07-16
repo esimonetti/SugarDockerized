@@ -1,3 +1,8 @@
 #!/bin/bash
-echo Stopping environment
-docker-compose -f stacks/sugar8/php71.yml down
+if [ -z $1 ]
+then
+    echo The script needs the stack as a parameter
+else
+    echo Stopping environment $1
+    docker-compose -f $1 down
+fi

@@ -1,3 +1,8 @@
 #!/bin/bash
-echo Starting environment
-docker-compose -f stacks/sugar8/php71.yml up -d --build
+if [ -z $1 ]
+then
+    echo The script needs the stack as a parameter
+else
+    echo Starting environment $1
+    docker-compose -f $1 up -d --build
+fi

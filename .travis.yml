@@ -4,6 +4,13 @@ sudo: required
 services:
   - docker
 
+matrix:
+  include:
+     - env:
+       - STACK=stacks/sugar81/php71.yml SUGAR=8 PHP=7.1
+     - env:
+       - STACK=stacks/sugar8/php71.yml SUGAR=8.1 PHP=7.1
+
 stages:
 - name: web_tests
 
@@ -15,8 +22,9 @@ jobs:
       - sudo service elasticsearch stop
     install:
       - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
+      - sudo sysctl -w vm.max_map_count=262144
       - cp -r ./tests/web_tests/* ./data/app/sugar/
     script:
-      - ./tests/start.sh
+      - ./tests/start.sh $STACK
       - ./tests/web_tests.sh
-      - ./tests/stop.sh
+      - ./tests/stop.sh $STACK
