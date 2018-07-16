@@ -10,7 +10,7 @@ env:
   - STACK=stacks/sugar79/php71.yml SUGAR=7.9 PHP=7.1
   - STACK=stacks/sugar79/php71lb.yml SUGAR=7.9 PHP=7.1
   - STACK=stacks/sugar79/php71-local-build.yml SUGAR=7.9 PHP=7.1
-  - STACK=stacks/sugar79upgrade/php71-local-build.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar79upgrade/php71.yml SUGAR=7.9 PHP=7.1
   - STACK=stacks/sugar710/php71.yml SUGAR=7.10 PHP=7.1
   - STACK=stacks/sugar8/php71.yml SUGAR=8.0 PHP=7.1
   - STACK=stacks/sugar8/php71-local-build.yml SUGAR=8.0 PHP=7.1
@@ -23,7 +23,7 @@ before_install:
 install:
   - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
   - sudo sysctl -w vm.max_map_count=262144
-  - cp -r ./tests/web_tests/* ./data/app/sugar/
+  - cp -r ./tests/web_tests/$PHP/* ./data/app/sugar/
 script:
   - ./tests/start.sh $STACK
   - ./tests/web_tests.sh
