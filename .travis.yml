@@ -4,9 +4,10 @@ sudo: required
 services:
   - docker
 
-env:
-  - STACK=stacks/sugar81/php71.yml SUGAR=8.0 PHP=7.1
-  - STACK=stacks/sugar8/php71.yml SUGAR=8.1 PHP=7.1
+matrix:
+  include:
+    env: STACK=stacks/sugar81/php71.yml SUGAR=8.0 PHP=7.1
+    env: STACK=stacks/sugar8/php71.yml SUGAR=8.1 PHP=7.1
 
 jobs:
   include:
