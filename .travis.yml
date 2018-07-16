@@ -4,19 +4,15 @@ sudo: required
 services:
   - docker
 
-
-matrix:
-  include:
-     env:
-       - STACK=stacks/sugar81/php71.yml SUGAR=8 PHP=7.1
-       - STACK=stacks/sugar8/php71.yml SUGAR=8.1 PHP=7.1
-
 stages:
 - name: web_tests
 
 jobs:
   include:
   - stage: web_tests
+    env:
+      - STACK=stacks/sugar81/php71.yml SUGAR=8 PHP=7.1
+      - STACK=stacks/sugar8/php71.yml SUGAR=8.1 PHP=7.1
     before_install:
       - sudo service mysql stop
       - sudo service elasticsearch stop
