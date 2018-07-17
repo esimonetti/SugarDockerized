@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Enrico Simonetti
+# enricosimonetti.com
+
 if [ -z $1 ] || [ -z $2 ]
 then
     echo Provide the source data directory and the destination data directory as script parameters

@@ -1,7 +1,7 @@
 <?php
 $ok = 'ok';
 
-$conn = new mysqli('sugar-mysql:3306', 'root', 'root');
+$conn = new mysqli('sugar-mysql', 'root', 'root');
 if ($conn->connect_error) {
     die('Connection failed: ' . $conn->connect_error);
 }

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Enrico Simonetti
+# enricosimonetti.com
+
 if [ -z $1 ] || [ -z $2 ]
 then
     echo Provide the future backup directory and the current backup directory as script parameters.
