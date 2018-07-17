@@ -24,7 +24,7 @@ install:
   - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
   - sudo sysctl -w vm.max_map_count=262144
   - mkdir ./data/app/sugar/web_tests
-  - cp -r ./tests/web_tests/$PHP/* ./data/app/sugar/web_test
+  - cp -r ./tests/web_tests/$PHP/* ./data/app/sugar/web_tests/
 script:
   - ./tests/start.sh $STACK
   - ./tests/web_tests.sh
