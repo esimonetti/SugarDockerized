@@ -4,14 +4,28 @@ echo Installing composer dependencies if any
 
 echo Executing web tests
 MAX=60
+INTERVAL=5
+MAX_MYSQL=$MAX
+MAX_ELASTIC=$MAX
 
-while ! mysqladmin ping -h 127.0.0.1 --silent; do
+while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-mysql/3306) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
     echo MySQL is not ready... sleeping...
-    sleep 5
-    MAX=$((MAX - 5))
-    if [ $MAX -le 0 ]
+    sleep $INTERVAL
+    MAX_MYSQL=$((MAX_MYSQL - $INTERVAL))
+    if [ $MAX_MYSQL -le 0 ]
     then
         echo Maximum MySQL timeout reached
+        exit 1
+    fi
+done
+
+while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-elasticsearch/9200) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
+    echo Elasticsearch is not ready... sleeping...
+    sleep $INTERVAL
+    MAX_ELASTIC=$((MAX_ELASTIC - $INTERVAL))
+    if [ $MAX_ELASTIC -le 0 ]
+    then
+        echo Maximum Elasticsearch timeout reached
         exit 1
     fi
 done
