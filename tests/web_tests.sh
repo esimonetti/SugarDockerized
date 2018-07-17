@@ -23,6 +23,7 @@ while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-elasticsearch/9200) &>/dev
     echo Elasticsearch is not ready... sleeping...
     sleep $INTERVAL
     docker ps
+    docker logs sugar-elasticsearch
     MAX_ELASTIC=$((MAX_ELASTIC - $INTERVAL))
     if [ $MAX_ELASTIC -le 0 ]
     then
