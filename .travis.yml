@@ -1,5 +1,5 @@
 dist: trusty
-sudo: required
+sudo: true
 
 services:
   - docker
@@ -12,9 +12,10 @@ before_install:
   - sudo service elasticsearch stop
 install:
   - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
-  - sudo sysctl -w vm.max_map_count=262144
   - mkdir ./data/app/sugar/web_tests
   - cp -r ./tests/web_tests/$PHP/* ./data/app/sugar/web_tests/
+before_script:
+  - sudo sysctl -w vm.max_map_count=262144
 script:
   - ./tests/start.sh $STACK
   - ./tests/web_tests.sh
