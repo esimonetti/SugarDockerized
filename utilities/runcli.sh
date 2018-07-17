@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Enrico Simonetti
+# enricosimonetti.com
+
 if [ $# -eq 0 ]
 then
     echo Provide the command\(s\) to run as arguments

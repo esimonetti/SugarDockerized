@@ -4,19 +4,28 @@ sudo: required
 services:
   - docker
 
-stages:
-- name: web_tests
+env:
+  - STACK=stacks/sugar77/php56-local-build.yml SUGAR=7.9 PHP=5.6
+  - STACK=stacks/sugar79/php56.yml SUGAR=7.9 PHP=5.6
+  - STACK=stacks/sugar79/php71.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar79/php71lb.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar79/php71-local-build.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar79upgrade/php71.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar710/php71.yml SUGAR=7.10 PHP=7.1
+  - STACK=stacks/sugar8/php71.yml SUGAR=8.0 PHP=7.1
+  - STACK=stacks/sugar8/php71-local-build.yml SUGAR=8.0 PHP=7.1
+  - STACK=stacks/sugar81/php71.yml SUGAR=8.1 PHP=7.1
+  - STACK=stacks/sugar81/php71-local-build.yml SUGAR=8.1 PHP=7.1
 
-jobs:
-  include:
-  - stage: web_tests
-    before_install:
-      - sudo service mysql stop
-      - sudo service elasticsearch stop
-    install:
-      - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
-      - cp -r ./tests/web_tests/* ./data/app/sugar/
-    script:
-      - ./tests/start.sh
-      - ./tests/web_tests.sh
-      - ./tests/stop.sh
+before_install:
+  - sudo service mysql stop
+  - sudo service elasticsearch stop
+install:
+  - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
+  - sudo sysctl -w vm.max_map_count=262144
+  - mkdir ./data/app/sugar/web_tests
+  - cp -r ./tests/web_tests/$PHP/* ./data/app/sugar/web_tests/
+script:
+  - ./tests/start.sh $STACK
+  - ./tests/web_tests.sh
+  - ./tests/stop.sh $STACK

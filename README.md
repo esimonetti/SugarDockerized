@@ -152,7 +152,7 @@ You can now start the system with the content of data_80_clean
 ```
 It helps to move the current `data` directory to `backup_2018_06_28` and then `data_80_clean` to `data`, effectively swapping the current data in use. It requires the stack to be off (and it will check for it)
 #### runcli.sh
-```./utilities/runcli.sh php ./bin/sugarcrm password:weak```
+```./utilities/runcli.sh "php ./bin/sugarcrm password:weak"```
 It helps to execute a command within the CLI container. It requires the stack to be on
 
 ### Detect web server PHP error logs
@@ -208,19 +208,19 @@ Make sure there are no other caching mechanism enabled on your config/config_ove
 ### Run command line command or script
 To run a PHP script execute something like the following sample commands:
 ```
-docker@docker:~/sugardocker$ ./utilities/runcli.sh php ../repair.php --instance .
+docker@docker:~/sugardocker$ ./utilities/runcli.sh "php ../repair.php --instance ."
 Debug: Entering directory .
 Repairing...
 Completed in 8 seconds
 ```
 
 ```
-docker@docker:~/sugardocker$ ./utilities/runcli.sh whoami
+docker@docker:~/sugardocker$ ./utilities/runcli.sh "whoami"
 sugar
 ```
 
 ```
-docker@docker:~/sugardocker$ ./utilities/runcli.sh pwd
+docker@docker:~/sugardocker$ ./utilities/runcli.sh "pwd"
 /var/www/html/sugar
 ```
 
