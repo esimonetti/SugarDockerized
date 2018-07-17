@@ -3,7 +3,7 @@ echo Installing composer dependencies if any
 ./utilities/runcli.sh "cd ./web_tests && composer install"
 
 echo Executing web tests
-MAX=60
+MAX=120
 INTERVAL=5
 MAX_MYSQL=$MAX
 MAX_ELASTIC=$MAX
