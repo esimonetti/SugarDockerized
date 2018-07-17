@@ -24,6 +24,6 @@ do
         echo Error for script test_$i.php
         exit 1
     else
-        echo Script $i.php executed successfully
+        echo Script test_$i.php executed successfully
     fi
 done
