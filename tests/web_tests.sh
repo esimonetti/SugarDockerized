@@ -32,7 +32,7 @@ done
 
 for i in {1..5}
 do
-    OUTPUT=`curl -s http://docker.local/sugar/web_tests/test_$i.php | grep ok | wc -l`
+    OUTPUT=`curl -s http://docker.local/sugar/web_tests/$PHP/test_$i.php | grep ok | wc -l`
     if [ $OUTPUT != '1' ]
     then
         echo Error for script test_$i.php

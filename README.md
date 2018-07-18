@@ -134,6 +134,26 @@ If you do need multiple instances (eg: a Sugar version 8 and a version 7.9), as 
 ## Tips
 ### Utilities
 To help with development, there are a set of tools within the `utilities` directory of the repository.
+#### stack.sh
+```./utilities/stack.sh 80 down```
+```
+./utilities/stack.sh 80 down
+stacks/sugar8/php71.yml down
+Stopping sugar-cron          ... done
+Stopping sugar-web1          ... done
+Stopping sugar-redis         ... done
+Stopping sugar-mysql         ... done
+Stopping sugar-elasticsearch ... done
+Removing sugar-cron          ... done
+Removing sugar-web1          ... done
+Removing sugar-redis         ... done
+Removing sugar-mysql         ... done
+Removing sugar-permissions   ... done
+Removing sugar-elasticsearch ... done
+Removing network sugar8_default
+No stopped containers
+```
+It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80, 81) and up/down
 #### copysystem.sh
 ```./utilities/copysystem.sh data_80_clean data_80_clean_copy```
 ```
@@ -176,26 +196,6 @@ To run the repair from the docker host, assuming that the repository has been ch
 cd sugardocker
 ./repair
 ```
-
-### Simplify stack startup and shutdown
-Once you choose the most commonly used stack for the job, you could simply create two bash scripts to start/stop your cluster. Examples of how those could look like are below:
-
-Start (eg: ~/8up):
-```
-#!/bin/bash
-cd ~/sugardocker
-docker-compose -f stacks/sugar8/php71.yml up -d
-```
-
-Stop (eg: ~/8down):
-```
-#!/bin/bash
-cd ~/sugardocker
-docker-compose -f stacks/sugar8/php71.yml down
-```
-
-Making sure that the bash script is executable with `chmod +x <script>`.
-
 ### Setup Sugar instance to leverage Redis object caching
 Add on `config_override.php` the following options:
 ```
