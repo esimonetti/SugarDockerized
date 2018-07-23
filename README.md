@@ -94,8 +94,8 @@ Apache web servers have PHP with enabled:
           When you just want to debug a specific API endpoint, you may just use Postman for the debugging.
 
           Take an example, you want to debug the login authentication api endpoint rest/v11_1/oauth2/token, you will just need to add a cookie "XDEBUG_SESSION" (The xdebug helper uses the same, and you can also see that in your PHPstorm setting you specifilly chose this as the IDE key)
-          <img width="948" alt="screen shot 2018-07-23 at 11 02 16 am" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
-          <img width="679" alt="screen shot 2018-07-23 at 11 06 55 am" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
+          <img width="948" alt="Debug with Postman" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
+          <img width="679" alt="Postman cookie setting for remote debug" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
 
 * XHProf or Tideways profilers depending on the version
 
