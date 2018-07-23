@@ -1,4 +1,4 @@
-# Sugar Dockerized [![Build Status](https://travis-ci.org/esimonetti/SugarDockerized.svg?branch=master)](https://travis-ci.org/esimonetti/SugarDockerized)
+# Sugar Dockerized [![Build Status](https://travis-ci.org/esimonetti/SugarDockerized.svg?branch=master)](https://travis-ci.org/esimonetti/SugarDockerized) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
 This repository will help you deploy a Docker based development full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
 ## Stacks available
@@ -80,20 +80,24 @@ Apache web servers have enabled:
 ### PHP additional information
 Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
-* xdebug
-    * If you use IDE such as PHPStorm, you can setup DBGp Proxy in Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Here is an example setting: <img width="1026" alt="screen shot 2018-04-18 at 10 17 53 pm" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
+* Xdebug
+    * If you use an IDE such as PHPStorm, you can setup DBGp Proxy under the menus Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Example settings are available in the screenshot below:
+
+      <img width="1026" alt="PHPStorm xdebug settings" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
+
         * Debug with Xdebug Helper
-        
-          If you use Chrome browser, you can install extension [xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc), when you want to start the debug, you will just need to click the debug button on this xdebug helper, and on your PHPStorm click "Start listening for PHP Debug Connections"
-          
+
+          If you use Chrome as a browser, you can install the extension [Xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc). When ready to debug, click the debug button on the Xdebug helper, and click on "Start listening for PHP Debug Connections" within PHPStorm
+
           <img width="146" alt="xdebughelper" src="https://user-images.githubusercontent.com/361254/43093912-5a7a3bf2-8e66-11e8-9c11-811316d8f2ee.png">
           <img  width="50" alt="Start listening for PHP Debug Connections" src="https://user-images.githubusercontent.com/361254/43093985-8d4aa724-8e66-11e8-946c-5ccc83b62560.png">
 
         * Debug with Postman
 
-          When you just want to debug a specific API endpoint, you may just use Postman for the debugging.
+          It is possible to debug a specific API endpoint through Postman leveraging a similar approach.
+          In this example, we are going to debug the login authentication api endpoint rest/v11_1/oauth2/token. The first step is to add the cookie "XDEBUG_SESSION" in Postman. The same cookie is set through the Xdebug helper, and the keyword is referenced on the PHPstorm settings and on Xdebug PHP server side settings as well.
+          See screenshots below:
 
-          Take an example, you want to debug the login authentication api endpoint rest/v11_1/oauth2/token, you will just need to add a cookie "XDEBUG_SESSION" (The xdebug helper uses the same, and you can also see that in your PHPstorm setting you specifilly chose this as the IDE key)
           <img width="948" alt="Debug with Postman" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
           <img width="679" alt="Postman cookie setting for remote debug" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
 
