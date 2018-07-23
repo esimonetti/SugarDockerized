@@ -92,7 +92,6 @@ Apache web servers have PHP with enabled:
 
           <img width="146" alt="xdebughelper" src="https://user-images.githubusercontent.com/361254/43093912-5a7a3bf2-8e66-11e8-9c11-811316d8f2ee.png">
           <img  width="50" alt="Start listening for PHP Debug Connections" src="https://user-images.githubusercontent.com/361254/43093985-8d4aa724-8e66-11e8-946c-5ccc83b62560.png">
-
         * Debug with Postman
 
           It is possible to debug a specific API endpoint through Postman leveraging a similar approach.
@@ -101,7 +100,6 @@ Apache web servers have PHP with enabled:
 
           <img width="948" alt="Debug with Postman" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
           <img width="679" alt="Postman cookie setting for remote debug" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
-
 * XHProf or Tideways profilers depending on the version
 
 Session storage is completed leveraging the Redis container.
