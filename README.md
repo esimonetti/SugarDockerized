@@ -82,7 +82,9 @@ Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
 * Xdebug
     * If you use an IDE such as PHPStorm, you can setup DBGp Proxy under the menus Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Example settings are available in the screenshot below:
+
       <img width="1026" alt="PHPStorm xdebug settings" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
+
         * Debug with Xdebug Helper
           If you use Chrome as a browser, you can install the extension [Xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc). When ready to debug, click the debug button on the Xdebug helper, and click on "Start listening for PHP Debug Connections" within PHPStorm
 
