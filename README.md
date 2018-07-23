@@ -82,6 +82,21 @@ Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
 * xdebug
     * If you use IDE such as PHPStorm, you can setup DBGp Proxy in Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Here is an example setting: <img width="1026" alt="screen shot 2018-04-18 at 10 17 53 pm" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
+        * Debug with Xdebug Helper
+        
+          If you use Chrome browser, you can install extension [xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc), when you want to start the debug, you will just need to click the debug button on this xdebug helper, and on your PHPStorm click "Start listening for PHP Debug Connections"
+          
+          <img width="146" alt="xdebughelper" src="https://user-images.githubusercontent.com/361254/43093912-5a7a3bf2-8e66-11e8-9c11-811316d8f2ee.png">
+          <img  width="50" alt="Start listening for PHP Debug Connections" src="https://user-images.githubusercontent.com/361254/43093985-8d4aa724-8e66-11e8-946c-5ccc83b62560.png">
+
+        * Debug with Postman
+
+          When you just want to debug a specific API endpoint, you may just use Postman for the debugging.
+
+          Take an example, you want to debug the login authentication api endpoint rest/v11_1/oauth2/token, you will just need to add a cookie "XDEBUG_SESSION" (The xdebug helper uses the same, and you can also see that in your PHPstorm setting you specifilly chose this as the IDE key)
+          <img width="948" alt="screen shot 2018-07-23 at 11 02 16 am" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
+          <img width="679" alt="screen shot 2018-07-23 at 11 06 55 am" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
+
 * XHProf or Tideways profilers depending on the version
 
 Session storage is completed leveraging the Redis container.
