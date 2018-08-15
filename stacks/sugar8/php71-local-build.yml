@@ -1,12 +1,6 @@
 version: '2'
 
 services:
-    web1_volumes:
-        image: busybox
-        container_name: "sugar-web1-volumes"
-        volumes:
-        - web_volume:/var/www/html:z
-        - log_volume:/var/log:z
 
     web1:
         container_name: "sugar-web1"
@@ -17,8 +11,9 @@ services:
         - "80:80"
         extra_hosts:
         - "docker.local:127.0.0.1"
-        volumes_from:
-        - web1_volumes
+        volumes:
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
         depends_on:
         - mysql
         - elasticsearch
@@ -34,16 +29,18 @@ services:
         build: ../../images/php/71/ssh
         ports:
         - "14022:22"
-        volumes_from:
-            - web1_volumes
         volumes:
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
         - ssh_volume:/home/sugar:z
+
     cron:
         container_name: "sugar-cron"
         image: sugar_php71_cron
         build: ../../images/php/71/cron
-        volumes_from:
-        - web1_volumes
+        volumes:
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
         depends_on:
             - mysql
             - elasticsearch
@@ -53,6 +50,7 @@ services:
             - mysql
             - elasticsearch
             - redis
+
     mysql:
         container_name: "sugar-mysql"
         image: sugar_mysql
@@ -87,8 +85,9 @@ services:
         container_name: "sugar-permissions"
         image: sugar_permissions
         build: ../../images/permissions
-        volumes_from:
-        - web1_volumes
+        volumes:
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
 
 
 volumes:
