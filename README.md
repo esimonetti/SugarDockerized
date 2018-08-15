@@ -314,3 +314,10 @@ Tweak the above settings based on your specific needs.
 ## Mac users notes
 These stacks have been built on a Mac platform, that is known to not perform well with [Docker mounted volumes](https://github.com/docker/for-mac/issues/77).
 Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, running a NFS server. I either mount NFS on my Mac when needed or SSH directly into the VM. [The Debian Docker VirtualBox VM for Mac is available here](https://github.com/esimonetti/DebianDockerMac) with its [latest downloadable version here](https://github.com/esimonetti/DebianDockerMac/releases/latest).
+
+## Karel's comment
+This branch is a fork for macos - docker is using volumes instead of regular filesystem. At this stage, only stacks/sugar8/php71-local-build.yml compose file works.
+
+You can run it like `docker-compose -f <path>/stacks/sugar8/php71-local-build.yml up -d`. After that you need to run script `utilities/setsshkey.sh` which will setup ssh key. After that, you can ssh to server as usual. The sugar root is `/var/www/html/sugar` not `sugarcrm`!!
+
+Have fun :)
