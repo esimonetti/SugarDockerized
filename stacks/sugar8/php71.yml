@@ -1,71 +1,56 @@
 version: '2'
 
 services:
-    mysql_volume:
-        image: busybox
-        container_name: mysql_volume
-        volumes:
-        - mysql_volume:/var/lib/mysql:z
-
-    web1_volume:
-        image: busybox
-        container_name: sugarcrm_data
-        volumes:
-        - web1_volume:/var/www/html:z
-
     web1:
         container_name: "sugar-web1"
         image: esimonetti/sugardockerized:php7.1-apache-1.01
         ports:
-        - "80:80"
-        - "14022:22"
+            - "80:80"
         extra_hosts:
-        - "docker.local:127.0.0.1"
-        volumes_from:
-        - web1_volume
+            - "docker.local:127.0.0.1"
         volumes:
-            - log_volume:/var/log:Z
+            - ../../data/app:/var/www/html
         depends_on:
-        - mysql
-        - elasticsearch
-        - redis
-        - permissions
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
         links:
-        - mysql
-        - elasticsearch
-        - redis
+            - mysql
+            - elasticsearch
+            - redis
     cron:
         container_name: "sugar-cron"
         image: esimonetti/sugardockerized:php7.1-cron-1.01
-        volumes_from:
-        - web1_volume
+        volumes:
+            - ../../data/app:/var/www/html
         depends_on:
-        - mysql
-        - elasticsearch
-        - redis
-        - permissions
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
         links:
-        - mysql
-        - elasticsearch
-        - redis
+            - mysql
+            - elasticsearch
+            - redis
     mysql:
         container_name: "sugar-mysql"
         image: esimonetti/sugardockerized:mysql5.7-1.06
         ports:
-        - "3306:3306"
-        volumes_from:
-        - mysql_volume
+            - "3306:3306"
+        volumes:
+            - ../../data/mysql/57:/var/lib/mysql
         environment:
-        - MYSQL_ROOT_PASSWORD=root
-        - MYSQL_USER=sugar
-        - MYSQL_PASSWORD=sugar
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=sugar
+            - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
         image: esimonetti/sugardockerized:elasticsearch5.6
         volumes:
-        - elasticsearch_volume:/usr/share/elasticsearch/data:z
+            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
         environment:
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
             memlock:
                 soft: -1
@@ -75,21 +60,9 @@ services:
         container_name: "sugar-redis"
         image: redis:latest
         volumes:
-        - redis_volume:/data:z
+            - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
         image: esimonetti/sugardockerized:permissions
-        volumes_from:
-        - web1_volume
-
-volumes:
-    mysql_volume:
-        driver: local
-    web1_volume:
-        driver: local
-    log_volume:
-        driver: local
-    elasticsearch_volume:
-        driver: local
-    redis_volume:
-        driver: local
+        volumes:
+            - ../../data/app:/var/www/html
