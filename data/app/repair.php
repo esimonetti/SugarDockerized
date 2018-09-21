@@ -71,7 +71,7 @@ $start_time = microtime(true);
 
 echo 'Repairing...' . PHP_EOL;
 
-if(SugarCache::instance()->useBackend()) {
+if (SugarCache::instance()->useBackend()) {
     // clear cache
     SugarCache::instance()->reset();
     SugarCache::instance()->resetFull();
@@ -134,4 +134,10 @@ $app_strings = return_application_language($current_language);
 $sd = new ServiceDictionary();
 $sd->buildAllDictionaries();
 
-print('Completed in ' . (int)(microtime(true) - $start_time) . ' seconds.' . PHP_EOL);
+// when the other register shutdown functionalities complete, exit this script
+register_shutdown_function(
+    function($start) {
+        print('Repair completed in ' . (int)(microtime(true) - $start) . ' seconds.' . PHP_EOL);
+    },
+    $start_time
+);
