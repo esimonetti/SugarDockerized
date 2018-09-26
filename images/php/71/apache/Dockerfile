@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y graphviz --no-install-recommends && rm 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 RUN a2enmod headers expires deflate rewrite
 
-RUN adduser sugar --disabled-password --disabled-login --gecos ""
+RUN adduser sugar --uid 1500 --disabled-password --disabled-login --gecos ""
 RUN sed -i "s#APACHE_RUN_USER=.*#APACHE_RUN_USER=sugar#" /etc/apache2/envvars \
     && sed -i "s#APACHE_RUN_GROUP=.*#APACHE_RUN_GROUP=sugar#" /etc/apache2/envvars
 

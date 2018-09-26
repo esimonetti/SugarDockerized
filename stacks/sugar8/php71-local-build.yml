@@ -1,31 +1,46 @@
 version: '2'
 
 services:
+
     web1:
         container_name: "sugar-web1"
         image: sugar_php71_web
         build: ../../images/php/71/apache
+
         ports:
-            - "80:80"
+        - "80:80"
         extra_hosts:
-            - "docker.local:127.0.0.1"
+        - "docker.local:127.0.0.1"
         volumes:
-            - ../../data/app:/var/www/html
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
         depends_on:
-            - mysql
-            - elasticsearch
-            - redis
-            - permissions
+        - mysql
+        - elasticsearch
+        - redis
+        - permissions
         links:
-            - mysql
-            - elasticsearch
-            - redis
+        - mysql
+        - elasticsearch
+        - redis
+    ssh:
+        container_name: "sugar-ssh"
+        image: sugar_php71_ssh
+        build: ../../images/php/71/ssh
+        ports:
+        - "14022:22"
+        volumes:
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
+        - ssh_volume:/home/sugar:z
+
     cron:
         container_name: "sugar-cron"
         image: sugar_php71_cron
         build: ../../images/php/71/cron
         volumes:
-            - ../../data/app:/var/www/html
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
         depends_on:
             - mysql
             - elasticsearch
@@ -35,6 +50,7 @@ services:
             - mysql
             - elasticsearch
             - redis
+
     mysql:
         container_name: "sugar-mysql"
         image: sugar_mysql
@@ -42,7 +58,7 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - ../../data/mysql/57:/var/lib/mysql
+        - mysql_volume:/var/lib/mysql:z
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
@@ -52,7 +68,7 @@ services:
         image: sugar_elastic56
         build: ../../images/elasticsearch/56
         volumes:
-            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
+        - elasticsearch_volume:/usr/share/elasticsearch/data:z
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
@@ -64,10 +80,26 @@ services:
         container_name: "sugar-redis"
         image: redis:latest
         volumes:
-            - ../../data/redis:/data
+        - redis_volume:/data:z
     permissions:
         container_name: "sugar-permissions"
         image: sugar_permissions
         build: ../../images/permissions
         volumes:
-            - ../../data/app:/var/www/html
+        - web_volume:/var/www/html:z
+        - log_volume:/var/log:z
+
+
+volumes:
+    mysql_volume:
+        driver: local
+    web_volume:
+        driver: local
+    log_volume:
+        driver: local
+    elasticsearch_volume:
+        driver: local
+    redis_volume:
+        driver: local
+    ssh_volume:
+        driver: local
