@@ -4,7 +4,7 @@ action.destructive_requires_name: true
 cluster.indices.close.enable: false
 script.allowed_types: none
 script.allowed_contexts: search
-xpack.security.enabled: false
-xpack.monitoring.enabled: false
+#xpack.security.enabled: false
+#xpack.monitoring.enabled: false
 bootstrap.memory_lock: true
 network.host: _site_
