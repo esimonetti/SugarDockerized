@@ -8,7 +8,7 @@ else
 
     echo Confirming that MySQL and Elasticsearch are available
 
-    MAX=120
+    MAX=60
     INTERVAL=5
     MAX_MYSQL=$MAX
     MAX_ELASTIC=$MAX

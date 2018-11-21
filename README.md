@@ -30,6 +30,7 @@ There are multiple stack components as docker containers, that perform different
 ## Get the system up and running
 * The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
+* Run the utility `./utilities/setownership.sh` to set the correct ownership of the data directory
 * Select the stack combination to run by choosing the correct yml file within the subdirectories inside [stacks](stacks/). See next step for more details and an example.
 * Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`
 
@@ -155,6 +156,12 @@ If you do need multiple instances (eg: a Sugar version 8 and a version 7.9), as 
 ## Tips
 ### Utilities
 To help with development, there are a set of tools within the `utilities` directory of the repository.
+#### setownership.sh
+```./utilities/setownership.sh```
+```
+All directories and files within "data" are now owned by uid:gid 1000:1000
+```
+It sets the correct ownership of the data directory
 #### stack.sh
 ```./utilities/stack.sh 80 down```
 ```
@@ -174,7 +181,7 @@ Removing sugar-elasticsearch ... done
 Removing network sugar8_default
 No stopped containers
 ```
-It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80, 81) and up/down
+It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80 etc) and up/down
 #### backup.sh
 ```./utilities/backup.sh 802_2018_11_21```
 ```
