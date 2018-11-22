@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec sugar-cron bash -c "cd /var/www/html && php repair.php --instance sugar"
+./utilities/repair.sh
