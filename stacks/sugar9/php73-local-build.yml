@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+    web1:
+        container_name: "sugar-web1"
+        image: sugar_php73_web
+        build: ../../images/php/73/apache
+        ports:
+            - "80:80"
+        extra_hosts:
+            - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
+        volumes:
+            - ../../data/app:/var/www/html
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+    cron:
+        container_name: "sugar-cron"
+        image: sugar_php73_cron
+        build: ../../images/php/73/cron
+        volumes:
+            - ../../data/app:/var/www/html
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+    mysql:
+        container_name: "sugar-mysql"
+        image: sugar_mysql
+        build: ../../images/mysql/57
+        ports:
+            - "3306:3306"
+        volumes:
+            - ../../data/mysql/57:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=sugar
+            - MYSQL_PASSWORD=sugar
+    elasticsearch:
+        container_name: "sugar-elasticsearch"
+        image: sugar_elastic62
+        build: ../../images/elasticsearch/62
+        volumes:
+            - ../../data/elasticsearch/62:/usr/share/elasticsearch/data
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+    redis:
+        container_name: "sugar-redis"
+        image: redis:latest
+        volumes:
+            - ../../data/redis:/data
+    permissions:
+        container_name: "sugar-permissions"
+        image: sugar_permissions
+        build: ../../images/permissions
+        volumes:
+            - ../../data/app:/var/www/html
