@@ -3,7 +3,8 @@ version: '2'
 services:
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.1-apache-1.01
+        image: sugar_php71_web_sury
+        build: ../../images/php/71/apache-sury-repo
         ports:
             - "80:80"
         extra_hosts:
@@ -21,7 +22,8 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php7.1-cron-1.01
+        image: sugar_php71_cron_sury
+        build: ../../images/php/71/cron-sury-repo
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -35,7 +37,8 @@ services:
             - redis
     mysql:
         container_name: "sugar-mysql"
-        image: esimonetti/sugardockerized:mysql5.7-1.06
+        image: sugar_mysql
+        build: ../../images/mysql/57
         ports:
             - "3306:3306"
         volumes:
@@ -46,9 +49,10 @@ services:
             - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
-        image: esimonetti/sugardockerized:elasticsearch6.2-1.05
+        image: sugar_elastic56
+        build: ../../images/elasticsearch/56
         volumes:
-            - ../../data/elasticsearch/62:/usr/share/elasticsearch/data
+            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
@@ -63,6 +67,7 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: esimonetti/sugardockerized:permissions
+        image: sugar_permissions
+        build: ../../images/permissions
         volumes:
             - ../../data/app:/var/www/html

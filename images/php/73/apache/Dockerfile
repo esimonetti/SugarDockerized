@@ -4,6 +4,7 @@ MAINTAINER enrico.simonetti@gmail.com
 RUN apt-get update \
     && apt-get install -y \
     graphviz \
+    libmcrypt-dev \
     libpng-dev \
     libgmp-dev \
     libzip-dev \
@@ -66,24 +67,29 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
+    # pinning version 1.0.1 as 1.0.0 would not install
+    && pecl install mcrypt-1.0.1 \
+    && docker-php-ext-enable mcrypt \
     # problem for xdebug 2.6.1 with php 7.3rc (https://bugs.xdebug.org/view.php?id=1584)
     && pecl install xdebug-2.7.0beta1 \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+# disable by default, it can be enabled locally
+#COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # tideways does not seem to support php 7.3rc yet
 #COPY config/php/mods-available/tideways.ini /usr/local/etc/php/conf.d/tideways.ini
 # problems with seg faults on php 7.3rc
 #COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 #COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
-# xhprof does not seem to support 7.3rc yet
-#RUN git clone https://github.com/longxinH/xhprof.git xhprof \
-#    && cd xhprof/extension/ \
-#    && /usr/local/bin/phpize ./configure --with-php-config=/usr/local/bin/php-config \
-#    make --file Makefile.global && make install --file Makefile.global
+RUN git clone https://github.com/longxinH/xhprof.git xhprof \
+    && cd xhprof/extension/ \
+    && /usr/local/bin/phpize \
+    && ./configure --with-php-config=/usr/local/bin/php-config \
+    && make \
+    && make install
 
-#COPY config/php/mods-available/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
+COPY config/php/mods-available/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
 
 WORKDIR "/var/www/html/sugar"
