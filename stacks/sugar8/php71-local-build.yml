@@ -3,8 +3,8 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugar_php71_native_web
-        build: ../../images/php/71/apache-native-php-image
+        image: sugar_php71_web
+        build: ../../images/php/71/apache
         ports:
             - "80:80"
         extra_hosts:
@@ -25,8 +25,8 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: sugar_php71_native_cron
-        build: ../../images/php/71/cron-native-php-image
+        image: sugar_php71_cron
+        build: ../../images/php/71/cron
         volumes:
             - ../../data/app:/var/www/html
         depends_on:

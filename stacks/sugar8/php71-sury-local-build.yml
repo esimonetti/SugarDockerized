@@ -3,7 +3,7 @@ version: '2'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugar_php71_web
+        image: sugar_php71_web_sury
         build: ../../images/php/71/apache-sury-repo
         ports:
             - "80:80"
@@ -22,7 +22,7 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: sugar_php71_cron
+        image: sugar_php71_cron_sury
         build: ../../images/php/71/cron-sury-repo
         volumes:
             - ../../data/app:/var/www/html
