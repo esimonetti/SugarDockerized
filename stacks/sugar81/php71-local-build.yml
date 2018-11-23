@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
     web1:
@@ -9,6 +9,9 @@ services:
             - "80:80"
         extra_hosts:
             - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -59,7 +62,6 @@ services:
             memlock:
                 soft: -1
                 hard: -1
-        mem_limit: 1g
     redis:
         container_name: "sugar-redis"
         image: redis:latest

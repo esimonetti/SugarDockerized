@@ -3,6 +3,7 @@ version: '2'
 services:
     web1:
         container_name: "sugar-web1"
+        # last sury image
         image: esimonetti/sugardockerized:php7.1-apache-1.01
         ports:
             - "80:80"
@@ -21,6 +22,7 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
+        # last sury image
         image: esimonetti/sugardockerized:php7.1-cron-1.01
         volumes:
             - ../../data/app:/var/www/html
@@ -46,9 +48,9 @@ services:
             - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
-        image: esimonetti/sugardockerized:elasticsearch6.2-1.05
+        image: esimonetti/sugardockerized:elasticsearch5.6
         volumes:
-            - ../../data/elasticsearch/62:/usr/share/elasticsearch/data
+            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
