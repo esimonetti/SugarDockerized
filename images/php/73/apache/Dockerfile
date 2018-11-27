@@ -79,9 +79,8 @@ RUN docker-php-ext-install mysqli \
 #COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # tideways does not seem to support php 7.3rc yet
 #COPY config/php/mods-available/tideways.ini /usr/local/etc/php/conf.d/tideways.ini
-# problems with seg faults on php 7.3rc
-#COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-#COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
+COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
 RUN git clone https://github.com/longxinH/xhprof.git xhprof \
     && cd xhprof/extension/ \
