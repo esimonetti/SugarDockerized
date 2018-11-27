@@ -181,7 +181,8 @@ Removing sugar-elasticsearch ... done
 Removing network sugar8_default
 No stopped containers
 ```
-It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80 etc) and up/down
+It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80 etc) and up/down.
+To know all the available stack combinations available to the script for quick boot, have a look at the configuration file `./utilities/stacks.conf`.
 #### backup.sh
 ```./utilities/backup.sh 802_2018_11_21```
 ```

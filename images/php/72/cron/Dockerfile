@@ -1,9 +1,11 @@
-FROM php:7.1-apache
+FROM php:7.2-cli
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update \
     && apt-get install -y \
-    graphviz \
+    sudo \
+    vim \
+    unzip \
     libmcrypt-dev \
     libpng-dev \
     libgmp-dev \
@@ -25,48 +27,30 @@ RUN apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN adduser sugar --disabled-password --disabled-login --gecos ""
+RUN adduser sugar --disabled-password --disabled-login --gecos "" \
+    && echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar
 
 RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_log = /var/log/apache2/error.log' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'error_log = /proc/1/fd/1' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'post_max_size = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'max_execution_time = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'max_input_time = 600' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'max_execution_time = -1' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'realpath_cache_size = 512k' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'realpath_cache_ttl = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'mbstring.func_overload = 0' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.use_cookies = 1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.cookie_httponly = 1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.use_trans_sid = 0' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.save_handler = redis' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.save_path = "tcp://sugar-redis:6379"' >> /usr/local/etc/php/conf.d/docker.ini
-
-COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
-COPY config/apache2/sites-available/sugar.conf /etc/apache2/sites-available/sugar.conf
-
-RUN set -ex \
-    && . "/etc/apache2/envvars" \
-    && ln -sfT /dev/stderr "$APACHE_LOG_DIR/error.log" \
-    && ln -sfT /dev/stdout "$APACHE_LOG_DIR/access.log" \
-    && ln -sfT /dev/stdout "$APACHE_LOG_DIR/other_vhosts_access.log" \
-    && a2enmod headers expires deflate rewrite \
-    && sed -i "s#Timeout .*#Timeout 600#" /etc/apache2/apache2.conf \
-    && a2dissite 000-default \
-    && a2ensite sugar
+    && echo 'mbstring.func_overload = 0' >> /usr/local/etc/php/conf.d/docker.ini
 
 RUN docker-php-ext-install mysqli \
-    && docker-php-ext-install mcrypt \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
+    # pinning version 1.0.1 as 1.0.0 would not install
+    && pecl install mcrypt-1.0.1 \
+    && docker-php-ext-enable mcrypt \
     && pecl install xdebug \
     && pecl install redis \
     && docker-php-ext-enable redis
@@ -86,4 +70,13 @@ RUN git clone https://github.com/longxinH/xhprof.git xhprof \
 
 COPY config/php/mods-available/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
 
+RUN curl -sS http://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+COPY apps/sugarcron /usr/local/bin/sugarcron
+RUN chmod +x /usr/local/bin/sugarcron
+
 WORKDIR "/var/www/html/sugar"
+USER sugar
+
+CMD ["/usr/local/bin/sugarcron"]
