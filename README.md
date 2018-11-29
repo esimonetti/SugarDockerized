@@ -83,7 +83,8 @@ Apache web servers have enabled:
 ### PHP additional information
 Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
-* Xdebug
+* XHProf and Tideways profilers
+* Xdebug is installed but it is not enabled by default (due to its performance impact). If there is the need to enable it, you would have to uncomment the configuration option on the PHP Dockerfile of choice, and leverage the stack configuration with local build.
     * If you use an IDE such as PHPStorm, you can setup DBGp Proxy under the menus Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Example settings are available in the screenshot below:
 
       <img width="1026" alt="PHPStorm xdebug settings" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
@@ -104,7 +105,6 @@ Apache web servers have PHP with enabled:
           <img width="948" alt="Debug with Postman" src="https://user-images.githubusercontent.com/361254/43094521-0cf97058-8e68-11e8-8fc3-303c513dc1e9.png">
           <img width="679" alt="Postman cookie setting for remote debug" src="https://user-images.githubusercontent.com/361254/43094713-9190640c-8e68-11e8-95e0-11b866e452d4.png">
 
-* XHProf or Tideways profilers depending on the version
 
 Session storage is completed leveraging the Redis container.
 
@@ -282,10 +282,10 @@ If needed, sudo is available as well without the need of entering a password. Ju
 
 ### XHProf / Tideways profiling data collection
 
-XHProf extension is configured on PHP 5.6 stacks, while Tideways extension is configured on PHP 7.1 stacks.
+Both XHProf extension and Tideways extensions are configured in most stacks.
 
 To enable profiling:
-* Add [this custom code](https://gist.github.com/esimonetti/4c84541d49ee0828b31de91d30bcedb0) into your Sugar installation and repair the system (only if leveraging Tideways). Please note that the custom code does not have a namespace which is **intentional**. Adding a namespace will cause the profiling implementation to not find the TidewaysProf class.
+* If you choose to use Tideways, add [this custom code](https://github.com/esimonetti/SugarTidewaysProfiling) to your Sugar installation and repair the system.
 * Configure `config_override.php` specific settings (see below based on the stack extension)
 
 XHProf Sugar `config_override.php` configuration:
@@ -299,7 +299,7 @@ $sugar_config['xhprof_config']['flags'] = 0;
 Tideways Sugar `config_override.php` configuration:
 ```
 $sugar_config['xhprof_config']['enable'] = true;
-$sugar_config['xhprof_config']['manager'] = 'TidewaysProf';
+$sugar_config['xhprof_config']['manager'] = 'SugarTidewaysProf';
 $sugar_config['xhprof_config']['log_to'] = '../profiling';
 $sugar_config['xhprof_config']['sample_rate'] = 1;
 $sugar_config['xhprof_config']['flags'] = 0;
