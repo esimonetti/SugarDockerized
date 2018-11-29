@@ -31,14 +31,16 @@ else
                 echo Application files backed up on $BACKUP_DIR/sugar
             else
                 echo Application files NOT backed up!!!
+                echo Please discard the current backup
             fi
             mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
     
-            if [ -f $BACKUP_DIR/sugar.sql ]
+            if [ \( -f $BACKUP_DIR/sugar.sql \) -a \( "$?" -eq 0 \) ]
             then
                 echo Database backed up on $BACKUP_DIR/sugar.sql
             else
-                echo Database NOT backed up!!!
+                echo Database NOT backed up!!! Please check that the \"sugar\" database exists!
+                echo Please discard the current backup
             fi
         else
             if [ ! -d 'data' ]
