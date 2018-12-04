@@ -13,7 +13,7 @@ then
     # check if the stack is running
     running=`docker ps | grep sugar-web1 | wc -l`
 
-    if [ $running -gt 0 ] && [ $2 == 'up' ]
+    if [ $running -gt 0 ] && [ "$2" == 'up' ]
     then
         echo A stack is running, please take the stack down first
     else
