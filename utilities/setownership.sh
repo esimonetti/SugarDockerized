@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 # Enrico Simonetti
 # enricosimonetti.com
