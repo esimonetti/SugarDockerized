@@ -3,7 +3,7 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## Stacks available
 * php73.yml - Main reference stack - Single web server
-    * PHP - 7.3 rc
+    * PHP - 7.3
     * MySQL - 5.7
     * Elasticsearch - 6.2
     * Redis - latest
