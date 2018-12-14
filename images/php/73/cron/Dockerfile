@@ -1,4 +1,4 @@
-FROM php:7.3-rc-cli
+FROM php:7.3-cli
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update \
@@ -6,7 +6,6 @@ RUN apt-get update \
     sudo \
     vim \
     unzip \
-    libmcrypt-dev \
     libpng-dev \
     libgmp-dev \
     libzip-dev \
@@ -40,9 +39,6 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
-    # pinning version 1.0.1 as 1.0.0 would not install
-    && pecl install mcrypt-1.0.1 \
-    && docker-php-ext-enable mcrypt \
     # problem for xdebug 2.6.1 with php 7.3rc (https://bugs.xdebug.org/view.php?id=1584)
     && pecl install xdebug-2.7.0beta1 \
     && pecl install redis \

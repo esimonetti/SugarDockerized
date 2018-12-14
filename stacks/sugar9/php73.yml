@@ -3,7 +3,7 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.3-rc-apache-1.12
+        image: esimonetti/sugardockerized:php7.3-apache-1.13
         ports:
             - "80:80"
         extra_hosts:
@@ -24,7 +24,7 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php7.3-rc-cron-1.12
+        image: esimonetti/sugardockerized:php7.3-cron-1.13
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
