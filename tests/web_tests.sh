@@ -32,6 +32,7 @@ else
         if [ $MAX_MYSQL -le 0 ]
         then
             echo Maximum MySQL timeout reached
+            docker logs sugar-mysql
             exit 1
         fi
     done
@@ -43,6 +44,7 @@ else
         if [ $MAX_ELASTIC -le 0 ]
         then
             echo Maximum Elasticsearch timeout reached
+            docker logs sugar-elasticsearch
             exit 1
         fi
     done
