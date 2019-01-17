@@ -55,6 +55,9 @@ else
         if [ $OUTPUT_CLI != '1' ]
         then
             echo Error for CLI script test_$i.php
+            echo Output:
+            echo `./utilities/runcli.sh "php ./web_tests/$3/test_$i.php"`
+            echo 
             echo Completing a syntax check for script ./web_tests/$3/test_$i.php
             echo `./utilities/runcli.sh "php -l ./web_tests/$3/test_$i.php"`
             echo Retrieving complete logs from the Cron CLI server:
@@ -68,6 +71,9 @@ else
         if [ $OUTPUT_WEB != '1' ]
         then
             echo Error for web script test_$i.php
+            echo Output:
+            echo `curl -s http://docker.local/sugar/web_tests/$3/test_$i.php`
+            echo 
             echo Retrieving complete logs from the web server:
             docker logs sugar-web1
             exit 1
