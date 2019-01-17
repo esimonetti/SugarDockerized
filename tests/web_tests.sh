@@ -6,7 +6,7 @@ else
     echo Installing composer dependencies if any
     ./utilities/runcli.sh "cd ./web_tests/$3/ && composer install"
 
-    echo Confirming that MySQL and Elasticsearch are available
+    echo Confirming that Apache, MySQL and Elasticsearch are available
 
     MAX=60
     INTERVAL=5
