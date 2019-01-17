@@ -17,8 +17,16 @@ then
     then
         echo A stack is running, please take the stack down first
     else
-        sudo chown -R 1000:1000 data
-        echo All directories and files within \"data\" are now owned by uid:gid 1000:1000
+        sudo chown -R 1000:1000 data/app
+        echo All directories and files within \"data/app\" are now owned by uid:gid 1000:1000
+        sudo chown -R 102:102 data/elasticsearch
+        echo All directories and files within \"data/elasticsearch\" are now owned by uid:gid 102:102
+        sudo chown -R 1000:1000 data/elasticsearch/62
+        echo All directories and files within \"data/elasticsearch/62\" are now owned by uid:gid 1000:1000
+        sudo chown -R 999:999 data/mysql
+        echo All directories and files within \"data/mysql\" are now owned by uid:gid 999:999
+        sudo chown -R 999:999 data/redis
+        echo All directories and files within \"data/redis\" are now owned by uid:gid 999:999
     fi
 else
     if [ ! -d 'data' ]

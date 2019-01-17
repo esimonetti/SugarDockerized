@@ -6,12 +6,24 @@ else
     echo Installing composer dependencies if any
     ./utilities/runcli.sh "cd ./web_tests/$3/ && composer install"
 
-    echo Confirming that MySQL and Elasticsearch are available
+    echo Confirming that Apache, MySQL and Elasticsearch are available
 
     MAX=60
     INTERVAL=5
+    MAX_APACHE=$MAX
     MAX_MYSQL=$MAX
     MAX_ELASTIC=$MAX
+
+    while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-web1/80) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
+        echo Apache is not ready... sleeping...
+        sleep $INTERVAL
+        MAX_APACHE=$((MAX_APACHE - $INTERVAL))
+        if [ $MAX_APACHE -le 0 ]
+        then
+            echo Maximum Apache timeout reached
+            exit 1
+        fi
+    done
 
     while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-mysql/3306) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
         echo MySQL is not ready... sleeping...
@@ -20,6 +32,7 @@ else
         if [ $MAX_MYSQL -le 0 ]
         then
             echo Maximum MySQL timeout reached
+            docker logs sugar-mysql
             exit 1
         fi
     done
@@ -31,6 +44,7 @@ else
         if [ $MAX_ELASTIC -le 0 ]
         then
             echo Maximum Elasticsearch timeout reached
+            docker logs sugar-elasticsearch
             exit 1
         fi
     done
@@ -43,6 +57,9 @@ else
         if [ $OUTPUT_CLI != '1' ]
         then
             echo Error for CLI script test_$i.php
+            echo Output:
+            echo `./utilities/runcli.sh "php ./web_tests/$3/test_$i.php"`
+            echo 
             echo Completing a syntax check for script ./web_tests/$3/test_$i.php
             echo `./utilities/runcli.sh "php -l ./web_tests/$3/test_$i.php"`
             echo Retrieving complete logs from the Cron CLI server:
@@ -56,6 +73,9 @@ else
         if [ $OUTPUT_WEB != '1' ]
         then
             echo Error for web script test_$i.php
+            echo Output:
+            echo `curl -s http://docker.local/sugar/web_tests/$3/test_$i.php`
+            echo 
             echo Retrieving complete logs from the web server:
             docker logs sugar-web1
             exit 1

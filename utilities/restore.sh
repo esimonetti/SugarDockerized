@@ -8,7 +8,14 @@ then
     echo Provide the backup suffix as script parameters
 else
     # check if the stack is running
-    running=`docker ps | grep sugar-web1 | wc -l`
+    running=`docker ps | grep sugar-mysql | wc -l`
+
+    # check if rsync is installed
+    if [ `command -v rsync | grep rsync | wc -l` -eq 0 ]
+    then
+        echo Please install \"rsync\" before running the restore command
+        exit 1
+    fi
 
     if [ $running -gt 0 ]
     then
@@ -31,9 +38,10 @@ else
             sudo rsync -a $BACKUP_DIR/sugar data/app/
             docker start sugar-permissions
             echo Application files restored
-            mysqladmin -h docker.local -f -u root -proot drop sugar
-            mysqladmin -h docker.local -u root -proot create sugar
-            mysql -h docker.local -u root -proot sugar < $BACKUP_DIR/sugar.sql
+            docker exec -it sugar-mysql mysqladmin -h localhost -f -u root -proot drop sugar | grep -v "mysqladmin: \[Warning\]"
+            docker exec -it sugar-mysql mysqladmin -h localhost -u root -proot create sugar | grep -v "mysqladmin: \[Warning\]"
+            echo Restoring database
+            cat $BACKUP_DIR/sugar.sql | docker exec -i sugar-mysql mysql -h localhost -u root -proot sugar
             echo Database restored
             ./utilities/runcli.sh php ../repair.php --instance .
             echo System repaired

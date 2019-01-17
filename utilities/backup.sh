@@ -8,7 +8,14 @@ then
     echo Provide the backup suffix as script parameters
 else
     # check if the stack is running
-    running=`docker ps | grep sugar-web1 | wc -l`
+    running=`docker ps | grep sugar-mysql | wc -l`
+
+    # check if rsync is installed
+    if [ `command -v rsync | grep rsync | wc -l` -eq 0 ]
+    then
+        echo Please install \"rsync\" before running the backup command
+        exit 1
+    fi
 
     if [ $running -gt 0 ]
     then
@@ -33,7 +40,9 @@ else
                 echo Application files NOT backed up!!!
                 echo Please discard the current backup
             fi
-            mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
+            #mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
+            # running mysqldump on the mysql container instead
+            docker exec -it sugar-mysql mysqldump -h localhost -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar | grep -v "mysqldump: \[Warning\]" > $BACKUP_DIR/sugar.sql
     
             if [ \( -f $BACKUP_DIR/sugar.sql \) -a \( "$?" -eq 0 \) ]
             then
