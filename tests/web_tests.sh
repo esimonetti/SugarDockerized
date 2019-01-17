@@ -10,8 +10,20 @@ else
 
     MAX=60
     INTERVAL=5
+    MAX_APACHE=$MAX
     MAX_MYSQL=$MAX
     MAX_ELASTIC=$MAX
+
+    while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-web1/80) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
+        echo Apache is not ready... sleeping...
+        sleep $INTERVAL
+        MAX_APACHE=$((MAX_APACHE - $INTERVAL))
+        if [ $MAX_APACHE -le 0 ]
+        then
+            echo Maximum Apache timeout reached
+            exit 1
+        fi
+    done
 
     while [ `./utilities/runcli.sh "(echo >/dev/tcp/sugar-mysql/3306) &>/dev/null && echo 1 || echo 0"` != "1" ] ; do
         echo MySQL is not ready... sleeping...
