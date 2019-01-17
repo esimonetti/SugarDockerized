@@ -4,14 +4,18 @@ sudo: required
 services:
   - docker
 
+addons:
+  hosts:
+    - docker.local
+
 env:
 #  - STACK=stacks/sugar77/php56-local-build.yml SUGAR=7.9 PHP=5.6
-#  - STACK=stacks/sugar79/php56.yml SUGAR=7.9 PHP=5.6
-#  - STACK=stacks/sugar79/php71.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar79/php56.yml SUGAR=7.9 PHP=5.6
+  - STACK=stacks/sugar79/php71.yml SUGAR=7.9 PHP=7.1
 #  - STACK=stacks/sugar79/php71lb.yml SUGAR=7.9 PHP=7.1
 #  - STACK=stacks/sugar79/php71-local-build.yml SUGAR=7.9 PHP=7.1
-#  - STACK=stacks/sugar79upgrade/php71.yml SUGAR=7.9 PHP=7.1
-#  - STACK=stacks/sugar710/php71.yml SUGAR=7.10 PHP=7.1
+  - STACK=stacks/sugar79upgrade/php71.yml SUGAR=7.9 PHP=7.1
+  - STACK=stacks/sugar710/php71.yml SUGAR=7.10 PHP=7.1
   - STACK=stacks/sugar8/php71.yml SUGAR=8.0 PHP=7.1
   - STACK=stacks/sugar8/php71-local-build.yml SUGAR=8.0 PHP=7.1
 #  - STACK=stacks/sugar81/php71.yml SUGAR=8.1 PHP=7.1
@@ -26,7 +30,6 @@ env:
 before_install:
   - sudo service mysql stop
   - sudo service elasticsearch stop
-  - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
 install:
   - sudo sysctl -w vm.max_map_count=262144
   - cp -r ./tests/web_tests ./data/app/sugar/

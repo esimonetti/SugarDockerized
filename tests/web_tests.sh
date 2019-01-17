@@ -72,7 +72,7 @@ else
         then
             echo Error for web script test_$i.php
             echo Output:
-            echo `curl -s http://localhost/sugar/web_tests/$3/test_$i.php`
+            echo `curl -s http://docker.local/sugar/web_tests/$3/test_$i.php`
             echo 
             echo Retrieving complete logs from the web server:
             docker logs sugar-web1
