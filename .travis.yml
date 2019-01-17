@@ -26,8 +26,8 @@ env:
 before_install:
   - sudo service mysql stop
   - sudo service elasticsearch stop
-install:
   - echo "docker.local 127.0.0.1" | sudo tee -a /etc/hosts > /dev/null
+install:
   - sudo sysctl -w vm.max_map_count=262144
   - cp -r ./tests/web_tests ./data/app/sugar/
 script:
