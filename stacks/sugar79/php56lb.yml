@@ -31,6 +31,8 @@ services:
     web2:
         container_name: "sugar-web2"
         image: esimonetti/sugardockerized:php5.6-apache-1.14
+        extra_hosts:
+            - "docker.local:127.0.0.1"
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -42,8 +44,6 @@ services:
             - mysql
             - elasticsearch
             - redis
-        extra_hosts:
-            - "docker.local:127.0.0.1"
     cron:
         container_name: "sugar-cron"
         image: esimonetti/sugardockerized:php5.6-cron

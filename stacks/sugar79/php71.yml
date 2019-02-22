@@ -8,6 +8,9 @@ services:
             - "80:80"
         extra_hosts:
             - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
         depends_on:

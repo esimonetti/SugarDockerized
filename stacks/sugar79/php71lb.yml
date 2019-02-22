@@ -17,6 +17,9 @@ services:
         image: esimonetti/sugardockerized:php7.1-apache-1.14
         extra_hosts:
             - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -31,6 +34,11 @@ services:
     web2:
         container_name: "sugar-web2"
         image: esimonetti/sugardockerized:php7.1-apache-1.14
+        extra_hosts:
+            - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -42,8 +50,6 @@ services:
             - mysql
             - elasticsearch
             - redis
-        extra_hosts:
-            - "docker.local:127.0.0.1"
     cron:
         container_name: "sugar-cron"
         image: esimonetti/sugardockerized:php7.1-cron-1.12
