@@ -35,16 +35,23 @@ else
             then
                 rm -rf data/app/sugar
             fi
+            echo Restoring application files
             sudo rsync -a $BACKUP_DIR/sugar data/app/
-            docker start sugar-permissions
             echo Application files restored
+            echo Fixing permissions
+            docker start sugar-permissions
+            echo Permissions fixed
+            echo Restoring database
             docker exec -it sugar-mysql mysqladmin -h localhost -f -u root -proot drop sugar | grep -v "mysqladmin: \[Warning\]"
             docker exec -it sugar-mysql mysqladmin -h localhost -u root -proot create sugar | grep -v "mysqladmin: \[Warning\]"
-            echo Restoring database
             cat $BACKUP_DIR/sugar.sql | docker exec -i sugar-mysql mysql -h localhost -u root -proot sugar
             echo Database restored
+            echo Repairing system
             ./utilities/runcli.sh php ../repair.php --instance .
             echo System repaired
+            echo Restarting cron
+            docker restart sugar-cron
+            echo Cron restarted
         else
             if [ ! -d 'data' ]
             then
