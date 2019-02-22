@@ -3,7 +3,7 @@ version: '2'
 services:
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.1-apache-1.14
+        image: esimonetti/sugardockerized:php7.1-apache-1.15
         ports:
             - "80:80"
         extra_hosts:

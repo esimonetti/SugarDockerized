@@ -10,6 +10,7 @@ RUN apt-get update \
     libzip-dev \
     libc-client-dev \
     libkrb5-dev \
+    libldap2-dev \
     git \
     --no-install-recommends
 
@@ -59,6 +60,7 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
+    && docker-php-ext-install ldap \
     && pecl install xdebug \
     && pecl install redis \
     && docker-php-ext-enable redis

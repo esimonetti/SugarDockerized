@@ -14,7 +14,7 @@ services:
             - web2
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.1-apache-1.14
+        image: esimonetti/sugardockerized:php7.1-apache-1.15
         extra_hosts:
             - "docker.local:127.0.0.1"
         environment:
@@ -33,7 +33,7 @@ services:
             - redis
     web2:
         container_name: "sugar-web2"
-        image: esimonetti/sugardockerized:php7.1-apache-1.14
+        image: esimonetti/sugardockerized:php7.1-apache-1.15
         extra_hosts:
             - "docker.local:127.0.0.1"
         environment:
