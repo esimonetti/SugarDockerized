@@ -134,6 +134,27 @@ $app_strings = return_application_language($current_language);
 $sd = new ServiceDictionary();
 $sd->buildAllDictionaries();
 
+// user based metadata
+$sq = new SugarQuery();
+$sq->from(BeanFactory::newBean('Users'));
+$sq->select(array('id'));
+$sq->where()->equals('is_admin', 0);
+$records = $sq->execute();
+
+$contexts = [];
+foreach ($records as $record) {
+    $user = BeanFactory::getBean('Users', $record['id']);
+    if (!empty($user->id)) {
+        $context = new MetaDataContextUser($user);
+        $contexts[$context->getHash()] =  $context;
+    }
+}       
+    
+$mm = new MetadataManager();
+foreach($contexts as $context) {
+    $mm->getMetadata([], $context);
+}
+
 // when the other register shutdown functionalities complete, exit this script
 register_shutdown_function(
     function($start) {
