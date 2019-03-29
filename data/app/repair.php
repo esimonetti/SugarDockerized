@@ -108,12 +108,12 @@ $repair->repairAndClearAll(array('clearAll'), array($mod_strings['LBL_ALL_MODULE
 // remove some stuff
 LanguageManager::removeJSLanguageFiles();
 LanguageManager::clearLanguageCache();
-$cache = new MetaDataCache(DBManagerFactory::getInstance());
-$cache->reset();
+//$cache = new MetaDataCache(DBManagerFactory::getInstance());
+//$cache->reset();
 
 // rebuild some stuff
 SugarAutoLoader::buildCache();
-MetaDataManager::setupMetadata(array('base'), array($current_language));
+//MetaDataManager::setupMetadata(array('base'), array($current_language));
 
 // quick load of all beans
 global $beanList;
@@ -134,6 +134,7 @@ $app_strings = return_application_language($current_language);
 $sd = new ServiceDictionary();
 $sd->buildAllDictionaries();
 
+/*
 // user based metadata
 $sq = new SugarQuery();
 $sq->from(BeanFactory::newBean('Users'));
@@ -154,6 +155,7 @@ $mm = new MetadataManager();
 foreach($contexts as $context) {
     $mm->getMetadata([], $context);
 }
+*/
 
 // when the other register shutdown functionalities complete, exit this script
 register_shutdown_function(
