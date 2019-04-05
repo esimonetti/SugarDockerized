@@ -29,7 +29,7 @@ else
         echo Restoring sugar from \"$BACKUP_DIR\"
 
         # if it is our repo, and the source exists, and the destination does not
-        if [ -f '.gitignore' ] && [ -d 'data' ] && [ -d $BACKUP_DIR ] && [ -d $BACKUP_DIR/sugar ] && [ -f $BACKUP_DIR/sugar.sql ]
+        if [ -f '.gitignore' ] && [ -d 'data' ] && [ -d $BACKUP_DIR ] && [ -d $BACKUP_DIR/sugar ] && ( [ -f $BACKUP_DIR/sugar.sql ] || [ -f $BACKUP_DIR/sugar.sql.tgz ] )
         then
             if [ -d 'data/app/sugar' ]
             then
@@ -44,8 +44,31 @@ else
             echo Restoring database
             docker exec -it sugar-mysql mysqladmin -h localhost -f -u root -proot drop sugar | grep -v "mysqladmin: \[Warning\]"
             docker exec -it sugar-mysql mysqladmin -h localhost -u root -proot create sugar | grep -v "mysqladmin: \[Warning\]"
-            cat $BACKUP_DIR/sugar.sql | docker exec -i sugar-mysql mysql -h localhost -u root -proot sugar
-            echo Database restored
+
+            if [ -f $BACKUP_DIR/sugar.sql.tgz ]
+            then
+                if hash tar 2>/dev/null; then
+                    tar -zxf $BACKUP_DIR/sugar.sql.tgz
+                    echo Database uncompressed to $BACKUP_DIR/sugar.sql
+                fi
+            fi
+
+            if [ -f $BACKUP_DIR/sugar.sql ]
+            then
+                cat $BACKUP_DIR/sugar.sql | docker exec -i sugar-mysql mysql -h localhost -u root -proot sugar
+                echo Database restored
+            else
+                echo Database not found! The selected restore is corrupted
+                exit 1
+            fi
+
+            if [ -f $BACKUP_DIR/sugar.sql.tgz ]
+            then
+                if [ -f $BACKUP_DIR/sugar.sql ]
+                then
+                    rm $BACKUP_DIR/sugar.sql
+                fi
+            fi
             echo Repairing system
             ./utilities/runcli.sh php ../repair.php --instance .
             echo System repaired

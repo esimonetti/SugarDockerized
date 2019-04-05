@@ -43,10 +43,18 @@ else
             #mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
             # running mysqldump on the mysql container instead
             docker exec -it sugar-mysql mysqldump -h localhost -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar | grep -v "mysqldump: \[Warning\]" > $BACKUP_DIR/sugar.sql
-    
+
             if [ \( -f $BACKUP_DIR/sugar.sql \) -a \( "$?" -eq 0 \) ]
             then
                 echo Database backed up on $BACKUP_DIR/sugar.sql
+                if hash tar 2>/dev/null; then
+                    tar -zcvf $BACKUP_DIR/sugar.sql.tgz $BACKUP_DIR/sugar.sql
+                fi
+                if [ -f $BACKUP_DIR/sugar.sql.tgz ]
+                then
+                    echo Database compressed on $BACKUP_DIR/sugar.sql.tgz
+                    rm $BACKUP_DIR/sugar.sql
+                fi
             else
                 echo Database NOT backed up!!! Please check that the \"sugar\" database exists!
                 echo Please discard the current backup
