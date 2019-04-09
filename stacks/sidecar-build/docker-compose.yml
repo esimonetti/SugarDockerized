@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+    sidecar-build:
+        container_name: "sidecar-build"
+        build: ../../images/sidecar-build
+        volumes:
+            - ../../data/app:/var/www/html
