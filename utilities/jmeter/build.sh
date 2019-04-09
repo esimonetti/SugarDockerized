@@ -21,7 +21,7 @@ then
     else
         echo 
         echo The Sugar performance repository https://github.com/sugarcrm/performance.git is private, password and access protected. Make sure you have access before proceeding
-        echo You will be now requested your github credentials to checkout the repository
+        echo You will be now requested your github credentials to clone the repository
         echo
         if [ ! -d 'data/jmeter' ]
         then
