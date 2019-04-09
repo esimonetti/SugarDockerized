@@ -44,7 +44,7 @@ then
         echo All set!
         echo  
         echo Run jmeter with: ./utilities/jmeter/run.sh \<ant command here\>
-        echo EG: ./utilities/jmeter/run.sh \"ant customerTarget -file build.xml l -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10/sugar -DTIMER_DELAY=2000 -DITERATION_NUM=8\"
+        echo EG: ./utilities/jmeter/run.sh \"ant customerTarget -file build.xml -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10/sugar -DTIMER_DELAY=2000 -DITERATION_NUM=8\"
     fi
 else
     echo The command needs to be executed from within the clone of the repository
