@@ -27,8 +27,8 @@ then
             && rm tidbit.zip \
             && mv Tidbit-develop tidbit \
             && cd tidbit \
-            && composer install \
-            && chmod +x bin/tidbit"
+            && chmod +x bin/tidbit \
+            && composer install"
         echo
         echo Installation completed
         echo
