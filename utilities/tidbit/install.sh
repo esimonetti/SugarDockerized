@@ -22,10 +22,10 @@ then
         echo
 
         ./utilities/runcli.sh "cd ../ \
-            && curl -Ls https://github.com/sugarcrm/Tidbit/archive/master.zip > tidbit.zip \
+            && curl -Ls https://github.com/sugarcrm/Tidbit/archive/develop.zip > tidbit.zip \
             && unzip tidbit.zip \
             && rm tidbit.zip \
-            && mv Tidbit-master tidbit \
+            && mv Tidbit-develop tidbit \
             && cd tidbit \
             && composer install \
             && chmod +x bin/tidbit"
