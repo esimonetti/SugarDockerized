@@ -36,11 +36,13 @@ There are multiple stack components as docker containers, that perform different
 * Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`
 
 ## Current version support
-The main stacks work with [Sugar version 8.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and the Sugar Cloud only versions: 7.10/7.11, 8.1, 8.2 and 8.3.
+The main stacks work with [Sugar version 9.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_9.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [8.0](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/), [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and the Sugar Cloud only versions: 7.10/7.11, 8.1, 8.2 and 8.3.
 
 ## Starting and stopping the desired stack
 * Run the stack with `docker-compose -f <stack yml filename> up -d`
 * Stop the stack with `docker-compose -f <stack yml filename> down`
+
+To facilitate the task of starting and stopping stacks and to switch between them, is available [this utility script](https://github.com/esimonetti/SugarDockerized#stacksh).
 
 ## System's details
 
@@ -162,7 +164,7 @@ To help with development, there are a set of tools within the `utilities` direct
 ```
 All directories and files within "data" are now owned by uid:gid 1000:1000
 ```
-It sets the correct ownership of the data directory
+It sets the correct ownership of the data directories
 #### stack.sh
 ```./utilities/stack.sh 80 down```
 ```
@@ -182,8 +184,8 @@ Removing sugar-elasticsearch ... done
 Removing network sugar8_default
 No stopped containers
 ```
-It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 79, 80 etc) and up/down.
-Have a look at the configuration file `./utilities/stacks.conf`, to know all the available stack combinations for the script.
+It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 80, 90 etc) and up/down.
+Have a look at the configuration file `./utilities/stacks.conf`, to know all the available stack combinations for the script. For some of the main stacks is available the "local" version of the stack, that allows local modification of settings and local docker image building.
 #### backup.sh
 ```./utilities/backup.sh 802_2018_11_21```
 ```
@@ -216,7 +218,7 @@ Copying "data_80_clean" to "data_80_clean_copy"
 Copying data_80_clean to data_80_clean_copy
 Copy completed, you can now swap or start the system
 ```
-It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it)
+It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it). This is most useful when there is the need to copy over also the content of Elasticsearch, Redis etc.
 #### swapsystems.sh
 ```./utilities/swapsystems.sh backup_2018_06_28 data_80_clean```
 ```
