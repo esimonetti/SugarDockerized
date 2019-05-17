@@ -9,6 +9,7 @@ RUN apt-get update \
     libzip-dev \
     libc-client-dev \
     libkrb5-dev \
+    libldap2-dev \
     git \
     --no-install-recommends
 
@@ -22,7 +23,7 @@ RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_log = /var/log/apache2/error.log' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'display_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'post_max_size = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
@@ -57,6 +58,7 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
+    && docker-php-ext-install ldap \
     # problem for xdebug 2.6.1 with php 7.3rc (https://bugs.xdebug.org/view.php?id=1584)
     && pecl install xdebug-2.7.0beta1 \
     && pecl install redis \

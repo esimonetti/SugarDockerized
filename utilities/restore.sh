@@ -75,6 +75,15 @@ else
             echo Restarting cron
             docker restart sugar-cron
             echo Cron restarted
+            echo Removing existing Elasticsearch indices
+            for index in $(./utilities/runcli.sh "curl -f 'http://sugar-elasticsearch:9200/_cat/indices' -Ss | awk '{print \$3}'")
+            do
+                ./utilities/runcli.sh "curl -f -XDELETE 'http://sugar-elasticsearch:9200/$index' -Ss -o /dev/null"
+            done
+            echo Elasticsearch indices removed
+            echo Performing Elasticsearch re-index
+            ./utilities/runcli.sh "./bin/sugarcrm search:silent_reindex"
+            echo Restore completed!
         else
             if [ ! -d 'data' ]
             then
