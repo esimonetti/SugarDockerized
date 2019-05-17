@@ -1,7 +1,0 @@
-/var/www/html/sugar/config_override.php
-/var/www/html/sugar/cache/modules/Teams/TeamSetCache.php
-/var/www/html/sugar/cache/modules/Teams/TeamSetMD5Cache.php
-/var/www/html/sugar/cache/class_map.php
-/var/www/html/sugar/cache/smarty/templates_c/*
-/var/www/html/sugar/custom/modules/unified_search_modules_display.php
-/var/www/html/sugar/custom/modulebuilder/*

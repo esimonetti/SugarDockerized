@@ -22,8 +22,8 @@ env:
 #  - STACK=stacks/sugar81/php71-local-build.yml SUGAR=8.1 PHP=7.1
 #  - STACK=stacks/sugar82/php71.yml SUGAR=8.2 PHP=7.1
 #  - STACK=stacks/sugar82/php71-local-build.yml SUGAR=8.2 PHP=7.1
-  - STACK=stacks/sugar83/php71.yml SUGAR=8.3 PHP=7.1
-  - STACK=stacks/sugar83/php71-local-build.yml SUGAR=8.3 PHP=7.1
+#  - STACK=stacks/sugar83/php71.yml SUGAR=8.3 PHP=7.1
+#  - STACK=stacks/sugar83/php71-local-build.yml SUGAR=8.3 PHP=7.1
   - STACK=stacks/sugar9/php73.yml SUGAR=9.0 PHP=7.3
   - STACK=stacks/sugar9/php73-local-build.yml SUGAR=9.0 PHP=7.3
 

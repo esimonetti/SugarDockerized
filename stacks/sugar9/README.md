@@ -7,8 +7,3 @@ This repository will help you deploy a Docker based development full stack for S
     * MySQL - 5.7
     * Elasticsearch - 6.2
     * Redis - latest
-* php72.yml - Single web server
-    * PHP - 7.2
-    * MySQL - 5.7
-    * Elasticsearch - 6.2
-    * Redis - latest

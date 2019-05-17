@@ -14,7 +14,7 @@ then
         echo Provide the ant command to run as arguments
     else
         user_command="$@"
-        docker run -v ${PWD}/data/jmeter:/opt/jmeter -t -i sugar-jmeter bash -c "cd /opt/jmeter/performance && $user_command"
+        docker run -v ${PWD}/data/jmeter:/opt/jmeter --add-host docker.local:10.10.10.10 -t -i sugar-jmeter bash -c "cd /opt/jmeter/performance && $user_command"
     fi
 else
     echo Please run ./utilities/jmeter/build.sh first, from within the clone of the repository
