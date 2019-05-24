@@ -2,7 +2,13 @@
 cd /var/www/html
 chown -R 1000:1000 .
 cd sugar
+if [ -e ./bin/sugarcrm ]
+then
+    chmod 700 ./bin/sugarcrm
+fi
+if [ -e ./vendor/phpunit/phpunit/phpunit ]
+then
+    chmod 700 ./vendor/phpunit/phpunit/phpunit
+fi
 find . -type d -exec chmod 775 {} \;
-find . -type f -exec chmod 664 {} \;
-cd bin
-find . -name sugarcrm -exec chmod 700 {} \;
+find . -type f ! -name phpunit ! -name sugarcrm -exec chmod 664 {} \;

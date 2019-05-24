@@ -68,6 +68,6 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: esimonetti/sugardockerized:permissions
+        image: esimonetti/sugardockerized:permissions-1.17
         volumes:
             - ../../data/app:/var/www/html
