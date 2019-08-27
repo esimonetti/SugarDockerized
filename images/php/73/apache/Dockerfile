@@ -10,6 +10,8 @@ RUN apt-get update \
     libc-client-dev \
     libkrb5-dev \
     libldap2-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     git \
     --no-install-recommends
 
@@ -53,6 +55,7 @@ RUN set -ex \
 
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-install bcmath \
+    && docker-php-ext-configure gd --with-freetype-dir \
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
@@ -65,7 +68,7 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-enable redis
 
 # disable by default, it can be enabled locally
-#COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 

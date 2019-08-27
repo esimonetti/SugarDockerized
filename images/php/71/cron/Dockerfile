@@ -13,6 +13,8 @@ RUN apt-get update \
     libc-client-dev \
     libkrb5-dev \
     libldap2-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
     git \
     --no-install-recommends
 
@@ -24,7 +26,7 @@ RUN adduser sugar --disabled-password --disabled-login --gecos "" \
     && echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar
 
 RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'error_reporting = E_ALL \& ~E_WARNING \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_log = /proc/1/fd/1' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker.ini \
@@ -37,6 +39,7 @@ RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install bcmath \
+    && docker-php-ext-configure gd --with-freetype-dir \
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \

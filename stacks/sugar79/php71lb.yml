@@ -14,7 +14,7 @@ services:
             - web2
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.1-apache-1.16
+        image: esimonetti/sugardockerized:php7.1-apache-1.18
         extra_hosts:
             - "docker.local:127.0.0.1"
         environment:
@@ -33,7 +33,7 @@ services:
             - redis
     web2:
         container_name: "sugar-web2"
-        image: esimonetti/sugardockerized:php7.1-apache-1.16
+        image: esimonetti/sugardockerized:php7.1-apache-1.18
         extra_hosts:
             - "docker.local:127.0.0.1"
         environment:
@@ -52,7 +52,7 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php7.1-cron-1.16
+        image: esimonetti/sugardockerized:php7.1-cron-1.18
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
