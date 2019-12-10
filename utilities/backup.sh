@@ -31,33 +31,44 @@ else
         # if it is our repo, and the source exists, and the destination does not
         if [ -f '.gitignore' ] && [ -d 'data' ] && [ ! -d $BACKUP_DIR ] && [ -d 'data/app/sugar'  ]
         then
-            mkdir -p $BACKUP_DIR
-            sudo rsync -a data/app/sugar $BACKUP_DIR/
-            if [ -d $BACKUP_DIR/sugar ]
-            then
-                echo Application files backed up on $BACKUP_DIR/sugar
-            else
-                echo Application files NOT backed up!!!
-                echo Please discard the current backup
-            fi
-            #mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
-            # running mysqldump on the mysql container instead
-            docker exec -it sugar-mysql mysqldump -h localhost -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar | grep -v "mysqldump: \[Warning\]" > $BACKUP_DIR/sugar.sql
 
-            if [ \( -f $BACKUP_DIR/sugar.sql \) -a \( "$?" -eq 0 \) ]
+            # checking db name if it is indeed sugar
+            DB_NAME_MATCH=`cat data/app/sugar/config.php | grep db_name | awk '{print $3}'`
+            DB_NAME="${DB_NAME_MATCH:1:-2}"
+
+            if [ $DB_NAME == 'sugar' ]
             then
-                echo Database backed up on $BACKUP_DIR/sugar.sql
-                if hash tar 2>/dev/null; then
-                    tar -zcvf $BACKUP_DIR/sugar.sql.tgz $BACKUP_DIR/sugar.sql
-                fi
-                if [ -f $BACKUP_DIR/sugar.sql.tgz ]
+                mkdir -p $BACKUP_DIR
+                sudo rsync -a data/app/sugar $BACKUP_DIR/
+                if [ -d $BACKUP_DIR/sugar ]
                 then
-                    echo Database compressed on $BACKUP_DIR/sugar.sql.tgz
-                    rm $BACKUP_DIR/sugar.sql
+                    echo Application files backed up on $BACKUP_DIR/sugar
+                else
+                    echo Application files NOT backed up!!!
+                    echo Please discard the current backup
+                fi
+                #mysqldump -h docker.local -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar > $BACKUP_DIR/sugar.sql
+                # running mysqldump on the mysql container instead
+                docker exec -it sugar-mysql mysqldump -h localhost -u root -proot --order-by-primary --single-transaction -Q --opt --skip-extended-insert sugar | grep -v "mysqldump: \[Warning\]" > $BACKUP_DIR/sugar.sql
+
+                if [ \( -f $BACKUP_DIR/sugar.sql \) -a \( "$?" -eq 0 \) ]
+                then
+                    echo Database backed up on $BACKUP_DIR/sugar.sql
+                    if hash tar 2>/dev/null; then
+                        tar -zcvf $BACKUP_DIR/sugar.sql.tgz $BACKUP_DIR/sugar.sql
+                    fi
+                    if [ -f $BACKUP_DIR/sugar.sql.tgz ]
+                    then
+                        echo Database compressed on $BACKUP_DIR/sugar.sql.tgz
+                        rm $BACKUP_DIR/sugar.sql
+                    fi
+                else
+                    echo Database NOT backed up!!! Please check that the \"sugar\" database exists!
+                    echo Please discard the current backup
                 fi
             else
-                echo Database NOT backed up!!! Please check that the \"sugar\" database exists!
-                echo Please discard the current backup
+                echo For the backup and restore process to work, the database name should be \"sugar\"
+                echo Backup aborted
             fi
         else
             if [ ! -d 'data' ]

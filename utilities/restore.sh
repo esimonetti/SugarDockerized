@@ -26,6 +26,12 @@ else
         cd $REPO
 
         BACKUP_DIR="backups/backup_$1"
+        # check if the backup name has been provided including the backup_ prefix
+        if [ ! -d $BACKUP_DIR ] && [ -d "backups/$1" ]
+        then
+            BACKUP_DIR="backups/$1"
+        fi
+
         echo Restoring sugar from \"$BACKUP_DIR\"
 
         # if it is our repo, and the source exists, and the destination does not
