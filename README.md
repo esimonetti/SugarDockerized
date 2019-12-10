@@ -3,19 +3,20 @@ This repository will help you deploy a Docker based development full stack for S
 
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
-* [Sugar 9](stacks/sugar9/README.md)
-* [Sugar 83](stacks/sugar83/README.md) - For local development to apply to Sugar Cloud only versions
+* [Sugar 9](stacks/sugar9/README.md) - This stack is also valid for 9.1, 9.2 and 9.3 for local development of Sugar Cloud only versions
 * [Sugar 8](stacks/sugar8/README.md)
 
 You will find additional stacks within the [stack directory of the project](stacks).
+For most stacks, there are both the pre-built version (eg on Sugar 9: `./stacks/sugar9/php73.yml`) and a locally built version (eg on Sugar 9: `./stacks/sugar9/php73-local-build.yml`). The locally built version will be built run-time, and therefore those stacks will let you specify additional changes you might require to the docker images provided. Local builds will take much longer to deploy than pre-built ones.
 
 ### Types of stacks
-There are mainly two types of stack:
+There are mainly three types of stack:
 * Single Apache web server - Initial development
+* Single Apache web server with local run-time build - Initial development when you need to modify the stack to better suit specific needs
 * An Apache load balancer with a cluster of two Apache web servers behind it - A more real-life environment to verify that everything works correctly
 
-### All stack components
-There are multiple stack components as docker containers, that perform different duties. Not all the stack components might be used on a specific stack setup.
+### Stack components
+There are multiple stack components as docker containers, that perform different duties. Not all the stack components might be used on a specific stack setup. Some of the stack components are listed below:
 * Apache load balancer - Load balances requests between the cluster of Apache PHP web servers, round robin
 * Apache PHP web server - Web server(s)
 * MySQL database - Database
@@ -23,35 +24,33 @@ There are multiple stack components as docker containers, that perform different
 * Redis - Two purposes: Sugar object caching service and PHP Session storage/sharing service
 * Cron - Sugar background scheduler processing. Note that this is enabled immediately and it will run `cron.php` as soon as the file is available, and it will attempt to do so every 60 seconds since its last run. This container is used for any other CLI execution required during development
 * Permission - Sets Sugar instance permissions correctly and then terminates
-* LDAP - LDAP testing server if needed with authentication
 
-## Get the system up and running
+## Installation - How to get the system up and running
 * The first step for everything to work smoothly, is to add on your computer's host file /etc/hosts the entry "docker.local" to point to your machine's ip (it might be 127.0.0.1 if running the stack locally or within the VM running Docker)
 * Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
 * Run the utility `./utilities/setownership.sh` to set the correct ownership of the data directory
 * Select the stack combination to run by choosing the correct yml file within the subdirectories inside [stacks](stacks/). See next step for more details and an example.
-* Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`
+* Run `docker-compose -f <stack yml filename> up -d` for the selected <stack yml filename>. As an example if we selected `stacks/sugar8/php71.yml`, you would run `docker-compose -f stacks/sugar8/php71.yml up -d`. To facilitate the task of starting and stopping stacks and to switch between them, is available [this utility script](https://github.com/esimonetti/SugarDockerized#stacksh).
 
 ## Current version support
-The main stacks work with [Sugar version 9.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_9.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [8.0](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/), [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and the Sugar Cloud only versions: 7.10/7.11, 8.1, 8.2 and 8.3.
+The main stacks work with [Sugar version 9.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_9.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [8.0](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/), [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and stacks for Sugar Cloud only versions for local development only.
 
-## Starting and stopping the desired stack
+## Starting and stopping manually the desired stack
 * Run the stack with `docker-compose -f <stack yml filename> up -d`
 * Stop the stack with `docker-compose -f <stack yml filename> down`
 
-To facilitate the task of starting and stopping stacks and to switch between them, is available [this utility script](https://github.com/esimonetti/SugarDockerized#stacksh).
+Alternatively, leverage the utility script [stack.sh](https://github.com/esimonetti/SugarDockerized#stacksh) that will help with automation.
 
 ## System's details
 
 ### Stack components hostnames
 * Apache load balancer: sugar-lb
-* Apache PHP web server: On single stack: sugar-web1 On cluster stack: sugar-web1 and sugar-web2
+* Apache PHP web server; On single stack: sugar-web1 On cluster stack: sugar-web1 and sugar-web2
 * MySQL database: sugar-mysql
 * Elasticsearch: sugar-elasticsearch
-* Redis - sugar-redis
-* Cron - sugar-cron
-* Permission - sugar-permissions
-* LDAP - sugar-ldap
+* Redis: sugar-redis
+* Cron: sugar-cron
+* Permission: sugar-permissions
 
 To verify all components hostnames just run `docker ps` when the stack is up and running.
 
@@ -68,6 +67,7 @@ Please note that on this setup, only the web server or the load balancer (if in 
 ### Sugar Setup details
 * Browser url: http://docker.local/sugar/ - Based on the host file entry defined above on the local machine
 * MySQL hostname: sugar-mysql
+    * MySQL db name: sugar
     * MySQL user: root
     * MySQL password: root
 * Elasticsearch hostname: sugar-elasticsearch
@@ -211,23 +211,6 @@ System repaired
 ```
 It restores a previous snapshot of sugar files from `backups/backup_802_2018_11_21/sugar` and of MySQL from `backups/backup_802_2018_11_21/sugar.sql`
 The script assumes that the database name is sugar and the web directory is sugar as well. The script does not restore Elasticsearch and/or Redis.
-#### copysystem.sh
-```./utilities/copysystem.sh data_80_clean data_80_clean_copy```
-```
-Copying "data_80_clean" to "data_80_clean_copy"
-Copying data_80_clean to data_80_clean_copy
-Copy completed, you can now swap or start the system
-```
-It helps to replicate a full `data_80_clean` content to another backup directory of choice (`data_80_clean_copy`). It requires the stack to be off (and it will check for it). This is most useful when there is the need to copy over also the content of Elasticsearch, Redis etc.
-#### swapsystems.sh
-```./utilities/swapsystems.sh backup_2018_06_28 data_80_clean```
-```
-Moving "data" to "backup_2018_06_28" and "data_80_clean" to "data"
-Moving data to backup_2018_06_28
-Moving data_80_clean to data
-You can now start the system with the content of data_80_clean
-```
-It helps to move the current `data` directory to `backup_2018_06_28` and then `data_80_clean` to `data`, effectively swapping the current data in use. It requires the stack to be off (and it will check for it)
 
 ### Detect web server PHP error logs
 To be able to achieve this consistently, it is recommended to leverage the single web server stack.
