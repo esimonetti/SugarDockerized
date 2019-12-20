@@ -15,7 +15,7 @@ then
     chmod 700 ${DIR}/sugar/bin/sugarcrm
 fi
 
-if [ -e ${DIR}/sugar/vendor/phpunit/phpunit/phpunit ]
+if [ -e ${DIR}/sugar/vendor/phpunit/bin/phpunit ]
 then
-    chmod 700 ${DIR}/sugar/vendor/phpunit/phpunit/phpunit
+    chmod 700 ${DIR}/sugar/vendor/phpunit/bin/phpunit
 fi
