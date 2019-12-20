@@ -1,14 +1,21 @@
-#!/bin/bash
-cd /var/www/html
-chown -R 1000:1000 .
-cd sugar
-if [ -e ./bin/sugarcrm ]
+#!/usr/bin/env bash
+
+DIR=/var/www/html
+
+# Only change ownership on files that aren't currently owned by sugar:sugar
+find ${DIR} -noleaf \( \! -user sugar -o \! -group sugar \) -print0 | xargs -0 -r chown sugar:sugar
+
+# Only change the mode of files/directories that are not 664/775
+find ${DIR} -noleaf -type d \! -perm 775 -print0 2> /dev/null | xargs -0 -r chmod 775 2> /dev/null
+find ${DIR} -noleaf -type f \! -perm 664 -print0 2> /dev/null | xargs -0 -r chmod 664 2> /dev/null
+
+# Directly set these to mode 700
+if [ -e ${DIR}/sugar/bin/sugarcrm ]
 then
-    chmod 700 ./bin/sugarcrm
+    chmod 700 ${DIR}/sugarbin/sugarcrm
 fi
-if [ -e ./vendor/phpunit/phpunit/phpunit ]
+
+if [ -e ${DIR}/sugar/vendor/phpunit/phpunit/phpunit ]
 then
-    chmod 700 ./vendor/phpunit/phpunit/phpunit
+    chmod 700 ${DIR}/sugar/vendor/phpunit/phpunit/phpunit
 fi
-find . -type d -exec chmod 775 {} \;
-find . -type f ! -name phpunit ! -name sugarcrm -exec chmod 664 {} \;
