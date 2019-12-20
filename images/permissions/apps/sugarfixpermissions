@@ -12,7 +12,7 @@ find ${DIR} -noleaf -type f \! -perm 664 -print0 2> /dev/null | xargs -0 -r chmo
 # Directly set these to mode 700
 if [ -e ${DIR}/sugar/bin/sugarcrm ]
 then
-    chmod 700 ${DIR}/sugarbin/sugarcrm
+    chmod 700 ${DIR}/sugar/bin/sugarcrm
 fi
 
 if [ -e ${DIR}/sugar/vendor/phpunit/phpunit/phpunit ]
