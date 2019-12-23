@@ -26,6 +26,7 @@ env:
 #  - STACK=stacks/sugar83/php71-local-build.yml SUGAR=8.3 PHP=7.1
   - STACK=stacks/sugar9/php73.yml SUGAR=9.0 PHP=7.3
   - STACK=stacks/sugar9/php73-local-build.yml SUGAR=9.0 PHP=7.3
+  - STACK=stacks/sugar9/php73lb.yml SUGAR=9.0 PHP=7.3
 
 before_install:
   - sudo service mysql stop
