@@ -13,20 +13,38 @@ then
     # check if the stack is running
     running=`docker ps | grep sugar-web1 | wc -l`
 
-    if [ $running -gt 0 ] && [ "$2" == 'up' ]
+    if [ $running -gt 0 ]
     then
-        echo A stack is running, please take the stack down first
+        echo Please stop any running stack before setting permissions
+
+        # get apache ownership
+        #ownership=($(docker exec -it sugar-cron cat /etc/passwd | grep sugar | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        #echo Setting from within the sugar-cron container, the ownership of /var/www/html/sugar to sugar:sugar \(${ownership[0]}:${ownership[1]}\)
+        #docker exec -it sugar-cron sudo chown -R ${ownership[0]}:${ownership[1]} /var/www/html/sugar
+
+        # get mysql ownership
+        #ownership=($(docker exec -it sugar-mysql cat /etc/passwd | grep mysql | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        #echo Setting from within the sugar-mysql container, the ownership of /var/lib/mysql to mysql:mysql \(${ownership[0]}:${ownership[1]}\)
+        #docker exec -it sugar-mysql chown -R ${ownership[0]}:${ownership[1]} /var/lib/mysql
+
+        # get elastic ownership (group is root)
+        #ownership=($(docker exec -it sugar-elasticsearch cat /etc/passwd | grep elasticsearch | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        #echo Setting from within the sugar-elasticsearch container, the ownership of /usr/share/elasticsearch/data to elasticsearch:root \(${ownership[0]}:0\)
+        #docker exec -it sugar-elasticsearch sudo chown -R ${ownership[0]}:0 /usr/share/elasticsearch/data
+
+        # get redis ownership
+        #ownership=($(docker exec -it sugar-redis cat /etc/passwd | grep redis | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        #echo Setting from within the sugar-redis container, the ownership of /data to redis:redis \(${ownership[0]}:${ownership[1]}\)
+        #docker exec -it sugar-redis chown -R ${ownership[0]}:${ownership[1]} /data
+
+        # logs should look like this
+        #Setting from within the sugar-cron container, the ownership of /var/www/html/sugar to sugar:sugar (1000:1000)
+        #Setting from within the sugar-mysql container, the ownership of /var/lib/mysql to mysql:mysql (999:999)
+        #Setting from within the sugar-elasticsearch container, the ownership of /usr/share/elasticsearch/data to elasticsearch:root (101:0)
+        #Setting from within the sugar-redis container, the ownership of /data to redis:redis (999:999)
     else
-        sudo chown -R 1000:1000 data/app
-        echo All directories and files within \"data/app\" are now owned by uid:gid 1000:1000
-        sudo chown -R 102:102 data/elasticsearch
-        echo All directories and files within \"data/elasticsearch\" are now owned by uid:gid 102:102
-        sudo chown -R 1000:1000 data/elasticsearch/62
-        echo All directories and files within \"data/elasticsearch/62\" are now owned by uid:gid 1000:1000
-        sudo chown -R 999:999 data/mysql
-        echo All directories and files within \"data/mysql\" are now owned by uid:gid 999:999
-        sudo chown -R 999:999 data/redis
-        echo All directories and files within \"data/redis\" are now owned by uid:gid 999:999
+        echo Setting ownership of the data directory to $(whoami):$(groups | awk '{ print $1 }') \($(id -u `whoami`):$(id -g `whoami`)\)
+        sudo chown -R $(id -u `whoami`):$(id -g `whoami`) data/*
     fi
 else
     if [ ! -d 'data' ]

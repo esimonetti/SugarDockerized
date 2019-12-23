@@ -58,6 +58,7 @@ services:
             - ../../data/elasticsearch/62:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "TAKE_FILE_OWNERSHIP=true"
         ulimits:
             memlock:
                 soft: -1

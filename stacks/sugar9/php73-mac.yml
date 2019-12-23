@@ -1,31 +1,34 @@
-version: '2'
+version: '3'
+
+# in this mac attempt, redis, elasticsearch and mysql files are stored within a volume (not on a bin mounted directory) and everything is delegated (priority to the containers)
 
 services:
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php7.1-apache-1.18
+        image: esimonetti/sugardockerized:php7.3-apache-1.18
         ports:
             - "80:80"
         extra_hosts:
             - "docker.local:127.0.0.1"
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
         volumes:
-            - ../../data/app:/var/www/html
+            - ../../data/app:/var/www/html:delegated
         depends_on:
             - mysql
             - elasticsearch
-            - elasticsearch56
             - redis
             - permissions
         links:
             - mysql
             - elasticsearch
-            - elasticsearch56
             - redis
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php7.1-cron-1.19
+        image: esimonetti/sugardockerized:php7.3-cron-1.19
         volumes:
-            - ../../data/app:/var/www/html
+            - ../../data/app:/var/www/html:delegated
         depends_on:
             - mysql
             - elasticsearch
@@ -41,37 +44,37 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - ../../data/mysql/57:/var/lib/mysql
+            - sugar-mysql-data:/var/lib/mysql:delegated
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
         container_name: "sugar-elasticsearch"
-        image: esimonetti/sugardockerized:elasticsearch1.7.5
+        image: esimonetti/sugardockerized:elasticsearch6.2-1.07
         volumes:
-            - ../../data/elasticsearch/175:/usr/share/elasticsearch/data
+            - sugar-elasticsearch-data:/usr/share/elasticsearch/data:delegated
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    elasticsearch56:
-        container_name: "sugar-elasticsearch56"
-        image: esimonetti/sugardockerized:elasticsearch5.6
-        volumes:
-            - ../../data/elasticsearch/56:/usr/share/elasticsearch/data
-        environment:
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - "TAKE_FILE_OWNERSHIP=true"
         ulimits:
             memlock:
                 soft: -1
                 hard: -1
-        mem_limit: 1g
+            nofile:
+                soft: 65536
+                hard: 65536
     redis:
         container_name: "sugar-redis"
         image: redis:latest
         volumes:
-            - ../../data/redis:/data
+            - sugar-redis-data:/data:delegated
     permissions:
         container_name: "sugar-permissions"
         image: esimonetti/sugardockerized:permissions-1.19
         volumes:
-            - ../../data/app:/var/www/html
+            - ../../data/app:/var/www/html:delegated
+volumes:
+    sugar-mysql-data:
+    sugar-redis-data:
+    sugar-elasticsearch-data:
