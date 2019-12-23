@@ -5,9 +5,9 @@ DIR=/var/www/html
 # Only change ownership on files that aren't currently owned by sugar:sugar
 find ${DIR} -noleaf \( \! -user sugar -o \! -group sugar \) -print0 | xargs -0 -r chown sugar:sugar
 
-# Only change the mode of files/directories that are not 664/775
-find ${DIR} -noleaf -type d \! -perm 775 -print0 2> /dev/null | xargs -0 -r chmod 775 2> /dev/null
-find ${DIR} -noleaf -type f \! -perm 664 -print0 2> /dev/null | xargs -0 -r chmod 664 2> /dev/null
+# Only change the mode of files/directories within sugar that are not 664/775. Exludes phpunit and sugarcrm
+find ${DIR}/sugar -noleaf -type d \! -perm 775 -print0 2> /dev/null | xargs -0 -r chmod 775 2> /dev/null
+find ${DIR}/sugar -noleaf -type f \! -name phpunit \! -name sugarcrm \! -perm 664 -print0 2> /dev/null | xargs -0 -r chmod 664 2> /dev/null
 
 # Directly set these to mode 700
 if [ -e ${DIR}/sugar/bin/sugarcrm ]
