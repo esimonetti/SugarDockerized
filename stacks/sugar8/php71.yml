@@ -24,7 +24,7 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php7.1-cron-1.18
+        image: esimonetti/sugardockerized:php7.1-cron-1.19
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -65,6 +65,6 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: esimonetti/sugardockerized:permissions-1.17
+        image: esimonetti/sugardockerized:permissions-1.19
         volumes:
             - ../../data/app:/var/www/html
