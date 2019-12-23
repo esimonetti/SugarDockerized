@@ -13,20 +13,29 @@ then
     # check if the stack is running
     running=`docker ps | grep sugar-web1 | wc -l`
 
-    if [ $running -gt 0 ] && [ "$2" == 'up' ]
+    if [ $running -gt 0 ]
     then
-        echo A stack is running, please take the stack down first
+        # get apache ownership
+        ownership=($(docker exec -it sugar-cron cat /etc/passwd | grep sugar | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        echo Setting from within the sugar-cron container, the ownership of /var/www/html/sugar to ${ownership[0]}:${ownership[1]}
+        docker exec -it sugar-cron sudo chown -R ${ownership[0]}:${ownership[1]} /var/www/html/sugar
+
+        # get mysql ownership
+        ownership=($(docker exec -it sugar-mysql cat /etc/passwd | grep mysql | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        echo Setting from within the sugar-mysql container, the ownership of /var/lib/mysql to ${ownership[0]}:${ownership[1]}
+        docker exec -it sugar-mysql chown -R ${ownership[0]}:${ownership[1]} /var/lib/mysql
+
+        # get elastic ownership
+        ownership=($(docker exec -it sugar-elasticsearch cat /etc/passwd | grep elastic | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        echo Setting from within the sugar-elasticsearch container, the ownership of /usr/share/elasticsearch/data to ${ownership[0]}:${ownership[1]}
+        docker exec -it sugar-elasticsearch chown -R ${ownership[0]}:${ownership[1]} /usr/share/elasticsearch/data
+
+        # get redis ownership
+        ownership=($(docker exec -it sugar-redis cat /etc/passwd | grep redis | awk '{ split($0, out, ":"); print out[3],out[4] }'))
+        echo Setting from within the sugar-redis container, the ownership of /data to ${ownership[0]}:${ownership[1]}
+        docker exec -it sugar-redis chown -R ${ownership[0]}:${ownership[1]} /data
     else
-        sudo chown -R 1000:1000 data/app
-        echo All directories and files within \"data/app\" are now owned by uid:gid 1000:1000
-        sudo chown -R 102:102 data/elasticsearch
-        echo All directories and files within \"data/elasticsearch\" are now owned by uid:gid 102:102
-        sudo chown -R 1000:1000 data/elasticsearch/62
-        echo All directories and files within \"data/elasticsearch/62\" are now owned by uid:gid 1000:1000
-        sudo chown -R 999:999 data/mysql
-        echo All directories and files within \"data/mysql\" are now owned by uid:gid 999:999
-        sudo chown -R 999:999 data/redis
-        echo All directories and files within \"data/redis\" are now owned by uid:gid 999:999
+        echo Please start the relevant stack first
     fi
 else
     if [ ! -d 'data' ]
