@@ -26,7 +26,15 @@ include('custom_install_config_override.php');
 
 $config = array_merge_recursive($config, $config_override);
 
-echo '<?php
-$sugar_config = ';
-var_export($config);
-echo ';' . PHP_EOL;
+echo '<?php' . PHP_EOL;
+$arrayUtilsFile = './include/utils/array_utils.php';
+if (file_exists($arrayUtilsFile)) {
+    require_once($arrayUtilsFile);
+    foreach ($config as $key => $val) {
+        echo override_value_to_string_recursive2('sugar_config', $key, $val); 
+    }
+} else {
+    echo '$sugar_config = ';
+    var_export($config);
+    echo ';' . PHP_EOL;
+}

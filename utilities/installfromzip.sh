@@ -64,7 +64,7 @@ else
 
             # run silent installer
             echo Running installation, please wait...
-            curl -Lfs 'http://docker.local/sugar/install.php?goto=SilentInstall&cli=true' -o /dev/null
+            curl -f 'http://docker.local/sugar/install.php?goto=SilentInstall&cli=true' -Ss -o /dev/null
             echo  
             echo Installation completed!
             echo 
