@@ -76,7 +76,7 @@ else
                 fi
             fi
             echo Repairing system
-            ./utilities/runcli.sh php ../repair.php --instance .
+            ./utilities/repair.sh
             echo System repaired
             echo Restarting cron
             docker restart sugar-cron

@@ -32,7 +32,7 @@ then
         echo
         echo Installation completed
         echo
-        echo Run: ./utilities/runcli.sh \"../tidbit/bin/tidbit --profile baseline -c --parallel 8 --sugar_path ./sugar\"
+        echo Run: ./utilities/runcli.sh \"../tidbit/bin/tidbit --profile simple_rev2 -c --parallel 8 --sugar_path ./sugar\"
     fi
 else
     echo The command needs to be executed from within the clone of the repository

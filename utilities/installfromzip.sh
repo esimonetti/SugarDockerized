@@ -5,7 +5,7 @@
 
 if [ -z $1 ]
 then
-    echo Provide the zip file path containing the sugar installer
+    echo Provide the zip file path containing the Sugar installer
 else
     # check if the stack is running
     running=`docker ps | grep sugar-cron | wc -l`
@@ -22,7 +22,7 @@ else
             # locate the zip
             if [ ! -f $1 ]
             then
-                echo $1 does not exist, please provide the zip file path containing the sugar installer
+                echo $1 does not exist, please provide the zip file path containing the Sugar installer
                 exit 1
             fi
 
@@ -44,6 +44,7 @@ else
             SUGAR_TMP_DIR=`ls -d ./data/app/tmp/*`
             mv $SUGAR_TMP_DIR ./data/app/sugar
             rm -rf ./data/app/tmp
+            echo Done
             
             # fix up permissions
             docker restart sugar-permissions &
@@ -73,6 +74,6 @@ else
             echo The command needs to be executed from within the clone of the repository
         fi
     else
-        echo The stack needs to be running before executing a cli command
+        echo The stack needs to be running to complete Sugar\'s installation
     fi
 fi
