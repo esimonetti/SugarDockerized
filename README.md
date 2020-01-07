@@ -186,6 +186,10 @@ Have a look at the configuration file `./utilities/stacks.conf`, to know all the
 ```./utilities/runcli.sh "php ./bin/sugarcrm password:weak"```
 It helps to execute a command within the CLI container. It requires the stack to be on
 
+#### toothpaste.sh
+This script is a wrapper for the external Sugar CLI tool called [Toothpaste](https://packagist.org/packages/esimonetti/toothpaste). The tool is downloaded automatically during its first use from packagist through composer. To update it periodically, run `./utilities/toothpaste/install.sh`. To understand more about the featureset, either read more on the repository, or just run `./utilities/toothpaste.sh list` to list all the commands currently available.
+This tool is also used to run a system repair throughout the system scripts.
+
 #### backup.sh
 ```./utilities/backup.sh 802_2018_11_21```
 ```
@@ -225,14 +229,16 @@ $sugar_config['default_permissions']['user'] = 'sugar';
 $sugar_config['default_permissions']['group'] = 'sugar';
 ```
 
-### Run the included command line Repair
-The application contains few scripts built to facilitate the system's repair from command line. The scripts will wipe the various caches (including OPcache and Redis if used). It will also warm-up as much as possible the application, to improve the browser experience on first load. The cron container from which the repair runs, has also been optimised to speed up the repairing processing.
+### Run command line Repair
+The application installs few scripts built to facilitate the system's repair from command line. The scripts will wipe the various caches (including OPcache and Redis if used). The cron container from which the repair runs, has also been optimised to speed up the repairing processing.
 To run the repair from the docker host, assuming that the repository has been checked out on sugardocker execute:
 
 ```
 cd sugardocker
-./repair
+./utilities/repair.sh
 ```
+The actual code for `repair.sh` leverages the [`toothpaste.sh`](#toothpastesh) script mentioned above.
+
 ### Setup Sugar instance to leverage Redis object caching
 Add on `config_override.php` the following options:
 ```
@@ -245,10 +251,11 @@ Make sure there are no other caching mechanism enabled on your config/config_ove
 ### Run command line command or script
 To run a PHP script execute something like the following sample commands:
 ```
-docker@docker:~/sugardocker$ ./utilities/runcli.sh "php ../repair.php --instance ."
-Debug: Entering directory .
-Repairing...
-Completed in 8 seconds
+docker@docker:~/sugardocker$ ./utilities/runcli.sh "php ../myAppTestCliScript.php"
+```
+
+```
+docker@docker:~/sugardocker$ ./utilities/runcli.sh "cd ../toothpaste && ./vendor/bin/toothpaste local:system:repair --instance ../sugar"
 ```
 
 ```
