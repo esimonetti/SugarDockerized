@@ -3,6 +3,10 @@
 # Enrico Simonetti
 # enricosimonetti.com
 
+# enter the repo's root directory
+REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+cd $REPO
+
 # include stack configuration
 . ./utilities/stacks.conf
 
@@ -14,10 +18,6 @@ then
         echo $KEY
     done
 else
-    # enter the repo's root directory
-    REPO="$( dirname ${BASH_SOURCE[0]} )/../"
-    cd $REPO
-
     # based on the solution of literal key/values for old bash versions described here
     #https://stackoverflow.com/questions/6047648/bash-4-associative-arrays-error-declare-a-invalid-option
     for index in "${stacks[@]}" ; do
