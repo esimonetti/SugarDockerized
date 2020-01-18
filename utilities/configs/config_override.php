@@ -22,7 +22,7 @@ $config = [
     ],
 ];
 
-include('custom_install_config_override.php');
+include('config_override_custom.php');
 
 $config = array_merge_recursive($config, $config_override);
 

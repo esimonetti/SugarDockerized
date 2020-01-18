@@ -7,11 +7,6 @@
 REPO="$( dirname ${BASH_SOURCE[0]} )/../../"
 cd $REPO
 
-VERSIONFILE=version
-#VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/dev/version
-VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/master/version
-REPOURL=https://github.com/esimonetti/SugarDockerized.git
-
 # check if rsync is installed
 if [ `command -v rsync | grep rsync | wc -l` -eq 0 ]
 then
@@ -23,26 +18,13 @@ fi
 if [ -f '.gitignore' ] && [ -d 'data' ]
 then
     # check if the stack is running
-    running=`docker ps 2>&1 | grep sugar-web1 | wc -l`
+    RUNNING=`docker ps 2>&1 | grep sugar-web1 | wc -l`
 
-    if [ $running -gt 0 ]
+    if [ $RUNNING -gt 0 ]
     then
         echo A stack is running, please take the stack down to run the update
     else
-        NEEDSUPGRADE=false
-        REPOVERSION=`curl -Ss $VERSIONFILEURL`
-
-        if [ ! -f $VERSIONFILE ]
-        then
-            echo The current version is unknown
-            NEEDSUPGRADE=true
-        else
-            CURRENTVERSION=`cat $VERSIONFILE`
-            if [ $REPOVERSION != $CURRENTVERSION ]
-            then
-                NEEDSUPGRADE=true
-            fi
-        fi
+        NEEDSUPGRADE=`./utilities/sugardockerized/checkversion.sh`
 
         if $NEEDSUPGRADE
         then
@@ -55,6 +37,8 @@ then
             #git checkout dev
             rm -rf .git
             rsync -av --exclude data ./* ../
+            # forcefully align utilities dir
+            rsync -av --delete ./utilities/* ../utilities/
             cd ..
             rm -rf $INSTALLDIR
             echo Upgrade completed! SugarDockerized is now up to date
