@@ -27,9 +27,12 @@ $config = [
     'default_locale_name_format' => 's f l',
     'default_number_grouping_seperator' => ',',
     'export_delimiter' => ',',
-    'demoData' => 'no',
+    'demoData' => 'yes',
     'developerMode' => false,
 ];
+
+include('install_config_custom.php');
+$config = array_merge_recursive($config, $config_override);
 
 echo '<?php
 $sugar_config_si = ';

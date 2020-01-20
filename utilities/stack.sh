@@ -7,6 +7,7 @@
 REPO="$( dirname ${BASH_SOURCE[0]} )/../"
 cd $REPO
 
+
 # include stack configuration
 . ./utilities/stacks.conf
 
@@ -32,20 +33,18 @@ else
     # if it is our repo, and the source exists, and the destination does not
     if [ -f '.gitignore' ] && [ -d 'data' ] && [ ! -z $STACKFILE ] && [ -f $STACKFILE ]
     then
-
         # check if the stack is running
-        running=`docker ps | grep sugar-web1 | wc -l`
+        RUNNING=`docker ps | grep sugar-web1 | wc -l`
 
-        if [ $running -gt 0 ] && [ $2 == 'up' ]
+        if [ $RUNNING -gt 0 ] && [ $2 == 'up' ]
         then
             echo A stack is running, please take the stack down first
         else
-
             echo $STACKFILE $2
 
             if [ $2 == 'down' ]
             then
-                if [ $running -eq 0 ]
+                if [ $RUNNING -eq 0 ]
                 then
                     echo The stack is already down, skipping
                 else
@@ -59,6 +58,17 @@ else
                 else
                     echo The action $2 is not applicable
                 fi
+            fi
+
+            echo Checking for a newer SugarDockerized version, please wait...
+            NEEDSUPGRADE=`./utilities/sugardockerized/checkversion.sh`
+            if $NEEDSUPGRADE
+            then
+                echo
+                echo --------------------------------------------------------------------------------------------------------------------------------
+                echo Your SugarDockerized needs to be upgraded, please execute ./utilities/sugardockerized/selfupgrade.sh to proceed with the upgrade
+                echo --------------------------------------------------------------------------------------------------------------------------------
+                echo
             fi
         fi
     else
