@@ -10,23 +10,25 @@ cd $REPO
 VERSIONFILE=version
 #VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/dev/version
 VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/master/version
-REPOURL=https://github.com/esimonetti/SugarDockerized.git
 
 # if it is our repo
 if [ -f '.gitignore' ] && [ -d 'data' ]
 then
     NEEDSUPGRADE=false
-    REPOVERSION=`curl -Ss $VERSIONFILEURL`
+    REPOVERSION=`curl -Ss --connect-timeout 3 $VERSIONFILEURL 2>/dev/null`
 
     if [ ! -f $VERSIONFILE ]
     then
         echo The current version is unknown
         NEEDSUPGRADE=true
     else
-        CURRENTVERSION=`cat $VERSIONFILE`
-        if [ $REPOVERSION != $CURRENTVERSION ]
+        if [ ! -z $REPOVERSION ]
         then
-            NEEDSUPGRADE=true
+            CURRENTVERSION=`cat $VERSIONFILE`
+            if [ $REPOVERSION != $CURRENTVERSION ]
+            then
+                NEEDSUPGRADE=true
+            fi
         fi
     fi
 

@@ -62,6 +62,7 @@ else
 
             echo Checking for a newer SugarDockerized version, please wait...
             NEEDSUPGRADE=`./utilities/sugardockerized/checkversion.sh`
+            echo Done.
             if $NEEDSUPGRADE
             then
                 echo
