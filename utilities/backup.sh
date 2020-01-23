@@ -33,8 +33,7 @@ else
         then
 
             # checking db name if it is indeed sugar
-            DB_NAME_MATCH=`cat data/app/sugar/config.php | grep db_name | awk '{print $3}'`
-            DB_NAME="${DB_NAME_MATCH:1:-2}"
+            DB_NAME=`cat data/app/sugar/config.php | grep db_name | awk '{print $3}' | sed 's/[^[:alnum:]]//g'`
 
             if [ $DB_NAME == 'sugar' ]
             then
