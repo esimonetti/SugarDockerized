@@ -1,0 +1,18 @@
+root = /hostfs
+root = /volumefs
+
+auto = true
+batch = true
+#ui = text
+confirmmerge = false
+confirmbigdel = false
+prefer = newer
+silent = false
+times = true
+repeat = watch
+#debug = all
+group = true
+owner = true
+backups = false
+fastcheck = true
+prefer = /hostfs

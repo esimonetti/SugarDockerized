@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+#echo fs.inotify.max_user_watches=1000000 | tee -a /etc/sysctl.conf && sysctl -p
+
+#while true; do 
+#    rsync -a --delete /hostfs/* /volumefs >> /var/logs/filesync.log
+#    sleep 1
+#done
+
+unison app >> /var/logs/filesync.log
