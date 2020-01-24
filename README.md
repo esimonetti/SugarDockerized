@@ -351,3 +351,29 @@ Tweak the above settings based on your specific needs.
 These stacks have been built on a Mac platform, that is known to not perform well with [Docker mounted volumes](https://github.com/docker/for-mac/issues/77).
 Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, running a NFS server. I either mount NFS on my Mac when needed or SSH directly into the VM. [The Debian Docker VirtualBox VM for Mac is available here](https://github.com/esimonetti/DebianDockerMac) with its [latest downloadable version here](https://github.com/esimonetti/DebianDockerMac/releases/latest).<br/>
 Alternatively, (...if you are brave enough to run Docker locally on a Mac) you can attempt to use mounted volumes for the data storage (Redis, MySQL and Elasticsearch) and the delegated option. An example of this setup working, can be found [here `stacks/sugar9/php73-mac.yml`](stacks/sugar9/php73-mac.yml) and it can be initiated with `./utilities/stack.sh 90-mac up`.
+
+### Disk performance stats
+To compare performance between Mac and Linux VM on Mac we can use the Toothpaste utility as follows: `./utilities/toothpaste.sh "local:analysis:fsbenchmark --instance=../sugar"`.
+
+Mac with `90` stack:
+```
+Read speed: 640.50 KB/s
+Write speed: 1,407.49 KB/s
+Execution completed in 840.26 seconds.
+```
+
+Mac with optimised `90-mac` stack:
+```
+Read speed: 2,455.70 KB/s
+Write speed: 1,735.60 KB/s
+Execution completed in 333.20 seconds.
+```
+
+Linux VirtualBox VM on Mac with `90` stack:
+```
+Read speed: 114,875.19 KB/s
+Write speed: 56,997.04 KB/s
+Execution completed in 8.26 seconds.
+```
+
+The performance difference with the same exact test cannot be ignored, hence the recommendation to use a Linux VirtualBox VM. The above mentioned disk speeds make the Mac setup unusable.

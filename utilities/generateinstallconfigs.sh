@@ -32,9 +32,9 @@ then
     # generate the silent installer config
     if [ -d './data/app/sugar' ]
     then
-        ./utilities/runcli.sh "php ../configs/install_config.php > ./config_si.php"
+        ./utilities/runcli.sh "php -f ../configs/install_config.php > ./config_si.php"
         echo The silent installer configuration has been deployed into the sugar instance
-        ./utilities/runcli.sh "php ../configs/config_override.php > ./config_override.php"
+        ./utilities/runcli.sh "php -f ../configs/config_override.php > ./config_override.php"
         echo The config override configuration has been deployed into the sugar instance
     else
         echo The sugar directory ./data/app/sugar does not exist. Please make sure all the Sugar files have been extracted on that location
