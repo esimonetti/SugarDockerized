@@ -37,6 +37,16 @@ else
         # if it is our repo, and the source exists, and the destination does not
         if [ -f '.gitignore' ] && [ -d 'data' ] && [ -d $BACKUP_DIR ] && [ -d $BACKUP_DIR/sugar ] && ( [ -f $BACKUP_DIR/sugar.sql ] || [ -f $BACKUP_DIR/sugar.sql.tgz ] )
         then
+
+            FILESYNC=false
+            if [ `docker ps | grep sugar-filesync | wc -l` -eq 1 ]
+            then
+                FILESYNC=true
+                echo Stopping sugar-filesync container, please wait...
+                docker stop -t 15 sugar-filesync > /dev/null
+                echo Done
+            fi
+
             if [ -d 'data/app/sugar' ]
             then
                 rm -rf data/app/sugar
@@ -72,6 +82,13 @@ else
                 then
                     rm $BACKUP_DIR/sugar.sql
                 fi
+            fi
+
+            if $FILESYNC
+            then
+                echo Restarting sugar-filesync container, please wait...
+                docker restart sugar-filesync > /dev/null
+                echo Done
             fi
 
             # refresh all transient storages

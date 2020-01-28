@@ -26,6 +26,15 @@ else
                 exit 1
             fi
 
+            FILESYNC=false
+            if [ `docker ps | grep sugar-filesync | wc -l` -eq 1 ]
+            then
+                FILESYNC=true
+                echo Stopping sugar-filesync container, please wait...
+                docker stop -t 15 sugar-filesync > /dev/null
+                echo Done
+            fi
+
             # remove current sugar dir
             if [ -d './data/app/sugar' ]
             then
@@ -45,6 +54,13 @@ else
             mv $SUGAR_TMP_DIR ./data/app/sugar
             rm -rf ./data/app/tmp
             echo Done
+
+            if $FILESYNC
+            then
+                echo Restarting sugar-filesync container, please wait...
+                docker restart sugar-filesync > /dev/null
+                echo Done
+            fi
 
             # refresh system
             ./utilities/refreshsystem.sh

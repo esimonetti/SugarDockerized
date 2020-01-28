@@ -15,6 +15,16 @@ then
     # if it is our repo
     if [ -f '.gitignore' ] && [ -d 'data/app/sugar' ]
     then
+        if [ `docker ps | grep sugar-filesync | wc -l` -eq 1 ]
+        then
+            echo Initiating Mac file sync \(this operation might take few minutes\), please wait...
+            while [ `docker container top sugar-filesync | grep rsync | wc -l` -ne 0 ]; do
+                sleep 30
+                echo .
+            done
+            echo Done
+        fi
+
         # fix up permissions
         echo Fixing Sugar permissions, please wait...
         docker restart sugar-permissions > /dev/null
