@@ -8,9 +8,9 @@ then
     echo Provide the zip file path containing the Sugar installer
 else
     # check if the stack is running
-    running=`docker ps | grep sugar-cron | wc -l`
+    RUNNING=`docker ps | grep sugar-cron | wc -l`
 
-    if [ $running -gt 0 ]
+    if [ $RUNNING -gt 0 ]
     then
         # enter the repo's root directory
         REPO="$( dirname ${BASH_SOURCE[0]} )/../"
@@ -45,20 +45,9 @@ else
             mv $SUGAR_TMP_DIR ./data/app/sugar
             rm -rf ./data/app/tmp
             echo Done
-            
-            # fix up permissions
-            docker restart sugar-permissions &
-            echo Fixing Sugar permissions, please wait...
-            wait `jobs -p`
-            echo Done
 
-            # clear elastic data
-            echo Deleting all previous Elasticsearch indices, please wait...
-            for index in $(./utilities/runcli.sh "curl -f 'http://sugar-elasticsearch:9200/_cat/indices' -Ss | awk '{print \$3}'")
-            do
-                ./utilities/runcli.sh "curl -f -XDELETE 'http://sugar-elasticsearch:9200/$index' -Ss -o /dev/null"
-            done
-            echo Done
+            # refresh system
+            ./utilities/refreshsystem.sh
 
             # generate silent installer config
             ./utilities/generateinstallconfigs.sh
@@ -70,6 +59,14 @@ else
             echo Installation completed!
             echo 
             echo You can now access the instance on your browser with http://docker.local/sugar
+
+            # post installation initialisation for specific actions (eg: creating test users etc)
+            if [ -f './data/app/initsystem.php' ]
+            then
+                echo Executing script ./data/app/initsystem.php
+                ./utilities/runcli.sh "php -f ../initsystem.php"
+                echo Done
+            fi
         else
             echo The command needs to be executed from within the clone of the repository
         fi

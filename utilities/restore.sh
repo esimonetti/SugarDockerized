@@ -44,9 +44,7 @@ else
             echo Restoring application files
             sudo rsync -a $BACKUP_DIR/sugar data/app/
             echo Application files restored
-            echo Fixing permissions
-            docker start sugar-permissions
-            echo Permissions fixed
+
             echo Restoring database
             docker exec -it sugar-mysql mysqladmin -h localhost -f -u root -proot drop sugar | grep -v "mysqladmin: \[Warning\]"
             docker exec -it sugar-mysql mysqladmin -h localhost -u root -proot create sugar | grep -v "mysqladmin: \[Warning\]"
@@ -75,18 +73,14 @@ else
                     rm $BACKUP_DIR/sugar.sql
                 fi
             fi
+
+            # refresh all transient storages
+            ./utilities/refreshsystem.sh
+
             echo Repairing system
             ./utilities/repair.sh
             echo System repaired
-            echo Restarting cron
-            docker restart sugar-cron
-            echo Cron restarted
-            echo Removing existing Elasticsearch indices
-            for index in $(./utilities/runcli.sh "curl -f 'http://sugar-elasticsearch:9200/_cat/indices' -Ss | awk '{print \$3}'")
-            do
-                ./utilities/runcli.sh "curl -f -XDELETE 'http://sugar-elasticsearch:9200/$index' -Ss -o /dev/null"
-            done
-            echo Elasticsearch indices removed
+
             echo Performing Elasticsearch re-index
             ./utilities/runcli.sh "./bin/sugarcrm search:silent_reindex"
             echo Restore completed!
