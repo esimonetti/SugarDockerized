@@ -46,6 +46,7 @@ else
             rm -rf ./data/app/tmp
             echo Done
 
+
             # refresh system
             ./utilities/refreshsystem.sh
 
@@ -61,12 +62,10 @@ else
             echo You can now access the instance on your browser with http://docker.local/sugar
 
             # post installation initialisation for specific actions (eg: creating test users etc)
-            if [ -f './data/app/initsystem.php' ]
-            then
-                echo Executing script ./data/app/initsystem.php
-                ./utilities/runcli.sh "php -f ../initsystem.php"
-                echo Done
-            fi
+            cp ./utilities/configs/initsystem.php ./data/app/
+            echo Executing script ./data/app/initsystem.php
+            ./utilities/runcli.sh "php -f ../initsystem.php"
+            echo Done
         else
             echo The command needs to be executed from within the clone of the repository
         fi
