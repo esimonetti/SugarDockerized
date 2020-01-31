@@ -4,7 +4,7 @@
 # enricosimonetti.com
 
 # enter the repo's root directory
-REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+REPO="$( dirname ${BASH_SOURCE[0]} )/../../"
 cd $REPO
 if [ -f '.gitignore' ] && [ -d 'data' ]
 then

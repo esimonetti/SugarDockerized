@@ -46,26 +46,11 @@ else
             rm -rf ./data/app/tmp
             echo Done
 
-
             # refresh system
-            ./utilities/refreshsystem.sh
+            ./utilities/build/refreshsystem.sh
 
-            # generate silent installer config
-            ./utilities/generateinstallconfigs.sh
-
-            # run silent installer
-            echo Running installation, please wait...
-            curl -f 'http://docker.local/sugar/install.php?goto=SilentInstall&cli=true' -Ss -o /dev/null
-            echo  
-            echo Installation completed!
-            echo 
-            echo You can now access the instance on your browser with http://docker.local/sugar
-
-            # post installation initialisation for specific actions (eg: creating test users etc)
-            cp ./utilities/configs/initsystem.php ./data/app/
-            echo Executing script ./data/app/initsystem.php
-            ./utilities/runcli.sh "php -f ../initsystem.php"
-            echo Done
+            # execute silent installation
+            ./utilities/build/silentinstall.sh
         else
             echo The command needs to be executed from within the clone of the repository
         fi

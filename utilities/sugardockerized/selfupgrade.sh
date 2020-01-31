@@ -38,9 +38,9 @@ then
             cd $INSTALLDIR
             #git checkout dev
             rm -rf .git
-            rsync -av --exclude data ./* ../
+            rsync -av --exclude data ./ ../
             # forcefully align utilities dir
-            rsync -av --delete ./utilities/* ../utilities/
+            rsync -av --delete ./utilities/ ../utilities/
             cd ..
             rm -rf $INSTALLDIR
             echo Upgrade completed! SugarDockerized is now up to date

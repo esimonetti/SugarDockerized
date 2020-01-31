@@ -9,7 +9,7 @@ RUNNING=`docker ps | grep sugar-cron | wc -l`
 if [ $RUNNING -gt 0 ]
 then
     # enter the repo's root directory
-    REPO="$( dirname ${BASH_SOURCE[0]} )/../"
+    REPO="$( dirname ${BASH_SOURCE[0]} )/../../"
     cd $REPO
     # running
     # if it is our repo

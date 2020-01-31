@@ -75,7 +75,7 @@ else
             fi
 
             # refresh all transient storages
-            ./utilities/refreshsystem.sh
+            ./utilities/build/refreshsystem.sh
 
             echo Repairing system
             ./utilities/repair.sh
