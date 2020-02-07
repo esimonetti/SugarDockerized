@@ -51,7 +51,7 @@ else
 
     echo Executing CLI and web tests
 
-    for i in {1..5}
+    for i in {1..6}
     do
         OUTPUT_CLI=`./utilities/runcli.sh "php ./web_tests/$3/test_$i.php | grep ok | wc -l"`
         if [ $OUTPUT_CLI != '1' ]
