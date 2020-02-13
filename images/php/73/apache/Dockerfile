@@ -21,6 +21,8 @@ RUN apt-get clean \
 
 RUN adduser sugar --disabled-password --disabled-login --gecos ""
 
+RUN echo "<?php \$_SERVER['SERVER_SOFTWARE'] = 'SugarDockerized';" > /usr/local/php/prepend.php
+
 RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'error_log = /var/log/apache2/error.log' >> /usr/local/etc/php/conf.d/docker.ini \
@@ -38,7 +40,8 @@ RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'session.cookie_httponly = 1' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'session.use_trans_sid = 0' >> /usr/local/etc/php/conf.d/docker.ini \
     && echo 'session.save_handler = redis' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.save_path = "tcp://sugar-redis:6379"' >> /usr/local/etc/php/conf.d/docker.ini
+    && echo 'session.save_path = "tcp://sugar-redis:6379"' >> /usr/local/etc/php/conf.d/docker.ini \
+    && echo 'auto_prepend_file = "/usr/local/php/prepend.php"' >> /usr/local/etc/php/conf.d/docker.ini
 
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 COPY config/apache2/sites-available/sugar.conf /etc/apache2/sites-available/sugar.conf
