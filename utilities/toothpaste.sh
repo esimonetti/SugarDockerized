@@ -26,7 +26,7 @@ then
         echo Executing Toothpaste on SugarDockerized...
         if ! [[ $ARGS =~ ^(.*)(\-\-instance)(.*)$ ]]
         then
-            echo Reminder: the --instance parameter for Toothpaste on SugarDockerized should be \"--instance=../sugar\"
+            echo Reminder: the --instance parameter for Toothpaste on SugarDockerized should be \"--instance ../sugar\"
         fi
         echo
 

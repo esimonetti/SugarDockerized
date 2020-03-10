@@ -229,7 +229,7 @@ The script assumes that the database name is sugar and the web directory is suga
 
 ### Detect web server PHP error logs
 To be able to achieve this consistently, it is recommended to leverage the single web server stack.
-By running the command `docker logs -f sugar-web1` it is then possible to tail the output from the access and error log of Apache and/or PHP
+By running the command `docker logs -f sugar-web1` it is then possible to tail the output from the access and error log of Apache and/or PHP. To view just the errors of Apache and/or PHP it is possible to run the command `docker logs -f sugar-web1 1>/dev/null`. The same approach applies to the `sugar-cron` container for cron and cli debugging.
 
 ### Fix Sugar permissions
 You would just need to run again the permissions docker container with `docker start sugar-permissions`. The container will fix the permissions and ownership of files for you and then terminate its execution.
@@ -353,7 +353,7 @@ Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, r
 Alternatively, (...if you are brave enough to run Docker locally on a Mac) you can attempt to use mounted volumes for the data storage (Redis, MySQL and Elasticsearch) and the delegated option. An example of this setup working, can be found [here `stacks/sugar9/php73-mac.yml`](stacks/sugar9/php73-mac.yml) and it can be initiated with `./utilities/stack.sh 90-mac up`.
 
 ### Disk performance stats
-To compare performance between Mac and Linux VM on Mac we can use the Toothpaste utility as follows: `./utilities/toothpaste.sh "local:analysis:fsbenchmark --instance=../sugar"`.
+To compare performance between Mac and Linux VM on Mac we can use the Toothpaste utility as follows: `./utilities/toothpaste.sh "local:analysis:fsbenchmark --instance ../sugar"`.
 
 Mac with `90` stack:
 ```
