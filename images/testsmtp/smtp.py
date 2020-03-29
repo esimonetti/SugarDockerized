@@ -37,12 +37,18 @@ class MultipartSMTPServer(smtpd.SMTPServer):
             if (payload is not None):
                 if parsedEmail.is_multipart():
                     # multipart
-                    print ('========== Parsed email part ==========')
-                    print(bytes.decode(payload, encoding="utf-8"))
-                    print ('======= End of parsed email part =======')
+                    ctype = part.get_content_type()
+                    if ctype == 'text/plain' or ctype == 'text/html':
+                        print ('========== Parsed email part ==========')
+                        print (bytes.decode(payload, encoding="utf-8"))
+                        print ('======= End of parsed email part =======')
+                    else:
+                        print ('Non text/plain text/html multipart email portion detected')
+                        print ('Content type:', ctype)
+                        print ('Filename:', part.get_filename())
                 else:
                     # not multipart
-                    print(bytes.decode(payload, encoding="utf-8"))
+                    print (bytes.decode(payload, encoding="utf-8"))
         print ('')
         print ('============================== END EMAIL ==============================')
         print ('')
