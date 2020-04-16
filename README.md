@@ -474,6 +474,36 @@ $sugar_config['verify_client_ip'] = false;
 ```
 Tweak the above settings based on your specific needs.
 
+### PHPMyAdmin
+You can run PHPMyAdmin in a container to get access to the database tables.
+
+Pull the image
+
+```
+docker pull phpmyadmin/phpmyadmin
+```
+Find the network name
+
+```
+docker inspect sugar-mysql -f "{{json .NetworkSettings.Networks }}"
+```
+
+Note the network name from the result
+
+```
+{"sugar9_default":{"IPAMConfig":null,"Links":null,"Aliases":["25cea53d92b9","mysql"],"NetworkID":"a5a4d323a0a423ad81512c189f73a5b44195a72708e0d48819cb1bd3c89ff5ba","EndpointID":"ea35c217dc0a8b23c09dbb1a46ca29de710dde7fe954413e92967bfc50808d43","Gateway":"172.20.0.1","IPAddress":"172.20.0.4","IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:14:00:04","DriverOpts":null}}
+```
+
+Run phpmyadmin and forward port 80 to 8080 on localhost.  Substitute your network name.
+
+```
+docker run --network sugar9_default --name myadmin -d -e PMA_HOST=sugar-mysql -p 8080:80 phpmyadmin/phpmyadmin 
+```
+
+Go to PhpMyAdmin
+
+http://localhost:8080
+
 ## Mac users notes
 These stacks have been built on a Mac platform, that is known to not perform well with [Docker mounted volumes](https://github.com/docker/for-mac/issues/77).
 Personally I run Docker on a Debian based minimal VirtualBox VM with fixed IP, running a NFS server. I either mount NFS on my Mac when needed or SSH directly into the VM. [The Debian Docker VirtualBox VM for Mac is available here](https://github.com/esimonetti/DebianDockerMac) with its [latest downloadable version here](https://github.com/esimonetti/DebianDockerMac/releases/latest).<br/>
