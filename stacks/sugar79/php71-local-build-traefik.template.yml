@@ -1,0 +1,77 @@
+version: '2'
+
+services:
+    web1:
+        image: sugar_php71_web
+        build: ../../images/php/71/apache
+        ports:
+            - "{WEB_SERVER_PORT}:80"
+        extra_hosts:
+            - "docker.local:127.0.0.1"
+            - "{PROJECT_HOST_NAME}:127.0.0.1"
+        labels:
+            - traefik.http.routers.{PROJECT_NAME}.rule=Host(`{PROJECT_HOST_NAME}`)
+            - traefik.http.routers.{PROJECT_NAME}.entrypoints=web
+            - traefik.enable=true
+            - traefik.docker.network=traefikv2_default
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
+        volumes:
+            - ../../data/app:/var/www/html
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+        networks:
+            - default
+            - traefikv2_default
+    cron:
+        image: sugar_php71_cron
+        build: ../../images/php/71/cron
+        volumes:
+            - ../../data/app:/var/www/html
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+    mysql:
+        image: sugar_mysql
+        build: ../../images/mysql/57
+        ports:
+            - "{DB_SERVER_PORT}:3306"
+        volumes:
+            - ../../data/mysql/57:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=sugar
+            - MYSQL_PASSWORD=sugar
+    elasticsearch:
+        image: sugar_elastic175
+        build: ../../images/elasticsearch/175
+        volumes:
+            - ../../data/elasticsearch/175:/usr/share/elasticsearch/data
+    redis:
+        image: redis:latest
+        volumes:
+            - ../../data/redis:/data
+    permissions:
+        image: sugar_permissions
+        build: ../../images/permissions
+        volumes:
+            - ../../data/app:/var/www/html
+networks:
+    default:
+        driver: bridge
+    traefikv2_default:
+        external: true

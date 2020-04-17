@@ -1,0 +1,13 @@
+## traefik.yml
+entryPoints:
+  web:
+   address: ":80"
+
+# Docker configuration backend
+providers:
+  docker:
+    exposedByDefault: false
+
+# API and dashboard configuration
+api:
+  insecure: true

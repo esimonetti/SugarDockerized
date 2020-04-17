@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+    traefik:
+        container_name: traefik_reverse_proxy
+        ports:
+            - '8080:8080'
+            - '80:80'
+        volumes:
+            - './traefik.yml:/etc/traefik/traefik.yml'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        image: 'traefik:v2.0'
+
+networks:
+  default:
+    driver: bridge
