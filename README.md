@@ -321,6 +321,7 @@ $admin->getSystemUser();
 $admin->first_name = 'admin';
 $admin->last_name = 'admin';
 $admin->email1 = $set['email-admin'];
+$admin->cookie_consent = 1;
 $admin->save();
 
 $admin = \BeanFactory::getBean('Users', $admin->id);
@@ -340,6 +341,7 @@ $u->last_name = 'test';
 $u->user_hash = \User::getPasswordHash('test');
 $u->status = 'Active';
 $u->email1 = $set['email-user'];
+$u->cookie_consent = 1;
 $u->save();
 
 $u = \BeanFactory::getBean('Users', $u->id);
@@ -350,6 +352,13 @@ $u->setPreference('time', $set['time']);
 $u->setPreference('ut', 1);
 $u->setPreference('default_locale_name_format', $set['name-format']);
 $u->savePreferencesToDB();
+
+echo 'Setting default mail server to sugar-smtp' . PHP_EOL;
+$oe = \BeanFactory::newBean('OutboundEmail');
+$oe->mail_smtpserver = 'sugar-smtp';
+$oe->mail_smtpport = 25;
+$oe->mail_smtpssl = 0;
+$oe->saveSystem();
 ```
 
 The above script configures specific settings of the Sugar System user and also creates a new test user. The script can be extended and improved to suit the specific needs.
