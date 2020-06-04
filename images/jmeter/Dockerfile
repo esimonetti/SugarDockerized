@@ -24,7 +24,7 @@ RUN cd /opt/jmeterinstall \
     && tar -xzf apache-jmeter-5.0.tgz -C jmeter --strip 1 \ 
     && rm -f apache-jmeter-5.0.tgz \
     && wget -O jmeter/lib/cmdrunner-2.2.jar  http://search.maven.org/remotecontent?filepath=kg/apc/cmdrunner/2.2/cmdrunner-2.2.jar \
-    && wget -O jmeter/lib/ext/jmeter-plugins-manager-1.3.jar https://jmeter-plugins.org/get/ \
+    && wget -O jmeter/lib/ext/jmeter-plugins-manager-1.3.jar http://jmeter-plugins.org/get/ \
     && java -cp jmeter/lib/ext/jmeter-plugins-manager-1.3.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
     && jmeter/bin/PluginsManagerCMD.sh install jpgc-json \
     && jmeter/bin/PluginsManagerCMD.sh install jpgc-xml
