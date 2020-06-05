@@ -267,11 +267,11 @@ This script allows a certain degree of flexibility by allowing the following cus
 * Custom initialisation PHP script - allows to perform actions to the system after installation, leveraging Sugar Beans and any system logic (eg: load few test users, configure mail settings etc)
 
 #### jmeter/build.sh
-This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance)
+This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance).
 Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com 
 
 #### jmeter/run.sh
-This script run the jmeter scenario.
+This script runs the jmeter test scenario.
 To allow authentication, users with the format user:user1 pass:user1 should be created in advance. 
 ```sh
 $./utilities/jmeter/run.sh "ant customerTarget -file build.xml -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10 -DTIMER_DELAY=5000 -DTHREADS=5 -DITERATION_NUM=8 -DREST_ENDPOINT=/sugar/rest/v11_1 -DTHREAD_RAMP_UP=120"
