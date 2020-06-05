@@ -256,7 +256,7 @@ The script requires a clone of Sugar's git repository within `./data/app/Mango` 
 If we want to build the application version 10.0.0 Enterprise, the build command would be:
 ```./utilities/build/build.sh ent 10.0.0```
 
-The script will peform all the steps necessary to build the current branch of the software and also perform its silent installation.
+The script will perform all the steps necessary to build the current branch of the software and also perform its silent installation.
 To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](https://github.com/esimonetti/SugarDockerized#buildsilentinstallsh).
 
 #### build/silentinstall.sh
@@ -265,6 +265,22 @@ This script allows a certain degree of flexibility by allowing the following cus
 * Custom installation configuration - to provide infrastructure details, urls, license key etc.
 * Custom `config_override.php` - to provide additional settings that might be needed for your Sugar installation
 * Custom initialisation PHP script - allows to perform actions to the system after installation, leveraging Sugar Beans and any system logic (eg: load few test users, configure mail settings etc)
+
+####jmeter/build.sh
+This script installs the jmeter components present on the performance repository: https://github.com/sugarcrm/performance
+Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com 
+
+#### jmeter/run.sh
+This script run the jmeter scenario.
+To allow the testto login users with the format user:user1 pass:user1 should be craeted in advance. 
+```sh
+$./utilities/jmeter/run.sh "ant customerTarget -file build.xml -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10 -DTIMER_DELAY=5000 -DTHREADS=5 -DITERATION_NUM=8 -DREST_ENDPOINT=/sugar/rest/v11_1 -DTHREAD_RAMP_UP=120"
+```
+The following arguments can be changed for the server of the target instance:
+
+* **HOST_HEADER** - Used to pass HOST header on load balancer.
+* **SERVER** - SugarCRM server
+
 
 ##### Custom installation configuration
 The custom installation configuration has to be located in `./data/app/configs/install_config_custom.php`. This script is optional. An empty and initialised version of this file will be generated if it does not exist.
