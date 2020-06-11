@@ -242,6 +242,21 @@ System repaired
 It restores a previous snapshot of sugar files from `backups/backup_802_2018_11_21/sugar` and of MySQL from `backups/backup_802_2018_11_21/sugar.sql`
 The script assumes that the database name is sugar and the web directory is sugar as well. The script does not restore Elasticsearch and/or Redis.
 
+#### jmeter/build.sh
+This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance).
+Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com
+
+#### jmeter/run.sh
+This script runs the jmeter test scenario.
+To allow authentication, users with the format user:user1 pass:user1 should be created in advance.
+```sh
+$./utilities/jmeter/run.sh "ant customerTarget -file build.xml -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10 -DTIMER_DELAY=5000 -DTHREADS=5 -DITERATION_NUM=8 -DREST_ENDPOINT=/sugar/rest/v11_1 -DTHREAD_RAMP_UP=120"
+```
+The following arguments should be adapted to target server:
+
+* **HOST_HEADER** - Used to pass HOST header on load balancer.
+* **SERVER** - SugarCRM server
+
 #### installfromzip.sh
 This script requires a Sugar zip package, and the zip package needs to be on the host running SugarDockerized.
 If the installable zip package is located within the local directory `~/installable/SugarEnt-9.0.2.zip` the install command would be:
@@ -265,22 +280,6 @@ This script allows a certain degree of flexibility by allowing the following cus
 * Custom installation configuration - to provide infrastructure details, urls, license key etc.
 * Custom `config_override.php` - to provide additional settings that might be needed for your Sugar installation
 * Custom initialisation PHP script - allows to perform actions to the system after installation, leveraging Sugar Beans and any system logic (eg: load few test users, configure mail settings etc)
-
-#### jmeter/build.sh
-This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance).
-Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com 
-
-#### jmeter/run.sh
-This script runs the jmeter test scenario.
-To allow authentication, users with the format user:user1 pass:user1 should be created in advance. 
-```sh
-$./utilities/jmeter/run.sh "ant customerTarget -file build.xml -DHOST_HEADER=10.10.10.10 -DSERVER=10.10.10.10 -DTIMER_DELAY=5000 -DTHREADS=5 -DITERATION_NUM=8 -DREST_ENDPOINT=/sugar/rest/v11_1 -DTHREAD_RAMP_UP=120"
-```
-The following arguments should be adapted to target server:
-
-* **HOST_HEADER** - Used to pass HOST header on load balancer.
-* **SERVER** - SugarCRM server
-
 
 ##### Custom installation configuration
 The custom installation configuration has to be located in `./data/app/configs/install_config_custom.php`. This script is optional. An empty and initialised version of this file will be generated if it does not exist.
