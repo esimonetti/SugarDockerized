@@ -73,6 +73,7 @@ The main stacks work with [Sugar version 9.0 and all its platform requirements](
 * Redis: sugar-redis
 * Cron: sugar-cron
 * Permission: sugar-permissions
+* MailHog (email testing tool for developers): sugar-mailhog
 
 To verify all components hostnames just run `docker ps` when the stack is up and running.
 
@@ -85,6 +86,7 @@ Please note that on this setup, only the web server or the load balancer (if in 
 * PHP
 * Redis
 * Elasticsearch
+* MailHog
 
 ### Sugar Setup details
 * Browser url: http://docker.local/sugar/ - Based on the host file entry defined above on the local machine
@@ -153,6 +155,16 @@ Alternatively the limit can be increased runtime with:
 * `images/ldap/` - OpenLDAP image
 
 Most images are currently leveraging Debian linux.
+
+### MailHog additional information
+By default, MailHog keeps all emails in memory. So after the container is restarted, all messages are deleted.
+#### System Email Settings of SugarCRM
+* SMTP Mail Server: sugar-mailhog
+* Use SMTP Authentication: No
+* SMTP Port: 1025
+* Enable SMTP over SSL or TLS?: None
+#### Web UI of MailHog
+You can access to the MailHog Web UI by following link: http(s)://\<url\>:8025
 
 ### Persistent storage locations
 All persistent storage is located within the `./data` directory tree within your local checkout of this git repository.
@@ -368,10 +380,10 @@ $u->setPreference('ut', 1);
 $u->setPreference('default_locale_name_format', $set['name-format']);
 $u->savePreferencesToDB();
 
-echo 'Setting default mail server to sugar-smtp' . PHP_EOL;
+echo 'Setting default mail server to sugar-mailhog' . PHP_EOL;
 $oe = \BeanFactory::newBean('OutboundEmail');
-$oe->mail_smtpserver = 'sugar-smtp';
-$oe->mail_smtpport = 25;
+$oe->mail_smtpserver = 'sugar-mailhog';
+$oe->mail_smtpport = 1025;
 $oe->mail_smtpssl = 0;
 $oe->saveSystem();
 ```

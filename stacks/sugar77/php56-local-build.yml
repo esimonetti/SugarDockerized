@@ -16,10 +16,12 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
     cron:
         container_name: "sugar-cron"
         image: sugar77_php56_cron
@@ -31,10 +33,12 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
     mysql:
         container_name: "sugar-mysql"
         image: sugar77_mysql
@@ -64,3 +68,8 @@ services:
         build: ../../images/permissions
         volumes:
             - ../../data/app:/var/www/html
+    mailhog:
+        container_name: "sugar-mailhog"
+        image: mailhog/mailhog:latest
+        ports:
+            - "8025:8025"
