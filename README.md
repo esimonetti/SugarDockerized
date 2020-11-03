@@ -156,14 +156,14 @@ Alternatively the limit can be increased runtime with:
 
 Most images are currently leveraging Debian linux.
 
-### MailHog additional information
+## MailHog additional information
 By default, MailHog keeps all emails in memory. So after the container is restarted, all messages are deleted.
-#### System Email Settings of SugarCRM
+### System Email Settings of SugarCRM
 * SMTP Mail Server: sugar-mailhog
 * Use SMTP Authentication: No
 * SMTP Port: 1025
 * Enable SMTP over SSL or TLS?: None
-#### Web UI of MailHog
+### Web UI of MailHog
 You can access to the MailHog Web UI by following link: http(s)://\<url\>:8025
 
 ### Persistent storage locations
