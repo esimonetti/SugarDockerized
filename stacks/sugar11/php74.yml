@@ -77,3 +77,7 @@ services:
         image: sugar_permissions
         volumes:
             - ../../data/app:/var/www/html
+
+volumes:
+    es-data01:
+        driver: local
