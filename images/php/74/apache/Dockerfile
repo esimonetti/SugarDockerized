@@ -73,8 +73,8 @@ RUN cd /usr/src/php/ext/gd && make
 RUN cp /usr/src/php/ext/gd/modules/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/gd.so
 RUN docker-php-ext-install -j$(nproc) gd
 
-# disable by default, it can be enabled locally
-#COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+# enabled by default, it can be disabled locally
+COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
