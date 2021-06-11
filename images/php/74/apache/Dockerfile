@@ -12,6 +12,7 @@ RUN apt-get update \
     libldap2-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
+    libxml2-dev \
     git \
     --no-install-recommends
 
@@ -65,7 +66,8 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-install ldap \
     && pecl install xdebug \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && docker-php-ext-install soap
 
 # FIX for PHP 7.4 - Problems on GD with JPEG and FreeType support
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg
