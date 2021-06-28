@@ -1,4 +1,4 @@
-# Sugar Dockerized [![Build Status](https://travis-ci.org/esimonetti/SugarDockerized.svg?branch=master)](https://travis-ci.org/esimonetti/SugarDockerized) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
+# Sugar Dockerized [![Build Status](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar11.yml/badge.svg)](https://github.com/esimonetti/SugarDockerized/actions) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
 This repository will help you deploy a Docker based **development only** full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
 ## Requirements
