@@ -12,6 +12,7 @@ RUN apt-get update \
     libldap2-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
+    libxml2-dev \
     git \
     --no-install-recommends
 
@@ -69,7 +70,8 @@ RUN docker-php-ext-install mysqli \
     # problem for xdebug 2.6.1 with php 7.3rc (https://bugs.xdebug.org/view.php?id=1584)
     && pecl install xdebug-2.7.0beta1 \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    && docker-php-ext-install soap
 
 # disable by default, it can be enabled locally
 #COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
