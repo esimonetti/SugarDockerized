@@ -1,0 +1,21 @@
+name: 
+on:
+    #push:
+    #    branches: [ master, dev ]
+    pull_request:
+        branches: [ master ]
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: 
+                run: ['stacks/sugar11/php74.yml', 'stacks/sugar11/php74-local-build.yml']
+        steps:
+            - run: sudo sysctl -w vm.max_map_count=262144
+            - run: echo '127.0.0.1 docker.local' | sudo tee -a /etc/hosts
+            - uses: actions/checkout@v1
+            - run: cp -r ./tests/web_tests ./data/app/sugar/
+            - run: ./tests/start.sh ${{ matrix.run }}
+            - run: ./tests/web_tests.sh ${{ matrix.run }} 11.0 7.4
+            - run: ./tests/stop.sh ${{ matrix.run }}
