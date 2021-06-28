@@ -106,7 +106,7 @@ Apache web servers have enabled:
 Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
 * XHProf and Tideways profilers
-* Xdebug is installed but it is not enabled by default (due to its performance impact). If there is the need to enable it, you would have to uncomment the configuration option on the PHP Dockerfile of choice, and leverage the stack configuration with local build.
+* Xdebug is installed but it is not enabled by default (due to its performance impact). For PHP 5.6 images and all cron images if there is the need to enable it, you would have to uncomment the configuration option on the PHP Dockerfile of choice, and leverage the stack configuration with local build. For other case see [`xdebug.sh`](#xdebugsh).
     * If you use an IDE such as PHPStorm, you can setup DBGp Proxy under the menus Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Example settings are available in the screenshot below:
 
       <img width="1026" alt="PHPStorm xdebug settings" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
@@ -177,6 +177,49 @@ If you do need multiple instances, as long as they are not running at the same t
 
 ### Utilities
 To help with development, there are a set of tools provided within the `utilities` [directory of this repository](utilities). Some of the scripts are mentioned below.
+
+#### xdebug.sh
+```./utilities/xdebug.sh [status | start | stop]```
+```
+./utilities/xdebug.sh status
+xDebug status
+PHP 7.1.33 (cli) (built: Nov 22 2019 18:28:25) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.1.33, Copyright (c)1999-2018, by Zend Technologies
+```
+```
+./utilities/xdebug.sh start
+Start xDebug
+6c9a9862b60c
+PHP 7.1.33 (cli) (built: Nov 22 2019 18:28:25) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.1.33, Copyright (c) 1999-2018, by Zend Technologies
+    with Xdebug v2.9.2, Copyright (c) 2002-2020, by Derick Rethans
+```
+```
+./utilities/xdebug.sh stop
+Stop xDebug
+6c9a9862b60c
+PHP 7.1.33 (cli) (built: Nov 22 2019 18:28:25) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.1.33, Copyright (c) 1999-2018, by Zend Technologies
+```
+Due to performance impact, Xdebug is disabled by default. This script prompts you to activate Xdebug, check if Xdebug is activated, or disable it.
+If you do not want to configure DBGp Proxy when running the script, you can specify the second argument `change-ip`. In this case, the script will change the `xdebug.remote_host` option to your local IP address.
+```
+./utilities/xdebug.sh start change-ip
+Start xDebug
+New IP of remote_host: 192.168.0.105
+6c9a9862b60c
+PHP 7.1.33 (cli) (built: Nov 22 2019 18:28:25) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.1.33, Copyright (c) 1999-2018, by Zend Technologies
+    with Xdebug v2.9.2, Copyright (c) 2002-2020, by Derick Rethans
+```
 
 #### setownership.sh
 ```./utilities/setownership.sh```
