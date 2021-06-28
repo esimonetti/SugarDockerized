@@ -3,7 +3,7 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugar_php74_web
+        image: esimonetti/sugardockerized:php7.4-apache-1.40
         ports:
             - "8080:80"
         extra_hosts:                                   
@@ -18,13 +18,15 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - testsmtp
         links:
             - mysql
             - elasticsearch
             - redis
+            - testsmtp
     cron:
         container_name: "sugar-cron"
-        image: sugar_php74_cron        
+        image: esimonetti/sugardockerized:php7.4-cron-1.40
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -32,13 +34,15 @@ services:
             - elasticsearch
             - redis
             - permissions
-        links:            
+            - testsmtp
+        links:
             - mysql
             - elasticsearch
-            - redis  
+            - redis
+            - testsmtp
     mysql:
         container_name: "sugar-mysql"
-        image: sugar_mysql
+        image: esimonetti/sugardockerized:mysql5.7-1.06
         ports:
             - "3306:3306"
         volumes:
@@ -74,9 +78,13 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: sugar_permissions
+        image: esimonetti/sugardockerized:permissions-1.19
         volumes:
             - ../../data/app:/var/www/html
+    testsmtp:
+        container_name: "sugar-smtp"
+        image: sugar_testsmtp
+        build: ../../images/testsmtp
 
 volumes:
     es-data01:
