@@ -14,6 +14,7 @@ This repository will help you deploy a Docker based **development only** full st
 
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
+* [Sugar 12](stacks/sugar12/README.md) - This stack is valid from version 12 for local developement also of Sugar Cloud only versions
 * [Sugar 11](stacks/sugar11/README.md) - This stack is valid from version 11 for local developement also of Sugar Cloud only versions
 * [Sugar 9](stacks/sugar9/README.md) - This stack is also valid for 9.x and 10.x for local development of Sugar Cloud only versions
 * [Sugar 8](stacks/sugar8/README.md)
