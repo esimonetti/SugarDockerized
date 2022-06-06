@@ -1,4 +1,5 @@
-# Sugar Dockerized [![Build Status](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar11.yml/badge.svg)](https://github.com/esimonetti/SugarDockerized/actions) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
+# Sugar Dockerized [![Build Status](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar12.yml/badge.svg)](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar12.yml) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
+
 This repository will help you deploy a Docker based **development only** full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
 ## Requirements
@@ -16,8 +17,6 @@ This repository will help you deploy a Docker based **development only** full st
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
 * [Sugar 12](stacks/sugar12/README.md) - This stack is valid from version 12 for local developement also of Sugar Cloud only versions
 * [Sugar 11](stacks/sugar11/README.md) - This stack is valid from version 11 for local developement also of Sugar Cloud only versions
-* [Sugar 9](stacks/sugar9/README.md) - This stack is also valid for 9.x and 10.x for local development of Sugar Cloud only versions
-* [Sugar 8](stacks/sugar8/README.md)
 
 You will find additional stacks within the [stack directory of the project](stacks).
 For most stacks, there are both the pre-built version (eg on Sugar 9: `./stacks/sugar9/php73.yml`) and a locally built version (eg on Sugar 9: `./stacks/sugar9/php73-local-build.yml`). The locally built version will be built run-time, and therefore those stacks will let you specify additional changes you might require to the docker images provided. Local builds will take much longer to deploy than pre-built ones.
@@ -44,10 +43,7 @@ There are multiple stack components as docker containers, that perform different
 * Choose the yml stack to run, within [stacks](stacks/)
 
 ## Starting and stopping the desired stack
-Leverage the utility script [stack.sh](https://github.com/esimonetti/SugarDockerized#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
-Alternatively you can execute manually the following commands:
-* Run the stack with `docker-compose -f <stack yml filename> up -d --build` (eg: `docker-compose -f stacks/sugar9/php73.yml up -d --build`)
-* Stop the stack with `docker-compose -f <stack yml filename> down && docker-compose -f <stack yml filename> rm` (eg: `docker-compose -f stacks/sugar9/php73.yml down && docker-compose -f stacks/sugar9/php73.yml rm`)
+Please leverage the utility script [stack.sh](https://github.com/esimonetti/SugarDockerized#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
 
 ## Installation - How to get Sugar installed
 For details about the hostnames and credentials of each of the infrastructure components, refer to [Sugar Setup details](https://github.com/esimonetti/SugarDockerized#sugar-setup-details).

@@ -46,7 +46,7 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - ../../data/mysql/57:/var/lib/mysql
+            - ../../data/mysql/80:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
