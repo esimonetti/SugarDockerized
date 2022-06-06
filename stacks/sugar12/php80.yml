@@ -3,12 +3,11 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugar_php80_web
-        build: ../../images/php/80/apache
+        image: esimonetti/sugardockerized:php8.0-apache-1.50
         ports:
             - "80:80"
-        extra_hosts:
-            - "docker.local:127.0.0.1"
+        extra_hosts:                                   
+            - "docker.local:127.0.0.1"                        
         environment:
             - "APACHE_RUN_USER=sugar"
             - "APACHE_RUN_GROUP=sugar"
@@ -19,14 +18,15 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - testsmtp
         links:
             - mysql
             - elasticsearch
             - redis
+            - testsmtp
     cron:
         container_name: "sugar-cron"
-        image: sugar_php80_cron
-        build: ../../images/php/80/cron
+        image: esimonetti/sugardockerized:php8.0-cron-1.50
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -34,18 +34,19 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - testsmtp
         links:
             - mysql
             - elasticsearch
             - redis
+            - testsmtp
     mysql:
         container_name: "sugar-mysql"
-        image: sugar_mysql
-        build: ../../images/mysql/80
+        image: esimonetti/sugardockerized:mysql8.0-1.50
         ports:
-            - "3336:3306"
+            - "3306:3306"
         volumes:
-            - ../../data/mysql/80:/var/lib/mysql
+            - ../../data/mysql/57:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
@@ -77,10 +78,13 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: sugar_permissions
-        build: ../../images/permissions
+        image: esimonetti/sugardockerized:permissions-1.19
         volumes:
             - ../../data/app:/var/www/html
+    testsmtp:
+        container_name: "sugar-smtp"
+        image: sugar_testsmtp
+        build: ../../images/testsmtp
 
 volumes:
     es-data01:
