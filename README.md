@@ -2,6 +2,12 @@
 
 This repository will help you deploy a Docker based **development only** full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
+## Donations
+
+If you find this sofware useful, please consider supporting the work that went into it, with a monthly amount. Thank you!
+
+[<img src="https://www.paypalobjects.com/en_AU/i/btn/btn_donate_LG.gif">](https://www.paypal.com/donate/?business=35FG9B3LQ3WPA&no_recurring=0&item_name=If+you+find+this+software+useful%2C+please+consider+supporting+the+work+that+went+into+it%2C+with+a+monthly+amount.+Thank+you%21&currency_code=AUD)
+
 ## Requirements
 * linux platform - it can be a virtual machine
 * docker
