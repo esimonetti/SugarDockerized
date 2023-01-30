@@ -12,7 +12,7 @@ while (true) {
         $output = array();
         exec('cd ' . $folder . ' && php -f ' . $cron . ' && cd /', $output);
         if (!empty($output)) {
-            echo implode($output, PHP_EOL).PHP_EOL;
+            echo implode(PHP_EOL, $output).PHP_EOL;
         }
         echo '[' . date('Y-m-d H:i:s') . '] sugar cron end' . PHP_EOL;
         if (file_exists($folder . '/' . $cron_pause)) {
