@@ -65,7 +65,8 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
     && docker-php-ext-install ldap \
-    && pecl install xdebug \
+# cannot install latest Xdebug any longer on php 7.4 as it requires php 8+
+    && pecl install xdebug-3.1 \   && docker-php-ext-install ldap \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install soap
