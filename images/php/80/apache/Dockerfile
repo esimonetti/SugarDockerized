@@ -59,19 +59,20 @@ RUN set -ex \
 
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-install bcmath \
-    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \ 
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
     && docker-php-ext-install ldap \
-    && pecl install xdebug \
+# cannot install latest Xdebug any longer on php 7.4 as it requires php 8+
+    && pecl install xdebug-3.1.6 \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install soap
 
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+&& docker-php-ext-install -j$(nproc) gd
 
 # enabled by default, it can be disabled locally
 COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

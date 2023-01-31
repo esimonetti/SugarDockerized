@@ -3,7 +3,7 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: esimonetti/sugardockerized:php8.0-apache-1.50
+        image: esimonetti/sugardockerized:php8.0-apache-1.51
         ports:
             - "80:80"
         extra_hosts:                                   
@@ -26,7 +26,7 @@ services:
             - testsmtp
     cron:
         container_name: "sugar-cron"
-        image: esimonetti/sugardockerized:php8.0-cron-1.50
+        image: esimonetti/sugardockerized:php8.0-cron-1.51
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
