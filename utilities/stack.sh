@@ -71,6 +71,14 @@ else
                 echo --------------------------------------------------------------------------------------------------------------------------------
                 echo
             fi
+
+            echo
+            echo
+            echo If you find this software useful, please consider supporting the work that went into it, with a monthly amount
+            echo Please visit the original repo: https://github.com/esimonetti/SugarDockerized for details
+            echo Thank you!
+            echo
+            echo
         fi
     else
         if [ ! -d 'data' ]
