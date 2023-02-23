@@ -20,10 +20,12 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
     cron:
         container_name: "sugar-cron"
         image: esimonetti/sugardockerized:php7.3-cron-1.40
@@ -34,10 +36,12 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
     mysql:
         container_name: "sugar-mysql"
         image: esimonetti/sugardockerized:mysql5.7-1.06
@@ -74,6 +78,11 @@ services:
         image: esimonetti/sugardockerized:permissions-1.19
         volumes:
             - ../../data/app:/var/www/html:delegated
+    mailhog:
+        container_name: "sugar-mailhog"
+        image: mailhog/mailhog:latest
+        ports:
+            - "8025:8025"
 volumes:
     sugar-mysql-data:
     sugar-redis-data:

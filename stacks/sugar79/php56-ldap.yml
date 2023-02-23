@@ -15,11 +15,13 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
             - ldap
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
             - ldap
     cron:
         container_name: "sugar-cron"
@@ -31,11 +33,13 @@ services:
             - elasticsearch
             - redis
             - permissions
+            - mailhog
             - ldap
         links:
             - mysql
             - elasticsearch
             - redis
+            - mailhog
             - ldap
     mysql:
         container_name: "sugar-mysql"
@@ -63,6 +67,11 @@ services:
         image: esimonetti/sugardockerized:permissions-1.19
         volumes:
             - ../../data/app:/var/www/html
+    mailhog:
+        container_name: "sugar-mailhog"
+        image: mailhog/mailhog:latest
+        ports:
+            - "8025:8025"
     ldap:
         container_name: "sugar-ldap"
         image: esimonetti/sugardockerized:ldap
