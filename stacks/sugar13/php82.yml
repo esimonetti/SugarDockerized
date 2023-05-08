@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+    web1:
+        container_name: "sugar-web1"
+        image: sugarcrmdevelopers/sugardockerized:php8.2-apache-latest
+        ports:
+            - "80:80"
+        extra_hosts:                                   
+            - "docker.local:127.0.0.1"                        
+        environment:
+            - "APACHE_RUN_USER=sugar"
+            - "APACHE_RUN_GROUP=sugar"
+        volumes:
+            - ../../data/app:/var/www/html
+            - ../../images/php/82/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+            - testsmtp
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+            - testsmtp
+    cron:
+        container_name: "sugar-cron"
+        image: sugarcrmdevelopers/sugardockerized:php8.2-cron-latest
+        volumes:
+            - ../../data/app:/var/www/html
+            - ../../images/php/82/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+        depends_on:
+            - mysql
+            - elasticsearch
+            - redis
+            - permissions
+            - testsmtp
+        links:
+            - mysql
+            - elasticsearch
+            - redis
+            - testsmtp
+    mysql:
+        container_name: "sugar-mysql"
+        image: sugarcrmdevelopers/sugardockerized:mysql8.0.32-latest
+        ports:
+            - "3306:3306"
+        volumes:
+            - ../../data/mysql/8032:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=sugar
+            - MYSQL_PASSWORD=sugar
+    elasticsearch:
+        image: elasticsearch:8.4.3
+        container_name: "sugar-elasticsearch"
+        ports:
+            - 9200:9200
+            - 9300:9300
+        volumes:
+            - es-data01:/usr/share/elasticsearch/data
+        environment:
+            - node.name=sugar1
+            - cluster.name=sugarcrm13
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - xpack.security.enabled=false
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+            nofile:
+                soft: 65536
+                hard: 65536
+    redis:
+        container_name: "sugar-redis"
+        image: redis:latest
+        volumes:
+            - ../../data/redis:/data
+    permissions:
+        container_name: "sugar-permissions"
+        image: sugarcrmdevelopers/sugardockerized:permissions-latest
+        volumes:
+            - ../../data/app:/var/www/html
+    testsmtp:
+        container_name: "sugar-smtp"
+        image: sugarcrmdevelopers/sugardockerized:testsmtp-latest
+
+volumes:
+    es-data01:
+        driver: local

@@ -1,0 +1,74 @@
+name: ci-v13
+on:
+    push:
+        tags:
+            - 'v*'
+    #    branches: [ master, dev ]
+    # pull_request:
+    #     branches: [ master ]
+jobs:
+    tests:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: 
+                run: ['stacks/sugar13/php82-local-build.yml']
+        steps:
+            - run: sudo sysctl -w vm.max_map_count=262144
+            - run: echo '127.0.0.1 docker.local' | sudo tee -a /etc/hosts
+            - uses: actions/checkout@v1
+            - run: cp -r ./tests/web_tests ./data/app/sugar/
+            - run: ./tests/start.sh ${{ matrix.run }}
+            - run: ./tests/web_tests.sh ${{ matrix.run }} 13.0 8.2
+            - run: ./tests/stop.sh ${{ matrix.run }}
+
+    docker:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                - dockercontext: ./images/php/82/apache
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: php8.2-apache-
+                - dockercontext: ./images/php/82/cron
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: php8.2-cron-
+                - dockercontext: ./images/mysql/8032
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: mysql8.0.32-
+                - dockercontext: ./images/permissions
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: permissions-
+                - dockercontext: ./images/testsmtp
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: testsmtp-
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v3
+          - name: Set up QEMU
+            uses: docker/setup-qemu-action@v2
+          - name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v2
+          - name: Login to DockerHub
+            uses: docker/login-action@v2
+            with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+          - name: Extract metadata (tags, labels) for Docker
+            id: meta
+            uses: docker/metadata-action@v4
+            with:
+                images: ${{ matrix.image }}
+                flavor: |
+                    latest=true
+                    prefix=${{ matrix.prefix }},onlatest=true
+
+          - name: Build and push
+            uses: docker/build-push-action@v4
+            with:
+                context: ${{ matrix.dockercontext }}
+                push: true
+                platforms: 'linux/amd64,linux/arm64'
+                tags: ${{ steps.meta.outputs.tags }}
+                labels: ${{ steps.meta.outputs.labels }}

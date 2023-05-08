@@ -26,6 +26,7 @@ else
                 exit 1
             fi
 
+            echo "Cleaning up previous install (./data/app/sugar) if any, please wait..."
             # remove current sugar dir
             if [ -d './data/app/sugar' ]
             then
