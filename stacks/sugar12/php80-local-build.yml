@@ -14,6 +14,7 @@ services:
             - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
+            - ../../images/php/80/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
@@ -29,6 +30,7 @@ services:
         build: ../../images/php/80/cron
         volumes:
             - ../../data/app:/var/www/html
+            - ../../images/php/80/cron/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
@@ -81,6 +83,10 @@ services:
         build: ../../images/permissions
         volumes:
             - ../../data/app:/var/www/html
+    testsmtp:
+        container_name: "sugar-smtp"
+        image: sugar_testsmtp
+        build: ../../images/testsmtp
 
 volumes:
     es-data01:

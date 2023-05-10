@@ -27,18 +27,6 @@ RUN adduser sugar --disabled-password --disabled-login --gecos "" \
 
 RUN echo "<?php \$_SERVER['SERVER_SOFTWARE'] = 'SugarDockerized';" > /usr/local/php/prepend.php
 
-RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_reporting = E_ALL \& ~E_WARNING \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_log = /proc/1/fd/1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'max_execution_time = -1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'realpath_cache_size = 512k' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'realpath_cache_ttl = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'mbstring.func_overload = 0' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'auto_prepend_file = "/usr/local/php/prepend.php"' >> /usr/local/etc/php/conf.d/docker.ini
-
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-install bcmath \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \ 
