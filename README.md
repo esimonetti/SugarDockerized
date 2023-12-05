@@ -290,6 +290,47 @@ System repaired
 It restores a previous snapshot of sugar files from `backups/backup_802_2018_11_21/sugar` and of MySQL from `backups/backup_802_2018_11_21/sugar.sql`
 The script assumes that the database name is sugar and the web directory is sugar as well. The script does not restore Elasticsearch and/or Redis.
 
+#### restorefromfile.sh
+```./utilities/restorefromfile.sh ~/Downloads/your-cloud-backup.sugarcrm.com.1320ent.1699996734.b76cf32986a8800255e21124a572dc4c151170c2.tar.gz```
+```
+Cleaning up previous install (./data/app/sugar) if any, please wait...
+Decompressing /path-to-your-downloads-folder/Downloads/your-cloud-backup.sugarcrm.com.1320ent.1699996734.b76cf32986a8800255e21124a572dc4c151170c2.tar.gz, please wait...
+Restoring application files
+Application files restored
+Restoring database
+Database "sugar" dropped
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Database restored
+Dockerizing Backup config files...
+Cleaning up please wait...
+Fixing Sugar permissions, please wait...
+Done
+Restarting sugar-web1 container, please wait...
+Done
+Restarting sugar-cron container, please wait...
+Done
+Deleting all previous redis values
+Done
+Deleting all previous Elasticsearch indices, please wait...
+Done
+Repairing system
+Preparing SystemUser...
+Running QRR...
+Rebuilding cache...
+Warming up Services...
+Done repairing...
+System repaired
+Performing Elasticsearch re-index
+Scheduling reindex ... 
+Consuming queue ... please be patient
+Consuming queue ... finish batch #1
+Reindexing complete
+Restore completed!
+```
+It restores a SugarCloud snapshot/backup that contains your full Sugar instance with files, custom folders as well as full database backup. 
+The script will [config_override.php](/utilities/configs/config_override_dockerized.php) settings to make your instance Docker ready. The script does not restore Elasticsearch and/or Redis.
+
 #### jmeter/build.sh
 This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance).
 Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com
