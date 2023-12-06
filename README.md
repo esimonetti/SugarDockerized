@@ -1,4 +1,4 @@
-# Sugar Dockerized [![Build Status](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar13.yml/badge.svg)](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar13.yml) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
+# Sugar Dockerized [![Build Status](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar13.yml/badge.svg)](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar13.yml)
 
 This repository will help you deploy a Docker based **development only** full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
@@ -46,24 +46,24 @@ There are multiple stack components as docker containers, that perform different
 
 ## SugarDockerized installation
 * The first step for everything to work smoothly, is to add on your computer's host file `/etc/hosts` the entry `docker.local` to point to your machine's ip (it might be `127.0.0.1` if running the stack locally, or the LAN static ip address of the VM running Docker. If using the Debian VirtualBox image provided at the bottom of this README, the ip address is `10.10.10.10`)
-* Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
+* Clone the repository with `git clone https://github.com/sugarcrm-developers/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
 * Choose the yml stack to run, within [stacks](stacks/)
 
 ## Starting and stopping the desired stack
-Please leverage the utility script [stack.sh](https://github.com/esimonetti/SugarDockerized#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
+Please leverage the utility script [stack.sh](#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
 
 ## Installation - How to get Sugar installed
-For details about the hostnames and credentials of each of the infrastructure components, refer to [Sugar Setup details](https://github.com/esimonetti/SugarDockerized#sugar-setup-details).
+For details about the hostnames and credentials of each of the infrastructure components, refer to [Sugar Setup details](#sugar-setup-details).
 
 ### Sugar installation via installable zip file
 * The first step is to copy (cp/scp/rsync/filezilla etc) the compressed installable zip file into a known path within the Linux host running SugarDockerized
-* Run the utility `installfromzip.sh`. Read more about [installfromzip.sh](https://github.com/esimonetti/SugarDockerized#installfromzipsh)
+* Run the utility `installfromzip.sh`. Read more about [installfromzip.sh](#installfromzipsh)
 
 ### Sugar installation building from git source
 * To be able to proceed further, you would need read permission access to Sugar's official git source control repository
 * Clone the full git repository within your `./data/app/` directory so that the repository is located in `./data/app/Mango/`
 * Switch to the correct branch
-* Run the utility `build/build.sh`. Read more about [build/build.sh](https://github.com/esimonetti/SugarDockerized#buildbuildsh)
+* Run the utility `build/build.sh`. Read more about [build/build.sh](#buildbuildsh)
 
 ## Current version support
 The main stacks work with [Sugar version 13.0 and all its platform requirements](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_13.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [12.x](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_12.0.x_Supported_Platforms/), [11.x](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_11.0.x_Supported_Platforms/) and stacks for Sugar Cloud only versions for local development only.
@@ -352,7 +352,7 @@ If the installable zip package is located within the local directory `~/installa
 ```./utilities/installfromzip.sh ~/installable/SugarEnt-13.0.0.zip```
 
 The script will perform all the steps required to silently install the software within the SugarDockerized stack currently running.
-To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](https://github.com/esimonetti/SugarDockerized#buildsilentinstallsh).
+To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](#buildsilentinstallsh).
 
 #### build/build.sh
 This script is most likely for Sugar Employees only.
@@ -361,7 +361,7 @@ If we want to build the application version 10.0.0 Enterprise, the build command
 ```./utilities/build/build.sh ent 13.0.0```
 
 The script will perform all the steps necessary to build the current branch of the software and also perform its silent installation.
-To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](https://github.com/esimonetti/SugarDockerized#buildsilentinstallsh).
+To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](#buildsilentinstallsh).
 
 #### build/silentinstall.sh
 The script is leveraged by both `installfromzip.sh` and `build/build.sh` to install silently Sugar on the current stack.
