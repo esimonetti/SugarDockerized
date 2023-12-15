@@ -1,4 +1,4 @@
-# Sugar Dockerized [![Build Status](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar12.yml/badge.svg)](https://github.com/esimonetti/SugarDockerized/actions/workflows/sugar12.yml) ![Docker Pulls](https://img.shields.io/docker/pulls/esimonetti/sugardockerized.svg)
+# Sugar Dockerized  [![Build Status](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar12.yml/badge.svg)](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar12.yml) [![Build Status](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar13.yml/badge.svg)](https://github.com/sugarcrm-developers/SugarDockerized/actions/workflows/sugar13.yml)
 
 This repository will help you deploy a Docker based **development only** full stack for Sugar, meeting all the platform requirements for a different set of platform combinations.
 
@@ -21,11 +21,12 @@ If you find this software useful, please consider supporting the work that went 
 
 ## Stacks available
 There are few stacks available, with in itself multiple platform combinations. You can read more about the specific stacks on the links below:
+* [Sugar 13](stacks/sugar13/README.md) - This stack is valid from version 13 for local developement also of Sugar Cloud only versions
 * [Sugar 12](stacks/sugar12/README.md) - This stack is valid from version 12 for local developement also of Sugar Cloud only versions
 * [Sugar 11](stacks/sugar11/README.md) - This stack is valid from version 11 for local developement also of Sugar Cloud only versions
 
 You will find additional stacks within the [stack directory of the project](stacks).
-For most stacks, there are both the pre-built version (eg on Sugar 9: `./stacks/sugar9/php73.yml`) and a locally built version (eg on Sugar 9: `./stacks/sugar9/php73-local-build.yml`). The locally built version will be built run-time, and therefore those stacks will let you specify additional changes you might require to the docker images provided. Local builds will take much longer to deploy than pre-built ones.
+For most stacks, there are both the pre-built version (eg on Sugar 13: `./stacks/sugar13/php82.yml`) and a locally built version (eg on Sugar 13: `./stacks/sugar13/php82-local-build.yml`). The locally built version will be built run-time, and therefore those stacks will let you specify additional changes you might require to the docker images provided. Local builds will take much longer to deploy than pre-built ones.
 
 ### Types of stacks
 There are mainly three types of stack:
@@ -45,27 +46,27 @@ There are multiple stack components as docker containers, that perform different
 
 ## SugarDockerized installation
 * The first step for everything to work smoothly, is to add on your computer's host file `/etc/hosts` the entry `docker.local` to point to your machine's ip (it might be `127.0.0.1` if running the stack locally, or the LAN static ip address of the VM running Docker. If using the Debian VirtualBox image provided at the bottom of this README, the ip address is `10.10.10.10`)
-* Clone the repository with `git clone https://github.com/esimonetti/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
+* Clone the repository with `git clone https://github.com/sugarcrm-developers/SugarDockerized.git sugardocker` and enter sugardocker with `cd sugardocker`
 * Choose the yml stack to run, within [stacks](stacks/)
 
 ## Starting and stopping the desired stack
-Please leverage the utility script [stack.sh](https://github.com/esimonetti/SugarDockerized#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
+Please leverage the utility script [stack.sh](#stacksh) that will help with automation of the most common stacks. The utility will also notify you if a new version of SugarDockerized is available.
 
 ## Installation - How to get Sugar installed
-For details about the hostnames and credentials of each of the infrastructure components, refer to [Sugar Setup details](https://github.com/esimonetti/SugarDockerized#sugar-setup-details).
+For details about the hostnames and credentials of each of the infrastructure components, refer to [Sugar Setup details](#sugar-setup-details).
 
 ### Sugar installation via installable zip file
 * The first step is to copy (cp/scp/rsync/filezilla etc) the compressed installable zip file into a known path within the Linux host running SugarDockerized
-* Run the utility `installfromzip.sh`. Read more about [installfromzip.sh](https://github.com/esimonetti/SugarDockerized#installfromzipsh)
+* Run the utility `installfromzip.sh`. Read more about [installfromzip.sh](#installfromzipsh)
 
 ### Sugar installation building from git source
 * To be able to proceed further, you would need read permission access to Sugar's official git source control repository
 * Clone the full git repository within your `./data/app/` directory so that the repository is located in `./data/app/Mango/`
 * Switch to the correct branch
-* Run the utility `build/build.sh`. Read more about [build/build.sh](https://github.com/esimonetti/SugarDockerized#buildbuildsh)
+* Run the utility `build/build.sh`. Read more about [build/build.sh](#buildbuildsh)
 
 ## Current version support
-The main stacks work with [Sugar version 9.0 and all its platform requirements](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_9.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [8.0](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_8.0.x_Supported_Platforms/), [7.9](http://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_7.9.x_Supported_Platforms/) and stacks for Sugar Cloud only versions for local development only.
+The main stacks work with [Sugar version 13.0 and all its platform requirements](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_13.0.x_Supported_Platforms/). Additional stacks are aligned with the platform requirements of version [12.x](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_12.0.x_Supported_Platforms/), [11.x](https://support.sugarcrm.com/Resources/Supported_Platforms/Sugar_11.0.x_Supported_Platforms/) and stacks for Sugar Cloud only versions for local development only.
 
 ## System's details
 
@@ -110,7 +111,8 @@ Apache web servers have enabled:
 Apache web servers have PHP with enabled:
 * Zend OPcache - Configured for Sugar with the assumption the files will be located within the correct path
 * XHProf and Tideways profilers
-* Xdebug is installed but it is not enabled by default (due to its performance impact). For PHP 5.6 images and all cron images if there is the need to enable it, you would have to uncomment the configuration option on the PHP Dockerfile of choice, and leverage the stack configuration with local build. For other case see [`xdebug.sh`](#xdebugsh).
+* `Xdebug` is installed but it is not enabled by default (due to its performance impact). For PHP 5.6 images and all cron images if there is the need to enable it, you would have to uncomment the configuration option on the PHP Dockerfile of choice, and leverage the stack configuration with local build. For other case see [`xdebug.sh`](#xdebugsh).
+    * Remember, `Xdebug` will connect from the Container to your Host not the other way around. In summary, we instructed Xdebug to start with a request and try to send the debug events to the host with the IP `host.docker.internal` on port `9003`. 
     * If you use an IDE such as PHPStorm, you can setup DBGp Proxy under the menus Preference -> Language & Framework -> PHP -> Debug -> DBGp Proxy. Example settings are available in the screenshot below:
 
       <img width="1026" alt="PHPStorm xdebug settings" src="https://user-images.githubusercontent.com/361254/38972661-d48661f6-4356-11e8-9245-ad598239fe94.png">
@@ -212,11 +214,12 @@ Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
     with Zend OPcache v7.1.33, Copyright (c) 1999-2018, by Zend Technologies
 ```
 Due to performance impact, Xdebug is disabled by default. This script prompts you to activate Xdebug, check if Xdebug is activated, or disable it.
-If you do not want to configure DBGp Proxy when running the script, you can specify the second argument `change-ip`. In this case, the script will change the `xdebug.remote_host` option to your local IP address.
+If you do not want to configure DBGp Proxy when running the script, you can specify the second argument `change-ip`. In this case, the script will change the `xdebug.client_host` option to your local IP address.
+By default, we are setting `host.docker.internal` which should resolve to Docker's internal IP address used by the host.
 ```
 ./utilities/xdebug.sh start change-ip
 Start xDebug
-New IP of remote_host: 192.168.0.105
+New IP of client_host: 192.168.0.105
 6c9a9862b60c
 PHP 7.1.33 (cli) (built: Nov 22 2019 18:28:25) ( NTS )
 Copyright (c) 1997-2018 The PHP Group
@@ -233,10 +236,10 @@ All directories and files within "data" are now owned by uid:gid 1000:1000
 It sets the correct ownership of the data directories
 
 #### stack.sh
-```./utilities/stack.sh 80 down```
+```./utilities/stack.sh 13 down```
 ```
-./utilities/stack.sh 80 down
-stacks/sugar8/php71.yml down
+./utilities/stack.sh 13 down
+stacks/sugar13/php82.yml down
 Stopping sugar-cron          ... done
 Stopping sugar-web1          ... done
 Stopping sugar-redis         ... done
@@ -248,10 +251,10 @@ Removing sugar-redis         ... done
 Removing sugar-mysql         ... done
 Removing sugar-permissions   ... done
 Removing sugar-elasticsearch ... done
-Removing network sugar8_default
+Removing network sugar13_default
 No stopped containers
 ```
-It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 80, 90 etc) and up/down.
+It helps to take the default stack for the sugar version passed as a parameter, up or down. It expects two parameters: version number (eg: 12, 13 etc) and up/down.
 Have a look at the configuration file `./utilities/stacks.conf`, to know all the available stack combinations for the script. For some of the main stacks is available the "local" version of the stack, that allows local modification of settings and local docker image building.
 
 #### runcli.sh
@@ -289,6 +292,47 @@ System repaired
 It restores a previous snapshot of sugar files from `backups/backup_802_2018_11_21/sugar` and of MySQL from `backups/backup_802_2018_11_21/sugar.sql`
 The script assumes that the database name is sugar and the web directory is sugar as well. The script does not restore Elasticsearch and/or Redis.
 
+#### restorefromfile.sh
+```./utilities/restorefromfile.sh ~/Downloads/your-cloud-backup.sugarcrm.com.1320ent.1699996734.b76cf32986a8800255e21124a572dc4c151170c2.tar.gz```
+```
+Cleaning up previous install (./data/app/sugar) if any, please wait...
+Decompressing /path-to-your-downloads-folder/Downloads/your-cloud-backup.sugarcrm.com.1320ent.1699996734.b76cf32986a8800255e21124a572dc4c151170c2.tar.gz, please wait...
+Restoring application files
+Application files restored
+Restoring database
+Database "sugar" dropped
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Database restored
+Dockerizing Backup config files...
+Cleaning up please wait...
+Fixing Sugar permissions, please wait...
+Done
+Restarting sugar-web1 container, please wait...
+Done
+Restarting sugar-cron container, please wait...
+Done
+Deleting all previous redis values
+Done
+Deleting all previous Elasticsearch indices, please wait...
+Done
+Repairing system
+Preparing SystemUser...
+Running QRR...
+Rebuilding cache...
+Warming up Services...
+Done repairing...
+System repaired
+Performing Elasticsearch re-index
+Scheduling reindex ... 
+Consuming queue ... please be patient
+Consuming queue ... finish batch #1
+Reindexing complete
+Restore completed!
+```
+It restores a SugarCloud snapshot/backup that contains your full Sugar instance with files, custom folders as well as full database backup. 
+The script will [config_override.php](/utilities/configs/config_override_dockerized.php) settings to make your instance Docker ready. The script does not restore Elasticsearch and/or Redis.
+
 #### jmeter/build.sh
 This script installs the jmeter components present on the [performance repository](https://github.com/sugarcrm/performance).
 Access to the repository is needed, if you are a Sugar Partner or Customer you can request access by mailing: developers@sugarcrm.com
@@ -306,20 +350,20 @@ The following arguments should be adapted to target server:
 
 #### installfromzip.sh
 This script requires a Sugar zip package, and the zip package needs to be on the host running SugarDockerized.
-If the installable zip package is located within the local directory `~/installable/SugarEnt-9.0.2.zip` the install command would be:
-```./utilities/installfromzip.sh ~/installable/SugarEnt-9.0.2.zip```
+If the installable zip package is located within the local directory `~/installable/SugarEnt-13.0.0.zip` the install command would be:
+```./utilities/installfromzip.sh ~/installable/SugarEnt-13.0.0.zip```
 
 The script will perform all the steps required to silently install the software within the SugarDockerized stack currently running.
-To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](https://github.com/esimonetti/SugarDockerized#buildsilentinstallsh).
+To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](#buildsilentinstallsh).
 
 #### build/build.sh
 This script is most likely for Sugar Employees only.
 The script requires a clone of Sugar's git repository within `./data/app/Mango` with the `index.php` located within `./data/app/Mango/sugarcrm/index.php`.
 If we want to build the application version 10.0.0 Enterprise, the build command would be:
-```./utilities/build/build.sh ent 10.0.0```
+```./utilities/build/build.sh ent 13.0.0```
 
 The script will perform all the steps necessary to build the current branch of the software and also perform its silent installation.
-To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](https://github.com/esimonetti/SugarDockerized#buildsilentinstallsh).
+To know more about additional custom configuration parameters and actions that can be used/performed during the silent installation refer to [script build/silentinstall.sh](#buildsilentinstallsh).
 
 #### build/silentinstall.sh
 The script is leveraged by both `installfromzip.sh` and `build/build.sh` to install silently Sugar on the current stack.

@@ -24,26 +24,6 @@ RUN adduser sugar --disabled-password --disabled-login --gecos ""
 
 RUN echo "<?php \$_SERVER['SERVER_SOFTWARE'] = 'SugarDockerized';" > /usr/local/php/prepend.php
 
-RUN echo 'date.timezone = GMT' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_reporting = E_ALL \& ~E_NOTICE \& ~E_STRICT \& ~E_DEPRECATED' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'error_log = /var/log/apache2/error.log' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'log_errors = On' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'display_errors = Off' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'memory_limit = 512M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'post_max_size = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'max_execution_time = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'max_input_time = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'realpath_cache_size = 512k' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'realpath_cache_ttl = 600' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'mbstring.func_overload = 0' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.use_cookies = 1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.cookie_httponly = 1' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.use_trans_sid = 0' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.save_handler = redis' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'session.save_path = "tcp://sugar-redis:6379"' >> /usr/local/etc/php/conf.d/docker.ini \
-    && echo 'auto_prepend_file = "/usr/local/php/prepend.php"' >> /usr/local/etc/php/conf.d/docker.ini
-
 COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
 COPY config/apache2/sites-available/sugar.conf /etc/apache2/sites-available/sugar.conf
 

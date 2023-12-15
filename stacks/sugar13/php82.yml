@@ -3,7 +3,7 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugarcrmdevelopers/sugardockerized:php8.0-apache-latest
+        image: sugarcrmdevelopers/sugardockerized:php8.2-apache-latest
         ports:
             - "80:80"
         extra_hosts:                                   
@@ -13,7 +13,7 @@ services:
             - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
-            - ../../images/php/80/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+            - ../../images/php/82/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
@@ -27,10 +27,10 @@ services:
             - testsmtp
     cron:
         container_name: "sugar-cron"
-        image: sugarcrmdevelopers/sugardockerized:php8.0-cron-latest
+        image: sugarcrmdevelopers/sugardockerized:php8.2-cron-latest
         volumes:
             - ../../data/app:/var/www/html
-            - ../../images/php/80/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+            - ../../images/php/82/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
@@ -44,17 +44,17 @@ services:
             - testsmtp
     mysql:
         container_name: "sugar-mysql"
-        image: sugarcrmdevelopers/sugardockerized:mysql8.0-latest
+        image: sugarcrmdevelopers/sugardockerized:mysql8.0.32-latest
         ports:
             - "3306:3306"
         volumes:
-            - ../../data/mysql/80:/var/lib/mysql
+            - ../../data/mysql/8032:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+        image: elasticsearch:8.4.3
         container_name: "sugar-elasticsearch"
         ports:
             - 9200:9200
@@ -63,9 +63,10 @@ services:
             - es-data01:/usr/share/elasticsearch/data
         environment:
             - node.name=sugar1
-            - cluster.name=sugarcrm12
+            - cluster.name=sugarcrm13
             - discovery.type=single-node
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - xpack.security.enabled=false
         ulimits:
             memlock:
                 soft: -1

@@ -13,7 +13,7 @@ cd $REPO
 
 if [ -z $1 ] || [ -z $2 ]
 then
-    echo Provide two parameters. The sugar stack version keyword for \(eg: 80, 90\) and the action \(up, down\). The stacks keywords available can be found below:
+    echo Provide two parameters. The sugar stack version keyword for \(eg: 13, 12\) and the action \(up, down\). The stacks keywords available can be found below:
     for index in "${stacks[@]}" ; do
         KEY="${index%%::*}"
         echo $KEY

@@ -32,11 +32,11 @@ xdebug_start ()
     if [[ "$1" == "change-ip" ]]; then
         # Grab IP address of eth0
         IP=$(getMyIP)
-        # Change IP address for parameter xdebug.remote_host
-        IP_CMD="sed -i 's/^xdebug.remote_host=.*/xdebug.remote_host=$IP/g' \
+        # Change IP address for parameter xdebug.client_host
+        IP_CMD="sed -i 's/^xdebug.client_host=.*/xdebug.client_host=$IP/g' \
                      /usr/local/etc/php/conf.d/xdebug.ini"
         docker exec -it $PHP_CONTAINER bash -c "${IP_CMD}"
-        echo "New IP of remote_host: $IP"
+        echo "New IP of client_host: $IP"
     fi
 
     docker restart $PHP_CONTAINER

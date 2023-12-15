@@ -1,11 +1,8 @@
-FROM php:8.0-cli
-
+FROM php:8.2.2-apache
 
 RUN apt-get update \
     && apt-get install -y \
-    sudo \
-    vim \
-    unzip \
+    graphviz \
     libpng-dev \
     libgmp-dev \
     libzip-dev \
@@ -22,31 +19,41 @@ RUN apt-get clean \
     && apt-get -y autoremove \
     && rm -rf /var/lib/apt/lists/*
 
-RUN adduser sugar --disabled-password --disabled-login --gecos "" \
-    && echo "sugar ALL=NOPASSWD: ALL" > /etc/sudoers.d/sugar
+RUN adduser sugar --disabled-password --disabled-login --gecos ""
 
 RUN echo "<?php \$_SERVER['SERVER_SOFTWARE'] = 'SugarDockerized';" > /usr/local/php/prepend.php
 
+COPY config/apache2/mods-available/deflate.conf /etc/apache2/mods-available/deflate.conf
+COPY config/apache2/sites-available/sugar.conf /etc/apache2/sites-available/sugar.conf
+
+RUN set -ex \
+    && . "/etc/apache2/envvars" \
+    && ln -sfT /dev/stderr "$APACHE_LOG_DIR/error.log" \
+    && ln -sfT /dev/stdout "$APACHE_LOG_DIR/access.log" \
+    && ln -sfT /dev/stdout "$APACHE_LOG_DIR/other_vhosts_access.log" \
+    && a2enmod headers expires deflate rewrite \
+    && sed -i "s#Timeout .*#Timeout 600#" /etc/apache2/apache2.conf \
+    && a2dissite 000-default \
+    && a2ensite sugar
+
 RUN docker-php-ext-install mysqli \
     && docker-php-ext-install bcmath \
-    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \ 
     && docker-php-ext-install gd \
     && docker-php-ext-install gmp \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
     && docker-php-ext-install ldap \
-    && docker-php-ext-install ldap \
-# cannot install latest Xdebug any longer on php 7.4 as it requires php 8+
-    && pecl install xdebug-3.1.6 \
+    && pecl install xdebug-3.2.0 \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install soap
 
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+&& docker-php-ext-install -j$(nproc) gd
 
-# disable by default, it can be enabled locally
-#COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+# enabled by default, it can be disabled locally
+COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
@@ -68,13 +75,4 @@ RUN git clone https://github.com/longxinH/xhprof.git xhprof \
 
 COPY config/php/mods-available/xhprof.ini /usr/local/etc/php/conf.d/xhprof.ini
 
-RUN curl -sS http://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
-
-COPY apps/sugarcron /usr/local/bin/sugarcron
-RUN chmod +x /usr/local/bin/sugarcron
-
 WORKDIR "/var/www/html/sugar"
-USER sugar
-
-CMD ["/usr/local/bin/sugarcron"]

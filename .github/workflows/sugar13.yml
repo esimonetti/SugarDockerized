@@ -1,4 +1,4 @@
-name: ci-v12
+name: ci-v13
 on:
     push:
         tags:
@@ -9,14 +9,14 @@ jobs:
         strategy:
             fail-fast: false
             matrix: 
-                run: ['stacks/sugar12/php80-local-build.yml']
+                run: ['stacks/sugar13/php82-local-build.yml']
         steps:
             - run: sudo sysctl -w vm.max_map_count=262144
             - run: echo '127.0.0.1 docker.local' | sudo tee -a /etc/hosts
             - uses: actions/checkout@v1
             - run: cp -r ./tests/web_tests ./data/app/sugar/
             - run: ./tests/start.sh ${{ matrix.run }}
-            - run: ./tests/web_tests.sh ${{ matrix.run }} 12.0 8.0
+            - run: ./tests/web_tests.sh ${{ matrix.run }} 13.0 8.2
             - run: ./tests/stop.sh ${{ matrix.run }}
 
     docker:
@@ -24,15 +24,21 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                - dockercontext: ./images/php/80/apache
+                - dockercontext: ./images/php/82/apache
                   image: sugarcrmdevelopers/sugardockerized
-                  prefix: php8.0-apache-
-                - dockercontext: ./images/php/80/cron
+                  prefix: php8.2-apache-
+                - dockercontext: ./images/php/82/cron
                   image: sugarcrmdevelopers/sugardockerized
-                  prefix: php8.0-cron-
-                - dockercontext: ./images/mysql/80
+                  prefix: php8.2-cron-
+                - dockercontext: ./images/mysql/8032
                   image: sugarcrmdevelopers/sugardockerized
-                  prefix: mysql8.0-
+                  prefix: mysql8.0.32-
+                - dockercontext: ./images/permissions
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: permissions-
+                - dockercontext: ./images/testsmtp
+                  image: sugarcrmdevelopers/sugardockerized
+                  prefix: testsmtp-
         runs-on: ubuntu-latest
         steps:
           - name: Checkout repository

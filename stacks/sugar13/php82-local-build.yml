@@ -3,58 +3,57 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugarcrmdevelopers/sugardockerized:php8.0-apache-latest
+        image: sugar_php82_web
+        build: ../../images/php/82/apache
         ports:
             - "80:80"
-        extra_hosts:                                   
-            - "docker.local:127.0.0.1"                        
+        extra_hosts:
+            - "docker.local:127.0.0.1"
         environment:
             - "APACHE_RUN_USER=sugar"
             - "APACHE_RUN_GROUP=sugar"
         volumes:
             - ../../data/app:/var/www/html
-            - ../../images/php/80/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+            - ../../images/php/82/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
             - redis
             - permissions
-            - testsmtp
         links:
             - mysql
             - elasticsearch
             - redis
-            - testsmtp
     cron:
         container_name: "sugar-cron"
-        image: sugarcrmdevelopers/sugardockerized:php8.0-cron-latest
+        image: sugar_php82_cron
+        build: ../../images/php/82/cron
         volumes:
             - ../../data/app:/var/www/html
-            - ../../images/php/80/apache/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
+            - ../../images/php/82/cron/config/php/docker.ini:/usr/local/etc/php/conf.d/docker.ini
         depends_on:
             - mysql
             - elasticsearch
             - redis
             - permissions
-            - testsmtp
         links:
             - mysql
             - elasticsearch
             - redis
-            - testsmtp
     mysql:
         container_name: "sugar-mysql"
-        image: sugarcrmdevelopers/sugardockerized:mysql8.0-latest
+        image: sugar_mysql
+        build: ../../images/mysql/8032
         ports:
-            - "3306:3306"
+            - "3336:3306"
         volumes:
-            - ../../data/mysql/80:/var/lib/mysql
+            - ../../data/mysql/8032:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+        image: elasticsearch:8.4.3
         container_name: "sugar-elasticsearch"
         ports:
             - 9200:9200
@@ -63,9 +62,10 @@ services:
             - es-data01:/usr/share/elasticsearch/data
         environment:
             - node.name=sugar1
-            - cluster.name=sugarcrm12
+            - cluster.name=sugarcrm13
             - discovery.type=single-node
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - xpack.security.enabled=false
         ulimits:
             memlock:
                 soft: -1
@@ -80,12 +80,14 @@ services:
             - ../../data/redis:/data
     permissions:
         container_name: "sugar-permissions"
-        image: sugarcrmdevelopers/sugardockerized:permissions-latest
+        image: sugar_permissions
+        build: ../../images/permissions
         volumes:
             - ../../data/app:/var/www/html
     testsmtp:
         container_name: "sugar-smtp"
-        image: sugarcrmdevelopers/sugardockerized:testsmtp-latest
+        image: sugar_testsmtp
+        build: ../../images/testsmtp
 
 volumes:
     es-data01:
