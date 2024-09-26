@@ -48,13 +48,16 @@ else
                 then
                     echo The stack is already down, skipping
                 else
-                    docker-compose -f $STACKFILE down
-                    docker-compose -f $STACKFILE rm
+                    #docker-compose -f $STACKFILE down
+                    docker compose -f $STACKFILE down
+                    #docker-compose -f $STACKFILE rm
+                    docker compose -f $STACKFILE rm
                 fi
             else
                 if [ $2 == 'up' ]
                 then
-                    docker-compose -f $STACKFILE up -d --build
+                    #docker-compose -f $STACKFILE up -d --build
+                    docker compose -f $STACKFILE up -d --build
                 else
                     echo The action $2 is not applicable
                 fi

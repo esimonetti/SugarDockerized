@@ -1,4 +1,4 @@
-FROM php:8.0-apache
+FROM php:8.2.2-apache
 
 
 RUN apt-get update \
@@ -65,8 +65,7 @@ RUN docker-php-ext-install mysqli \
     && docker-php-ext-install imap \
     && docker-php-ext-install zip \
     && docker-php-ext-install ldap \
-# cannot install latest Xdebug any longer on php 7.4 as it requires php 8+
-    && pecl install xdebug-3.1.6 \
+    && pecl install xdebug-3.2.2 \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && docker-php-ext-install soap
@@ -79,14 +78,14 @@ COPY config/php/mods-available/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
-RUN git clone https://github.com/tideways/php-xhprof-extension.git tideways \
-    && cd tideways \
-    && /usr/local/bin/phpize \
-    && ./configure --with-php-config=/usr/local/bin/php-config \
-    && make \
-    && make install
+#RUN git clone https://github.com/tideways/php-xhprof-extension.git tideways \
+#    && cd tideways \
+#    && /usr/local/bin/phpize \
+#    && ./configure --with-php-config=/usr/local/bin/php-config \
+#    && make \
+#    && make install
 
-COPY config/php/mods-available/tideways.ini /usr/local/etc/php/conf.d/tideways.ini
+#COPY config/php/mods-available/tideways.ini /usr/local/etc/php/conf.d/tideways.ini
 
 RUN git clone https://github.com/longxinH/xhprof.git xhprof \
     && cd xhprof/extension/ \

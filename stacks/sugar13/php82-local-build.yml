@@ -3,8 +3,8 @@ version: '3'
 services:
     web1:
         container_name: "sugar-web1"
-        image: sugar_php80_web
-        build: ../../images/php/80/apache
+        image: sugar_php82_web
+        build: ../../images/php/82/apache
         ports:
             - "80:80"
         extra_hosts:
@@ -25,8 +25,8 @@ services:
             - redis
     cron:
         container_name: "sugar-cron"
-        image: sugar_php80_cron
-        build: ../../images/php/80/cron
+        image: sugar_php82_cron
+        build: ../../images/php/82/cron
         volumes:
             - ../../data/app:/var/www/html
         depends_on:
@@ -40,7 +40,7 @@ services:
             - redis
     mysql:
         container_name: "sugar-mysql"
-        image: sugar_mysql
+        image: sugar_mysql_8032
         build: ../../images/mysql/80
         ports:
             - "3307:3306"
@@ -51,7 +51,7 @@ services:
             - MYSQL_USER=sugar
             - MYSQL_PASSWORD=sugar
     elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.16.3
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
         container_name: "sugar-elasticsearch"
         ports:
             - 9200:9200
@@ -60,8 +60,9 @@ services:
             - es-data01:/usr/share/elasticsearch/data
         environment:
             - node.name=sugar1
-            - cluster.name=sugarcrm12
+            - cluster.name=sugarcrm13
             - discovery.type=single-node
+            - xpack.security.enabled=false
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         ulimits:
             memlock:
