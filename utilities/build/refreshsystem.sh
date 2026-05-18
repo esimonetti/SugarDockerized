@@ -41,7 +41,7 @@ then
         echo Done
 
         echo Deleting all previous redis values
-        docker exec -it sugar-redis redis-cli flushall > /dev/null
+        docker exec sugar-redis redis-cli flushall > /dev/null
         echo Done
 
         # clear elastic data

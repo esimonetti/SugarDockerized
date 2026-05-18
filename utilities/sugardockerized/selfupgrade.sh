@@ -3,7 +3,7 @@
 # Enrico Simonetti
 # enricosimonetti.com
 
-REPOURL=https://github.com/esimonetti/SugarDockerized.git
+REPOURL=https://github.com/sugarcrm-developers/SugarDockerized.git
 
 # enter the repo's root directory
 REPO="$( dirname ${BASH_SOURCE[0]} )/../../"

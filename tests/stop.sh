@@ -5,6 +5,6 @@ then
     exit 1
 else
     echo Stopping environment $1
-    docker-compose -f $1 down
-    docker-compose -f $1 rm
+    docker compose -f $1 down
+    docker compose -f $1 rm
 fi

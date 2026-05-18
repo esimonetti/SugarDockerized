@@ -11,7 +11,7 @@ fi
 
 if [ -z $2 ]
 then
-    echo Provide as second parameter the version number \(e.g.: 9.0.1 or 9.2.0 or 9.3.0\)
+    echo Provide as second parameter the version number \(e.g.: 13.0.0 or 12.3.0 or 12.0.2\)
     exit 1
 fi
 

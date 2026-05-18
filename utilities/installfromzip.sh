@@ -2,6 +2,11 @@
 
 # Enrico Simonetti
 # enricosimonetti.com
+if [ ! -x "$(command -v unzip)" ]
+then
+    echo "The command unzip is not available, please install it"
+    exit 1
+fi
 
 if [ -z $1 ]
 then
@@ -26,6 +31,7 @@ else
                 exit 1
             fi
 
+            echo "Cleaning up previous install (./data/app/sugar) if any, please wait..."
             # remove current sugar dir
             if [ -d './data/app/sugar' ]
             then

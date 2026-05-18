@@ -13,7 +13,7 @@ cd $REPO
 
 if [ -z $1 ] || [ -z $2 ]
 then
-    echo Provide two parameters. The sugar stack version keyword for \(eg: 80, 90\) and the action \(up, down\). The stacks keywords available can be found below:
+    echo Provide two parameters. The sugar stack version keyword for \(eg: 14, 13\) and the action \(up, down\). The stacks keywords available can be found below:
     for index in "${stacks[@]}" ; do
         KEY="${index%%::*}"
         echo $KEY
@@ -48,13 +48,13 @@ else
                 then
                     echo The stack is already down, skipping
                 else
-                    docker-compose -f $STACKFILE down
-                    docker-compose -f $STACKFILE rm
+                    docker compose -f $STACKFILE down
+                    docker compose -f $STACKFILE rm
                 fi
             else
                 if [ $2 == 'up' ]
                 then
-                    docker-compose -f $STACKFILE up -d --build
+                    docker compose -f $STACKFILE up -d --build
                 else
                     echo The action $2 is not applicable
                 fi

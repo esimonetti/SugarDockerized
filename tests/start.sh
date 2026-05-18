@@ -7,5 +7,5 @@ else
     echo Setting correct directory ownership
     ./utilities/setownership.sh
     echo Starting environment $1
-    docker-compose -f $1 up -d --build
+    docker compose -f $1 up -d --build
 fi

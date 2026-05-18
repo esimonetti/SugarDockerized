@@ -1,4 +1,4 @@
-FROM debian:8.7
+FROM debian:stable-slim
 MAINTAINER enrico.simonetti@gmail.com
 
 RUN apt-get update && apt-get install -y \

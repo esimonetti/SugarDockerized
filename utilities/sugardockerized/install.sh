@@ -3,7 +3,7 @@
 # Enrico Simonetti
 # enricosimonetti.com
 
-REPOURL=https://github.com/esimonetti/SugarDockerized.git
+REPOURL=https://github.com/sugarcrm-developers/SugarDockerized.git
 
 INSTALLDIR='sugardocker'
 

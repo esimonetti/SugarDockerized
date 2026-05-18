@@ -8,8 +8,7 @@ REPO="$( dirname ${BASH_SOURCE[0]} )/../../"
 cd $REPO
 
 VERSIONFILE=version
-#VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/dev/version
-VERSIONFILEURL=https://raw.githubusercontent.com/esimonetti/SugarDockerized/master/version
+VERSIONFILEURL=https://raw.githubusercontent.com/sugarcrm-developers/SugarDockerized/master/version
 
 # if it is our repo
 if [ -f '.gitignore' ] && [ -d 'data' ]

@@ -1,7 +1,7 @@
-FROM debian:8.8
-MAINTAINER enrico.simonetti@gmail.com
+FROM debian:stable-slim
+LABEL maintainer="enrico.simonetti@gmail.com"
 
-RUN adduser sugar --disabled-password --disabled-login --gecos ""
+RUN useradd --uid 1000 --no-create-home --shell /usr/sbin/nologin sugar
 
 COPY apps/sugarfixpermissions /usr/local/bin/sugarfixpermissions
 RUN chmod +x /usr/local/bin/sugarfixpermissions
